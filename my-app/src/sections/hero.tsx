@@ -73,9 +73,9 @@ export const HeroSection = () => {
   // 自動発射
   const autoTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const lastBlastAtRef = useRef<number>(0)
-  const AUTO_MIN_MS = 2600
-  const AUTO_MAX_MS = 5200
-  const MIN_GAP_MS = 700
+  const AUTO_MIN_MS = 1400
+  const AUTO_MAX_MS = 4800
+  const MIN_GAP_MS = 1000
 
   // 突風
   const gustTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)

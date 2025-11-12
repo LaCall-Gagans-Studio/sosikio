@@ -40,7 +40,7 @@ export default function PhilosophyPage() {
       <PolicySection />
 
       {/* 2) 代表 & 挨拶 */}
-      <section className="bg-gray-50">
+      <section className="bg-gray-50" id="leader">
         <div className="container mx-auto px-6 py-16 sm:py-24">
           <div className="flex flex-col lg:flex-row items-center gap-8 lg:items-start">
             <div className="relative aspect-square min-w-60 w-96 rounded-lg overflow-hidden shadow-lg">
@@ -62,7 +62,7 @@ export default function PhilosophyPage() {
       </section>
 
       {/* 3) BOONIST 紹介 */}
-      <section>
+      <section id="boonist">
         <div className="container mx-auto px-6 py-16 sm:py-24">
           <div className="gap-4">
             <h2 className="text-2xl sm:text-3xl lg:text-7xl font-bold">BOONIST</h2>
@@ -78,7 +78,7 @@ export default function PhilosophyPage() {
       </section>
 
       {/* 4) 沿革 */}
-      <section className="bg-gray-50">
+      <section className="bg-gray-50" id="history">
         <div className="container mx-auto px-6 py-16 sm:py-24">
           <h2 className="text-2xl sm:text-3xl font-bold">沿革</h2>
           <ol className="mt-8 relative border-s-2 border-gray-200">

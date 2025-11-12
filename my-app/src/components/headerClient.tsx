@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
-import { Logo } from '@/components/Logo/Logo'
+import { Logo } from '@/components/Logo'
 import Link from 'next/link'
 
 const headerData = [
@@ -86,7 +86,7 @@ export const HeaderClient = () => {
       }`}
       role="banner"
     >
-      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+      <div className="container mx-auto px-6 py-4 font-zenKakuGothicNew flex justify-between items-center">
         <Link href="/">
           <Logo loading="eager" priority="high" />
         </Link>
