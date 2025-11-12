@@ -1,0 +1,39 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Kosugi&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap');
+
+@theme {
+  /* fonts */
+  --font-kosugi: "Kosugi", sans-serif;
+  --font-zenKakuGothicNew: "Zen Kaku Gothic New", sans-serif;
+  --font-zenKakuGothicAntique: serif;
+
+  /* colors */
+  --color-ws-primary: #ffc34e;
+  --color-ws-secondary: #f7c67c;
+  --color-ws-background: #ffffff;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: unset;
+    font-weight: unset;
+  }
+}
+
+
+
+html[data-theme='dark'],
+html[data-theme='light'] {
+  opacity: initial;
+}
+
+.animate-infinite-scroll:hover {
+  animation-play-state: paused;
+}
