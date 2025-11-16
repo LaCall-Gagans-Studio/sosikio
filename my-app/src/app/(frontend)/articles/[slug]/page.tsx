@@ -8,12 +8,15 @@ import {
   type ArticleForClient,
   type TestimonialForClient,
 } from '@/lib/articles'
+import { formatIsoDateToJa } from '@/lib/formatDate'
 
 export const dynamic = 'force-dynamic'
 
 type Params = { slug: string }
 
-export default async function Page({ params }: { params: Params }) {
+// 型定義を引数のインラインで行い、余計な括弧を避ける
+// Next.js の PageProps<P> の P に相当する部分を直接定義
+export default async function Page({ params }: { params: { slug: string } }) {
   const { slug } = params
 
   const [{ articles }, testimonials] = await Promise.all([
@@ -57,7 +60,9 @@ export default async function Page({ params }: { params: Params }) {
             >
               {isVoice ? 'お客様の声' : 'コラム'}
             </span>
-            <span className="text-[11px] font-mono text-slate-500">{article.date}</span>
+            <span className="text-[11px] font-mono text-slate-500">
+              {formatIsoDateToJa(article.date)}
+            </span>
           </div>
 
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-slate-900">

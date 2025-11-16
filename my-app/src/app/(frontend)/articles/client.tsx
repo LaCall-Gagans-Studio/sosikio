@@ -6,6 +6,7 @@ import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import type { ArticleForClient, TestimonialForClient } from '@/lib/articles'
 import { Search, Tag, XCircle } from 'lucide-react'
+import { formatIsoDateToJa } from '@/lib/formatDate'
 
 type Props = {
   initialArticles: ArticleForClient[]
@@ -119,7 +120,9 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
                           <span className="inline-flex items-center rounded-full bg-rose-500/90 px-3 py-1 text-[11px] font-semibold tracking-wide text-white shadow-sm">
                             VOICE
                           </span>
-                          <span className="text-[11px] font-mono text-slate-700">{t.date}</span>
+                          <span className="text-[11px] font-mono text-slate-700">
+                            {formatIsoDateToJa(t.date)}
+                          </span>
                         </div>
 
                         <h3 className="text-base sm:text-lg font-semibold leading-snug text-black line-clamp-2">

@@ -285,7 +285,7 @@ const ProductAboutPage: React.FC<{ product: CmsProduct; allProducts: CmsProduct[
                     <p className="text-xl sm:text-2xl font-bold text-gray-800 mt-3">
                       {feature.title_jp}
                     </p>
-                    <p className="mt-3 sm:mt-4 md:mt-5 text-gray-700 leading-relaxed text-base sm:text-lg">
+                    <p className="mt-3 sm:mt-4 md:mt-5 text-gray-700 leading-relaxed text-base sm:text-lg whitespace-pre-wrap">
                       {feature.description}
                     </p>
                   </div>
