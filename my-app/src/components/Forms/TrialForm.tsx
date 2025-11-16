@@ -1,39 +1,56 @@
+// src/components/Forms/TrialForm.tsx
 'use client'
 
 import React from 'react'
+
+type TrialProduct = {
+  id: string // 例: 'LOOK', 'PROBE', 'BOON'
+}
 
 type TrialState = {
   company: string
   name: string
   email: string
   phone?: string
-  products: { LOOK: boolean; PROBE: boolean; BOON: boolean }
+  products: Record<string, boolean> // 動的にプロダクトを持つ
   size: '1-10' | '11-50' | '51-200' | '201+'
   preferred?: string
   note?: string
 }
 
-export function TrialForm() {
-  const [state, setState] = React.useState<TrialState>({
+type Props = {
+  products: TrialProduct[]
+}
+
+export function TrialForm({ products }: Props) {
+  // 最初の1件だけ true にしておく
+  const [state, setState] = React.useState<TrialState>(() => ({
     company: '',
     name: '',
     email: '',
     phone: '',
-    products: { LOOK: true, PROBE: false, BOON: false },
+    products: products.reduce<Record<string, boolean>>((acc, p, idx) => {
+      acc[p.id] = idx === 0 // 先頭だけデフォルトON
+      return acc
+    }, {}),
     size: '11-50',
     preferred: '',
     note: '',
-  })
+  }))
+
   const [submitting, setSubmitting] = React.useState(false)
   const [done, setDone] = React.useState<null | 'ok' | 'ng'>(null)
 
   const onText =
     (key: keyof TrialState) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
-      setState((s) => ({ ...s, [key]: e.target.value }) as TrialState)
+      setState((s) => ({ ...s, [key]: e.target.value }))
 
-  const onCheck = (key: keyof TrialState['products']) => (e: React.ChangeEvent<HTMLInputElement>) =>
-    setState((s) => ({ ...s, products: { ...s.products, [key]: e.target.checked } }))
+  const onCheck = (id: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
+    setState((s) => ({
+      ...s,
+      products: { ...s.products, [id]: e.target.checked },
+    }))
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -46,7 +63,7 @@ export function TrialForm() {
     }
 
     setSubmitting(true)
-    // ★ここで実バックエンドにPOSTする（fetch など）
+    // ★ここで実バックエンドにPOSTする（fetch など）に差し替え
     await new Promise((r) => setTimeout(r, 900))
     setSubmitting(false)
     setDone('ok')
@@ -105,11 +122,11 @@ export function TrialForm() {
 
       <fieldset className="border rounded-md p-3">
         <legend className="text-sm font-semibold px-1">お試ししたいサービス</legend>
-        <div className="mt-1 grid grid-cols-3 gap-2 text-sm">
-          {(['LOOK', 'PROBE', 'BOON'] as const).map((id) => (
-            <label key={id} className="inline-flex items-center gap-2">
-              <input type="checkbox" checked={state.products[id]} onChange={onCheck(id)} />
-              <span className="font-semibold">{id}</span>
+        <div className="mt-1 grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm">
+          {products.map((p) => (
+            <label key={p.id} className="inline-flex items-center gap-2">
+              <input type="checkbox" checked={!!state.products[p.id]} onChange={onCheck(p.id)} />
+              <span className="font-semibold">{p.id}</span>
             </label>
           ))}
         </div>

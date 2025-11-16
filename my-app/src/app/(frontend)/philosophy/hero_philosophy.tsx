@@ -2,10 +2,12 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import Matter from 'matter-js'
-import KEYWORDS from '../../app/(frontend)/data_keywords'
 
-// 表示するキーワードのリスト
-const keywords = KEYWORDS
+// 💡 外部から渡されるキーワードの型を定義
+interface HeroSectionProps {
+  // キーワードは文字列の配列として受け取る
+  keywords: string[]
+}
 
 // --- 画像（スコープで透かして見せる背景レイヤ） ---
 const SCOPE_BG_URL = 'mats/hero_bg.webp' // ←適宜差し替え
@@ -46,7 +48,7 @@ const isMobileLike = () =>
     window.matchMedia('(pointer:coarse)').matches) ||
   (typeof navigator !== 'undefined' && /Mobi|Android/i.test(navigator.userAgent))
 
-export const HeroSection = () => {
+export const HeroPSection = ({ keywords }: HeroSectionProps) => {
   const heroRef = useRef<HTMLDivElement>(null)
 
   // 円（kazaHole）とスコープ画像
@@ -355,7 +357,7 @@ export const HeroSection = () => {
     // 背景画像レイヤ初期化
     const scope = scopeBgRef.current
     if (scope) {
-      scope.style.backgroundImage = `url("${SCOPE_BG_URL}")`
+      scope.style.backgroundColor = `ffffff`
       scope.style.backgroundSize = 'contain'
       scope.style.backgroundPosition = 'center'
       scope.style.pointerEvents = 'none'
@@ -399,7 +401,6 @@ export const HeroSection = () => {
     }
 
     const onTouchMove = (e: TouchEvent) => {
-      if (!isActiveRef.current || !isPointerFollowingRef.current) return
       const t = e.touches[0]
       if (!t) return
       hasPointerEverMovedRef.current = true
@@ -633,26 +634,6 @@ export const HeroSection = () => {
     cursor: 'pointer',
   }
 
-  // 画像フェーズのクラス（必要なら使う）
-  const phaseVisible = (key: 'pre' | 'burst' | 'after', _side: 'left' | 'right') => {
-    const map: Record<typeof phase, 'pre' | 'burst' | 'after'> = {
-      idle: 'pre',
-      burst: 'burst',
-      after: 'after',
-    }
-    const active = map[phase]
-    const base =
-      'absolute inset-0 transition-all duration-500 ease-out will-change-transform rounded-2xl object-cover block'
-    const hidden = 'opacity-0 scale-95 translate-y-2 pointer-events-none'
-    const shown =
-      key === 'burst'
-        ? 'opacity-100 scale-105 -translate-y-1'
-        : key === 'after'
-          ? 'opacity-100 scale-100 translate-y-0'
-          : 'opacity-100 scale-100 translate-y-0'
-    return `${base} ${active === key ? shown : hidden}`
-  }
-
   return (
     <div ref={heroRef} style={containerStyle} className="relative">
       {/* 下地（グラデ） */}
@@ -669,7 +650,7 @@ export const HeroSection = () => {
         className="fixed inset-0 opacity-30"
         style={{
           zIndex: Z_SCOPE_BG,
-          backgroundImage: `url("${SCOPE_BG_URL}")`,
+          backgroundColor: `ffffff`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           pointerEvents: 'none',
@@ -678,15 +659,15 @@ export const HeroSection = () => {
       {/* テキスト */}
       <div className="absolute inset-0 font-semibold antialiased">
         <div
-          className="absolute left-1/2 top-1/2 translate-y-24 lg:-translate-y-1/2 lg:-translate-x-0 -translate-x-1/2"
+          className="absolute pointer-events-none left-1/2 top-1/2 translate-y-24 lg:-translate-y-1/2 lg:-translate-x-0 -translate-x-1/2"
           style={{ zIndex: Z_TEXT }}
         >
           <h1 className="font-zenKakuGothicAntique text-nowrap text-4xl leading-snug text-center lg:text-left sm:text-5xl md:text-6xl lg:text-7xl lg:leading-normal">
-            組織を
+            日常に
             <br className="hidden lg:block" />
-            率いる人を、
+            組織が変わる
             <br />
-            1人にさせない。
+            歓びを
           </h1>
           <p className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg text-center lg:text-left leading-relaxed font-zenKakuGothicNew">
             組織を率いるリーダーと現場を

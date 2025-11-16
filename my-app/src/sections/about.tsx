@@ -1,17 +1,28 @@
+// src/sections/about.tsx
 'use client'
 
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence, Variants } from 'framer-motion'
 import { ArrowRight, X } from 'lucide-react'
+import type { Product as CmsProduct, Media } from '@/payload-types'
 
-import {
-  Product,
-  ProductId,
-  PointDetail,
-  AboutContent,
-  FeatureDetail,
-  ProcessStep,
-} from '../app/(frontend)/data_products'
+// ===== 型 & ヘルパー =====
+
+type CmsMedia = Media | string | null | undefined
+
+const getMediaUrl = (media: CmsMedia): string => {
+  if (!media) return ''
+  if (typeof media === 'string') return media
+  return media.url ?? ''
+}
+
+type PointDetail = {
+  title: string
+  description: string
+  image: string
+}
+
+type ProductId = string
 
 // --- 汎用アニメーション設定 ---
 const sectionVariants: Variants = {
@@ -24,7 +35,7 @@ const sectionVariants: Variants = {
 }
 
 // ========================
-// PointDetailModal (レスポンシブ最適化)
+// PointDetailModal
 // ========================
 const PointDetailModal: React.FC<{ point: PointDetail; onClose: () => void }> = ({
   point,
@@ -47,11 +58,9 @@ const PointDetailModal: React.FC<{ point: PointDetail; onClose: () => void }> = 
           animate={{ scale: 1, y: 0 }}
           exit={{ scale: 0.95, y: 12 }}
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          // モバイルで全幅に近い / タブレット以降は最大幅を広げる
           className="bg-white rounded-lg w-full max-w-lg sm:max-w-2xl md:max-w-3xl overflow-hidden shadow-2xl relative"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* 画像高さを画面サイズに応じて段階調整 */}
           <img
             src={point.image}
             alt={point.title}
@@ -80,13 +89,20 @@ const PointDetailModal: React.FC<{ point: PointDetail; onClose: () => void }> = 
 }
 
 // ========================
-// ProductAboutPage（レスポンシブ強化）
+// ProductAboutPage
 // ========================
-const ProductAboutPage: React.FC<{ product: Product; allProducts: Product[] }> = ({
+const ProductAboutPage: React.FC<{ product: CmsProduct; allProducts: CmsProduct[] }> = ({
   product,
   allProducts,
 }) => {
   const [modalPoint, setModalPoint] = useState<PointDetail | null>(null)
+
+  // about が未設定の場合のガード
+  const about = product.about
+  const main = about?.main
+  const process = about?.process
+  const features = about?.features
+  const cta = about?.cta
 
   return (
     <>
@@ -104,15 +120,18 @@ const ProductAboutPage: React.FC<{ product: Product; allProducts: Product[] }> =
         >
           <div className="text-left flex flex-col justify-center">
             <div className="pl-2 sm:pl-4">
-              <img
-                src={`/mats/logo/${product.logo}`}
-                className="h-28 sm:h-36 md:h-44 object-contain object-bottom"
-                alt={`${product.name} ロゴ`}
-              />
+              {product.logo && (
+                <img
+                  src={getMediaUrl(product.logo as CmsMedia)}
+                  className="h-28 sm:h-36 md:h-44 object-contain object-bottom"
+                  alt={`${product.name} ロゴ`}
+                />
+              )}
             </div>
 
             <p
-              className={`mt-4 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight ${product.mainColor} pl-2 sm:pl-4`}
+              className={`mt-4 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight pl-2 sm:pl-4`}
+              style={{ color: product.mainColor ?? undefined }}
             >
               {product.tagline}
             </p>
@@ -131,167 +150,214 @@ const ProductAboutPage: React.FC<{ product: Product; allProducts: Product[] }> =
             whileHover={{ scale: 1.02 }}
             transition={{ type: 'spring', stiffness: 300 }}
           >
-            <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+            {product.image && (
+              <img
+                src={getMediaUrl(product.image as CmsMedia)}
+                alt={product.name}
+                className="w-full h-full object-cover"
+              />
+            )}
           </motion.div>
         </motion.div>
 
         {/* 2. about_main */}
-        <motion.section
-          variants={sectionVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mt-16 sm:mt-20 md:mt-24 lg:mt-40 mx-auto text-center"
-        >
-          <h2
-            className={`text-3xl sm:text-4xl md:text-5xl font-black rounded-lg tracking-tighter text-white ${product.bgColor_light} text-center leading-tight px-3 py-2 inline-block`}
+        {main && (
+          <motion.section
+            variants={sectionVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="mt-16 sm:mt-20 md:mt-24 lg:mt-40 mx-auto text-center"
           >
-            {product.about.main.heading_en}
-          </h2>
-          <h3 className="text-xl sm:text-2xl md:text-4xl font-bold tracking-tight text-gray-800 text-center mt-3 sm:mt-4">
-            {product.about.main.heading_jp}
-          </h3>
-          <p className="mt-6 sm:mt-8 text-base sm:text-lg md:text-xl max-w-3xl mx-auto text-gray-700 leading-relaxed sm:leading-loose whitespace-pre-wrap px-1">
-            {product.about.main.text}
-          </p>
-        </motion.section>
+            <h2
+              className={`text-3xl sm:text-4xl md:text-5xl font-black rounded-lg tracking-tighter text-white  text-center leading-tight px-3 py-2 inline-block`}
+              style={{ backgroundColor: product.mainColor ?? undefined }}
+            >
+              {main.heading_en}
+            </h2>
+            <h3 className="text-xl sm:text-2xl md:text-4xl font-bold tracking-tight text-gray-800 text-center mt-3 sm:mt-4">
+              {main.heading_jp}
+            </h3>
+            <p className="mt-6 sm:mt-8 text-base sm:text-lg md:text-xl max-w-3xl mx-auto text-gray-700 leading-relaxed sm:leading-loose whitespace-pre-wrap px-1">
+              {main.text}
+            </p>
+          </motion.section>
+        )}
 
         {/* 3. about_process */}
-        <motion.section
-          variants={sectionVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mt-16 sm:mt-20 md:mt-24 lg:mt-40"
-        >
-          <div className="text-center mb-10 sm:mb-12 md:mb-16">
-            <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-9xl font-black tracking-tighter text-gray-900 leading-none">
-              {product.about.process.title_en}
-            </h2>
-            <p
-              className={`text-base sm:text-xl md:text-2xl font-semibold rounded-lg w-11/12 sm:w-4/5 md:w-1/2 mx-auto text-white mt-2 sm:mt-3 ${product.bgColor_light} px-3 py-1.5`}
-            >
-              {product.about.process.title_jp}
-            </p>
-          </div>
-
-          {/* 列数: 1 → 2 → 3 */}
-          <div className="relative grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8">
-            {product.about.process.steps.map((step, i) => (
-              <div
-                key={i}
-                className="relative text-left p-6 sm:p-7 md:p-8 bg-white rounded-lg border border-gray-200"
+        {process && (
+          <motion.section
+            variants={sectionVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="mt-16 sm:mt-20 md:mt-24 lg:mt-40"
+          >
+            <div className="text-center mb-10 sm:mb-12 md:mb-16">
+              <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-9xl font-black tracking-tighter text-gray-900 leading-none">
+                {process.title_en}
+              </h2>
+              <p
+                className={`text-base sm:text-xl md:text-2xl font-semibold rounded-lg w-11/12 sm:w-4/5 md:w-1/2 mx-auto text-white mt-2 sm:mt-3 px-3 py-1.5`}
+                style={{ backgroundColor: product.mainColor ?? undefined }}
               >
+                {process.title_jp}
+              </p>
+            </div>
+
+            <div className="relative grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8">
+              {(process.steps ?? []).map((step, i) => (
                 <div
-                  className={`text-5xl sm:text-6xl md:text-7xl font-black ${product.mainColor} mb-3 sm:mb-4`}
+                  key={i}
+                  className="relative text-left p-6 sm:p-7 md:p-8 bg-white rounded-lg border border-gray-200"
                 >
-                  {String(i + 1).padStart(2, '0')}
+                  <div
+                    className={`text-5xl sm:text-6xl md:text-7xl font-black  mb-3 sm:mb-4`}
+                    style={{ color: product.mainColor ?? undefined }}
+                  >
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+                    {step.title_en}
+                  </h3>
+                  <p className="text-lg sm:text-xl font-bold text-gray-800">{step.title_jp}</p>
+                  <p className="mt-3 sm:mt-4 text-gray-700 text-sm sm:text-base leading-relaxed">
+                    {step.description}
+                  </p>
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
-                  {step.title_en}
-                </h3>
-                <p className="text-lg sm:text-xl font-bold text-gray-800">{step.title_jp}</p>
-                <p className="mt-3 sm:mt-4 text-gray-700 text-sm sm:text-base leading-relaxed">
-                  {step.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </motion.section>
+              ))}
+            </div>
+          </motion.section>
+        )}
 
         {/* 4. about_features */}
-        <motion.section
-          variants={sectionVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mt-16 sm:mt-20 md:mt-24 lg:mt-40"
-        >
-          <div className="text-center w-auto">
-            <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-9xl font-black tracking-tighter text-gray-900 leading-tight">
-              {product.about.features.title_en}
-            </h2>
-            <p
-              className={`text-base sm:text-xl md:text-2xl font-semibold rounded-lg w-11/12 sm:w-4/5 md:w-1/2 mx-auto text-white mt-2 sm:mt-3 ${product.bgColor_light} px-3 py-1.5`}
-            >
-              {product.about.features.title_jp}
-            </p>
-          </div>
-
-          <div className="mt-12 sm:mt-16 md:mt-20 space-y-14 sm:space-y-16 md:space-y-20">
-            {product.about.features.items.map((feature, i) => (
-              <div
-                key={i}
-                className={`grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-center ${
-                  i % 2 !== 0 ? 'md:grid-flow-row-dense' : ''
-                }`}
+        {features && (
+          <motion.section
+            variants={sectionVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="mt-16 sm:mt-20 md:mt-24 lg:mt-40"
+          >
+            <div className="text-center w-auto">
+              <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-9xl font-black tracking-tighter text-gray-900 leading-tight">
+                {features.title_en}
+              </h2>
+              <p
+                className={`text-base sm:text-xl md:text-2xl font-semibold rounded-lg w-11/12 sm:w-4/5 md:w-1/2 mx-auto text-white mt-2 sm:mt-3  px-3 py-1.5`}
+                style={{ backgroundColor: product.mainColor ?? undefined }}
               >
-                <motion.div
-                  className={`w-full aspect-[16/10] md:aspect-video rounded-lg sm:rounded-lg shadow-lg overflow-hidden border border-gray-100 ${
-                    i % 2 !== 0 ? 'md:col-start-2' : ''
+                {features.title_jp}
+              </p>
+            </div>
+
+            <div className="mt-12 sm:mt-16 md:mt-20 space-y-14 sm:space-y-16 md:space-y-20">
+              {(features.items ?? []).map((feature, i) => (
+                <div
+                  key={i}
+                  className={`grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-center ${
+                    i % 2 !== 0 ? 'md:grid-flow-row-dense' : ''
                   }`}
                 >
-                  <img
-                    src={feature.image}
-                    alt={feature.title_jp}
-                    className="w-full h-full object-cover"
-                  />
-                </motion.div>
+                  <motion.div
+                    className={`w-full aspect-[16/10] md:aspect-video rounded-lg sm:rounded-lg shadow-lg overflow-hidden border border-gray-100 ${
+                      i % 2 !== 0 ? 'md:col-start-2' : ''
+                    }`}
+                  >
+                    {feature.image && (
+                      <img
+                        src={getMediaUrl(feature.image as CmsMedia)}
+                        alt={feature.title_jp ?? ''}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                  </motion.div>
 
-                <div className="text-left">
-                  <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tighter leading-tight">
-                    <span className={`${product.bgColor_light} pr-2`}>{feature.title_en}</span>
-                  </h3>
-                  <p className="text-xl sm:text-2xl font-bold text-gray-800 mt-3">
-                    {feature.title_jp}
-                  </p>
-                  <p className="mt-3 sm:mt-4 md:mt-5 text-gray-700 leading-relaxed text-base sm:text-lg">
-                    {feature.description}
-                  </p>
+                  <div className="text-left">
+                    <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tighter leading-tight">
+                      <span
+                        className={` pr-2`}
+                        style={{ backgroundColor: product.mainColor ?? undefined }}
+                      >
+                        {feature.title_en}
+                      </span>
+                    </h3>
+                    <p className="text-xl sm:text-2xl font-bold text-gray-800 mt-3">
+                      {feature.title_jp}
+                    </p>
+                    <p className="mt-3 sm:mt-4 md:mt-5 text-gray-700 leading-relaxed text-base sm:text-lg">
+                      {feature.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </motion.section>
+              ))}
+            </div>
+          </motion.section>
+        )}
 
         {/* 8. about_link (CTA) */}
-        <motion.section
-          variants={sectionVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className={`relative mt-16 sm:mt-20 md:mt-24 lg:mt-40 text-center ${product.bgColor_light} text-white p-8 sm:p-12 md:p-16 lg:p-20 rounded-lg overflow-hidden`}
-        >
-          <div className="absolute inset-0 -z-10" />
-          <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter">
-            {product.about.cta.title_en}
-          </h2>
-          <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mt-2">
-            {product.about.cta.title_jp}
-          </h3>
-          <p className="mt-4 sm:mt-6 max-w-3xl mx-auto text-base sm:text-lg text-gray-100 leading-relaxed px-2">
-            {product.about.cta.description}
-          </p>
-          <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="mt-6 sm:mt-8 px-7 sm:px-9 md:px-10 py-3.5 sm:py-4 bg-white text-gray-900 font-bold rounded-lg text-base sm:text-lg shadow-lg"
+        {cta && (
+          <motion.section
+            variants={sectionVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className={`relative mt-16 sm:mt-20 md:mt-24 lg:mt-40 text-center  text-white p-8 sm:p-12 md:p-16 lg:p-20 rounded-lg overflow-hidden`}
+            style={{ backgroundColor: product.mainColor ?? undefined }}
           >
-            <span className={`${product.mainColor} font-bold`}>{product.about.cta.buttonText}</span>
-            <ArrowRight className="inline-block ml-2" />
-          </motion.button>
-        </motion.section>
+            <div className="absolute inset-0 -z-10" />
+            <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter">
+              {cta.title_en}
+            </h2>
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mt-2">{cta.title_jp}</h3>
+            <p className="mt-4 sm:mt-6 max-w-3xl mx-auto text-base sm:text-lg text-gray-100 leading-relaxed px-2">
+              {cta.description}
+            </p>
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="mt-6 sm:mt-8 px-7 sm:px-9 md:px-10 py-3.5 sm:py-4 bg-white text-gray-900 font-bold rounded-lg text-base sm:text-lg shadow-lg"
+            >
+              <span className={`font-bold`} style={{ color: product.mainColor ?? undefined }}>
+                {cta.buttonText}
+              </span>
+              <ArrowRight className="inline-block ml-2" />
+            </motion.button>
+          </motion.section>
+        )}
       </div>
     </>
   )
 }
 
 // ========================
-// AboutSection（セレクターをモバイル最適化）
+// AboutSection
 // ========================
-export const AboutSection: React.FC<{ products: Product[] }> = ({ products }) => {
+export const AboutSection: React.FC<{ products: CmsProduct[] }> = ({ products }) => {
   const [activeIndex, setActiveIndex] = useState<number>(0)
   const [direction, setDirection] = useState(0)
+
+  // ここで hooks は必ず呼ぶ
+  useEffect(() => {
+    if (!products || products.length === 0) return
+
+    const listener = (e: Event) => {
+      const pid = (e as CustomEvent<ProductId>).detail
+      const index = products.findIndex((p) => p.productId === pid)
+      if (index >= 0) {
+        setDirection(index > activeIndex ? 1 : -1)
+        setActiveIndex(index)
+      }
+    }
+
+    window.addEventListener('sosikio:select-product', listener as EventListener)
+    return () => window.removeEventListener('sosikio:select-product', listener as EventListener)
+  }, [products, activeIndex])
+
+  // products が空なら何も表示しない
+  if (!products || products.length === 0) {
+    return null
+  }
 
   const handleSetActiveIndex = (index: number) => {
     if (index === activeIndex) return
@@ -299,15 +365,7 @@ export const AboutSection: React.FC<{ products: Product[] }> = ({ products }) =>
     setActiveIndex(index)
   }
 
-  useEffect(() => {
-    const listener = (e: Event) => {
-      const pid = (e as CustomEvent<ProductId>).detail
-      const index = products.findIndex((p) => p.id === pid)
-      if (index >= 0) handleSetActiveIndex(index)
-    }
-    window.addEventListener('sosikio:select-product', listener as EventListener)
-    return () => window.removeEventListener('sosikio:select-product', listener as EventListener)
-  }, [products])
+  const activeProduct = products[activeIndex]
 
   return (
     <section
@@ -316,7 +374,7 @@ export const AboutSection: React.FC<{ products: Product[] }> = ({ products }) =>
     >
       <motion.div
         className="absolute inset-0 -z-10"
-        animate={{ background: products[activeIndex].gradient }}
+        animate={{ background: activeProduct.mainColor ?? '' }}
         transition={{ duration: 1.5, ease: 'easeInOut' }}
       />
 
@@ -342,17 +400,20 @@ export const AboutSection: React.FC<{ products: Product[] }> = ({ products }) =>
                   )}
                   <span
                     className={`relative block text-center ${
-                      isActive ? products[activeIndex].mainColor : 'text-gray-600'
+                      isActive ? p.mainColor : 'text-gray-600'
                     }`}
+                    style={{ color: p.mainColor ?? undefined }}
                   >
                     <p className="text-base sm:text-lg md:text-2xl font-bold mb-1 tracking-tight">
                       {p.tagline}
                     </p>
-                    <img
-                      src={`/mats/logo/${p.logo}`}
-                      className="h-7 sm:h-8 md:h-10 w-auto mx-auto"
-                      alt={`${p.name} ロゴ`}
-                    />
+                    {p.logo && (
+                      <img
+                        src={getMediaUrl(p.logo as CmsMedia)}
+                        className="h-7 sm:h-8 md:h-10 w-auto mx-auto"
+                        alt={`${p.name} ロゴ`}
+                      />
+                    )}
                   </span>
                 </button>
               )
@@ -374,7 +435,7 @@ export const AboutSection: React.FC<{ products: Product[] }> = ({ products }) =>
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
               className="w-full bg-white rounded-lg p-5 sm:p-6 md:p-8 lg:p-12 shadow-2xl border border-gray-100"
             >
-              <ProductAboutPage product={products[activeIndex]} allProducts={products} />
+              <ProductAboutPage product={activeProduct} allProducts={products} />
             </motion.div>
           </AnimatePresence>
         </div>

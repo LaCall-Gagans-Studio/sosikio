@@ -67,18 +67,26 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    users: User;
     media: Media;
-    'payload-kv': PayloadKv;
+    staff: Staff;
+    timeline: Timeline;
+    products: Product;
+    testimonials: Testimonial;
+    articles: Article;
+    users: User;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {};
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
+    staff: StaffSelect<false> | StaffSelect<true>;
+    timeline: TimelineSelect<false> | TimelineSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
+    articles: ArticlesSelect<false> | ArticlesSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -86,8 +94,16 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    philosophy: Philosophy;
+    'related-company': RelatedCompany;
+    overview: Overview;
+  };
+  globalsSelect: {
+    philosophy: PhilosophySelect<false> | PhilosophySelect<true>;
+    'related-company': RelatedCompanySelect<false> | RelatedCompanySelect<true>;
+    overview: OverviewSelect<false> | OverviewSelect<true>;
+  };
   locale: null;
   user: User & {
     collection: 'users';
@@ -117,10 +133,213 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  alt: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "staff".
+ */
+export interface Staff {
+  id: number;
+  name: string;
+  role: string;
+  bio?: string | null;
+  avatar: number | Media;
+  links?:
+    | {
+        label: string;
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "timeline".
+ */
+export interface Timeline {
+  id: number;
+  year: string;
+  title: string;
+  detail?: string | null;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: number;
+  /**
+   * 小さいほど上に表示されます
+   */
+  order: number;
+  /**
+   * ※変更注意。一意な文字を入力してください
+   */
+  productId: string;
+  name: string;
+  tagline: string;
+  tagline_en?: string | null;
+  logo: number | Media;
+  logo_long?: (number | null) | Media;
+  catchphrase: string;
+  description: string;
+  image: number | Media;
+  mainColor: string;
+  subColor: string;
+  about: {
+    main: {
+      heading_jp: string;
+      heading_en?: string | null;
+      text: string;
+    };
+    process: {
+      title_jp: string;
+      title_en?: string | null;
+      steps?:
+        | {
+            icon:
+              | 'layers'
+              | 'trendingUp'
+              | 'zap'
+              | 'playCircle'
+              | 'brainCircuit'
+              | 'headphones'
+              | 'barChart2'
+              | 'users'
+              | 'target'
+              | 'briefcase';
+            title_jp: string;
+            title_en?: string | null;
+            description: string;
+            id?: string | null;
+          }[]
+        | null;
+    };
+    features: {
+      title_jp: string;
+      title_en?: string | null;
+      items?:
+        | {
+            icon: 'barChart2' | 'users' | 'headphones' | 'trendingUp' | 'target' | 'briefcase';
+            title_jp: string;
+            title_en?: string | null;
+            description: string;
+            image: number | Media;
+            id?: string | null;
+          }[]
+        | null;
+    };
+    cta: {
+      title_jp: string;
+      title_en?: string | null;
+      description: string;
+      buttonText: string;
+    };
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: number;
+  quote: string;
+  name: string;
+  title: string;
+  company: string;
+  logo?: (number | null) | Media;
+  avatar?: (number | null) | Media;
+  products: ('LOOK' | 'PROBE' | 'BOON')[];
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "articles".
+ */
+export interface Article {
+  id: number;
+  title: string;
+  slug: string;
+  date: string;
+  image?: (number | null) | Media;
+  tags?:
+    | {
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  excerpt: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * サイト管理用ユーザーアカウント
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
   id: number;
+  /**
+   * 管理者以外変更できません
+   */
+  role: 'admin' | 'editor';
+  name?: string | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -141,54 +360,38 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: number;
-  alt: string;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "payload-kv".
- */
-export interface PayloadKv {
-  id: number;
-  key: string;
-  data:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'users';
-        value: number | User;
-      } | null)
-    | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'staff';
+        value: number | Staff;
+      } | null)
+    | ({
+        relationTo: 'timeline';
+        value: number | Timeline;
+      } | null)
+    | ({
+        relationTo: 'products';
+        value: number | Product;
+      } | null)
+    | ({
+        relationTo: 'testimonials';
+        value: number | Testimonial;
+      } | null)
+    | ({
+        relationTo: 'articles';
+        value: number | Article;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: number | User;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -234,28 +437,6 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
- */
-export interface UsersSelect<T extends boolean = true> {
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-  sessions?:
-    | T
-    | {
-        id?: T;
-        createdAt?: T;
-        expiresAt?: T;
-      };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
@@ -274,11 +455,165 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "payload-kv_select".
+ * via the `definition` "staff_select".
  */
-export interface PayloadKvSelect<T extends boolean = true> {
-  key?: T;
-  data?: T;
+export interface StaffSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  bio?: T;
+  avatar?: T;
+  links?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "timeline_select".
+ */
+export interface TimelineSelect<T extends boolean = true> {
+  year?: T;
+  title?: T;
+  detail?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  order?: T;
+  productId?: T;
+  name?: T;
+  tagline?: T;
+  tagline_en?: T;
+  logo?: T;
+  logo_long?: T;
+  catchphrase?: T;
+  description?: T;
+  image?: T;
+  mainColor?: T;
+  subColor?: T;
+  about?:
+    | T
+    | {
+        main?:
+          | T
+          | {
+              heading_jp?: T;
+              heading_en?: T;
+              text?: T;
+            };
+        process?:
+          | T
+          | {
+              title_jp?: T;
+              title_en?: T;
+              steps?:
+                | T
+                | {
+                    icon?: T;
+                    title_jp?: T;
+                    title_en?: T;
+                    description?: T;
+                    id?: T;
+                  };
+            };
+        features?:
+          | T
+          | {
+              title_jp?: T;
+              title_en?: T;
+              items?:
+                | T
+                | {
+                    icon?: T;
+                    title_jp?: T;
+                    title_en?: T;
+                    description?: T;
+                    image?: T;
+                    id?: T;
+                  };
+            };
+        cta?:
+          | T
+          | {
+              title_jp?: T;
+              title_en?: T;
+              description?: T;
+              buttonText?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  quote?: T;
+  name?: T;
+  title?: T;
+  company?: T;
+  logo?: T;
+  avatar?: T;
+  products?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "articles_select".
+ */
+export interface ArticlesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  date?: T;
+  image?: T;
+  tags?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  excerpt?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  role?: T;
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -311,6 +646,224 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "philosophy".
+ */
+export interface Philosophy {
+  id: number;
+  vision: {
+    tagline: string;
+    lead: string;
+  };
+  representative: {
+    name: string;
+    title: string;
+    avatar: number | Media;
+    greeting: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "related-company".
+ */
+export interface RelatedCompany {
+  id: number;
+  name: string;
+  logo: number | Media;
+  url: string;
+  description?: string | null;
+  established?: string | null;
+  capital?: string | null;
+  motto?: string | null;
+  employees?: string | null;
+  businesses?:
+    | {
+        name: string;
+        id?: string | null;
+      }[]
+    | null;
+  offices?:
+    | {
+        label: string;
+        address: string;
+        tel?: string | null;
+        fax?: string | null;
+        mapEmbedUrl?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "overview".
+ */
+export interface Overview {
+  id: number;
+  hero: {
+    title: string;
+    subtitle?: string | null;
+    mainLogo?: (number | null) | Media;
+    ctaPrimaryLabel?: string | null;
+    ctaPrimaryHref?: string | null;
+    ctaSecondaryLabel?: string | null;
+    ctaSecondaryHref?: string | null;
+  };
+  /**
+   * 組織の課題を示すキーワードを自由に追加・編集できます。
+   */
+  issueKeywords?:
+    | {
+        keyword: string;
+        id?: string | null;
+      }[]
+    | null;
+  clientLogos?:
+    | {
+        name: string;
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  strengths?:
+    | {
+        /**
+         * 一覧ページのアイコンに使用されます。
+         */
+        icon:
+          | 'users'
+          | 'target'
+          | 'trendingUp'
+          | 'barChart2'
+          | 'layers'
+          | 'zap'
+          | 'brainCircuit'
+          | 'headphones'
+          | 'playCircle'
+          | 'briefcase';
+        badge?: string | null;
+        title: string;
+        description: string;
+        points?:
+          | {
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "philosophy_select".
+ */
+export interface PhilosophySelect<T extends boolean = true> {
+  vision?:
+    | T
+    | {
+        tagline?: T;
+        lead?: T;
+      };
+  representative?:
+    | T
+    | {
+        name?: T;
+        title?: T;
+        avatar?: T;
+        greeting?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "related-company_select".
+ */
+export interface RelatedCompanySelect<T extends boolean = true> {
+  name?: T;
+  logo?: T;
+  url?: T;
+  description?: T;
+  established?: T;
+  capital?: T;
+  motto?: T;
+  employees?: T;
+  businesses?:
+    | T
+    | {
+        name?: T;
+        id?: T;
+      };
+  offices?:
+    | T
+    | {
+        label?: T;
+        address?: T;
+        tel?: T;
+        fax?: T;
+        mapEmbedUrl?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "overview_select".
+ */
+export interface OverviewSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        title?: T;
+        subtitle?: T;
+        mainLogo?: T;
+        ctaPrimaryLabel?: T;
+        ctaPrimaryHref?: T;
+        ctaSecondaryLabel?: T;
+        ctaSecondaryHref?: T;
+      };
+  issueKeywords?:
+    | T
+    | {
+        keyword?: T;
+        id?: T;
+      };
+  clientLogos?:
+    | T
+    | {
+        name?: T;
+        image?: T;
+        id?: T;
+      };
+  strengths?:
+    | T
+    | {
+        icon?: T;
+        badge?: T;
+        title?: T;
+        description?: T;
+        points?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

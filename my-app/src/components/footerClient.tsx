@@ -1,0 +1,171 @@
+'use client'
+
+import React from 'react'
+import { useRouter, usePathname } from 'next/navigation'
+import { ArrowRight } from 'lucide-react'
+import { Logo } from '@/components/Logo'
+
+import type { Product } from '@/payload-types'
+
+type Props = {
+  products: Product[]
+}
+
+export function FooterClient({ products }: Props) {
+  const Products = products.map((p) => {
+    const id = (p as any).productId || String(p.id)
+    const name = (p as any).name || String(p.name)
+    return { id, name }
+  })
+
+  const year = new Date().getFullYear()
+  const router = useRouter()
+  const pathname = usePathname()
+
+  // 固定ヘッダ分オフセットしてスムーススクロール
+  const scrollToId = (id: string) => {
+    const el = document.getElementById(id)
+    if (!el) return
+    const OFFSET = 80
+    const y = el.getBoundingClientRect().top + window.scrollY - OFFSET
+    window.scrollTo({ top: y, behavior: 'smooth' })
+  }
+
+  // 他ページでもアンカー対応
+  const handleClick = (url: string) => {
+    if (url.startsWith('#')) {
+      const id = url.slice(1)
+      if (pathname === '/') scrollToId(id)
+      else router.push(`/#${id}`)
+      return
+    }
+    router.push(url)
+  }
+
+  // 製品クリックで「選択して about セクションへ」スクロール
+  const selectProductAndScroll = (productId: string) => {
+    const aboutSection = document.getElementById('about')
+    if (aboutSection) {
+      const OFFSET = 200
+      const y = aboutSection.getBoundingClientRect().top + window.scrollY + OFFSET
+      window.scrollTo({ top: y, behavior: 'smooth' })
+    }
+    window.dispatchEvent(new CustomEvent('sosikio:select-product', { detail: productId }))
+  }
+
+  return (
+    <footer className="relative bg-black text-gray-300 font-zenKakuGothicNew border-t border-gray-800">
+      <div className="container mx-auto px-6 py-16">
+        {/* --- Top Section --- */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+          {/* Brand */}
+          <div className="space-y-3 ">
+            <Logo className="bg-white p-2 rounded-lg" />
+            <p className="text-sm text-gray-400 leading-relaxed">日常に、 組織が変わる歓びを。</p>
+          </div>
+
+          {/* Products */}
+          <div>
+            <h4 className="font-semibold text-white tracking-wider mb-4">Products</h4>
+            <ul className="space-y-2 text-sm">
+              {Products.map((product) => (
+                <li key={product.id}>
+                  <button
+                    onClick={() => selectProductAndScroll(product.id)}
+                    className="flex items-center justify-between w-full text-left text-gray-400 hover:text-white transition"
+                  >
+                    <span>{product.name}</span>
+                    <ArrowRight className="w-4 h-4 opacity-60 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </li>
+              ))}
+              <li>
+                <button
+                  onClick={() => handleClick('/articles')}
+                  className="text-gray-400 hover:text-white transition"
+                >
+                  お客様の声・コラム
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Company */}
+          <div>
+            <h4 className="font-semibold text-white tracking-wider mb-4">Company</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <button
+                  onClick={() => handleClick('/philosophy#leader')}
+                  className="hover:text-white transition"
+                >
+                  代表挨拶
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleClick('/philosophy#boonist')}
+                  className="hover:text-white transition"
+                >
+                  BOONIST!一覧
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleClick('/philosophy#history')}
+                  className="hover:text-white transition"
+                >
+                  沿革
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleClick('/philosophy#related-offices')}
+                  className="hover:text-white transition"
+                >
+                  会社情報
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleClick('#contact')}
+                  className="hover:text-white transition"
+                >
+                  お問い合わせ / 資料請求
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Legal */}
+          <div>
+            <h4 className="font-semibold text-white tracking-wider mb-4">Legal</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <button
+                  onClick={() => handleClick('/privacy')}
+                  className="hover:text-white transition"
+                >
+                  プライバシーポリシー
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleClick('/terms')}
+                  className="hover:text-white transition"
+                >
+                  利用規約
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* --- Bottom --- */}
+        <div className="mt-12 border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
+          <p>&copy; {year} HOKURYO DENKO Co.,Ltd. All Rights Reserved</p>
+        </div>
+      </div>
+    </footer>
+  )
+}

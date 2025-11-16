@@ -1,10 +1,14 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, useCallback } from 'react'
 import Matter from 'matter-js'
-import KEYWORDS from '../app/(frontend)/data_keywords'
 
-const keywords = KEYWORDS
+// 💡 外部から渡されるキーワードの型を定義
+interface HeroSectionProps {
+  // キーワードは文字列の配列として受け取る
+  keywords: string[]
+}
+
 const SCOPE_BG_URL = 'mats/hero_bg.webp'
 
 // --- kazaHole（円）サイズ/挙動 ---
@@ -38,7 +42,8 @@ const isMobileLike = () =>
     window.matchMedia('(pointer:coarse)').matches) ||
   (typeof navigator !== 'undefined' && /Mobi|Android/i.test(navigator.userAgent))
 
-export const HeroSection = () => {
+// 💡 propsとしてkeywordsを受け取るように変更
+export const HeroSection = ({ keywords }: HeroSectionProps) => {
   const heroRef = useRef<HTMLDivElement>(null)
 
   // 円（kazaHole）とスコープ画像
@@ -131,13 +136,17 @@ export const HeroSection = () => {
 
   // --- スケジューラ ---
   const scheduleNextAutoBlast = () => {
-    if (document.hidden) return
+    // 💡 keywords.length のチェックを追加
+    if (document.hidden || keywords.length === 0) return
     if (autoTimeoutRef.current) clearTimeout(autoTimeoutRef.current)
     const wait = Math.floor(Math.random() * (AUTO_MAX_MS - AUTO_MIN_MS + 1)) + AUTO_MIN_MS
     autoTimeoutRef.current = setTimeout(() => triggerBlast(), wait)
   }
 
-  const triggerBlast = () => {
+  // 💡 keywordsを依存配列に持つuseCallbackとして再定義
+  const triggerBlast = useCallback(() => {
+    if (keywords.length === 0) return
+
     const now = performance.now()
     if (now - lastBlastAtRef.current < MIN_GAP_MS) return
     lastBlastAtRef.current = now
@@ -147,6 +156,7 @@ export const HeroSection = () => {
     const numToSpawn = Math.floor(Math.random() * 3) + 2 // 2〜4
     const newWords: { id: number; text: string }[] = []
     for (let i = 0; i < numToSpawn; i++) {
+      // 💡 propsのkeywordsを使用
       const randomWord = keywords[Math.floor(Math.random() * keywords.length)]
       const newWordId = Date.now() + Math.random() * (i + 1)
       newWords.push({ id: newWordId, text: randomWord })
@@ -202,7 +212,7 @@ export const HeroSection = () => {
     }, 0)
 
     scheduleNextAutoBlast()
-  }
+  }, [keywords]) // 💡 propsのkeywordsを依存配列に設定
 
   // 突風
   const scheduleNextGustBlast = () => {
@@ -256,8 +266,10 @@ export const HeroSection = () => {
     }, GUST_DURATION_MS)
   }
 
+  // 💡 Matter.js とイベントリスナーのセットアップ
   useEffect(() => {
-    if (!heroRef.current) return
+    // 💡 keywordsが空の場合はMatter.jsのセットアップをスキップ
+    if (!heroRef.current || keywords.length === 0) return
 
     // 半径と初期位置
     holeRadiusRef.current = computeHoleRadiusPx()
@@ -380,6 +392,7 @@ export const HeroSection = () => {
         wrap.style.width = '0'
         wrap.style.height = '0'
         wrap.style.pointerEvents = 'none'
+        wrap.style.willChange = 'transform'
       }
 
       // モバイル/デスクトップ切替
@@ -504,7 +517,7 @@ export const HeroSection = () => {
       matterRefs.current.elements = {}
       matterRefs.current.ground = null
     }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [keywords, triggerBlast]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const containerStyle: React.CSSProperties = {
     position: 'relative',
@@ -541,7 +554,7 @@ export const HeroSection = () => {
         }}
       />
       {/* テキスト */}
-      <div className="absolute inset-0 font-semibold antialiased">
+      <div className="absolute pointer-events-none inset-0 font-semibold antialiased">
         <div
           className="absolute left-1/2 top-1/2 pointer-events-none translate-y-24 lg:-translate-y-1/2 lg:-translate-x-0 -translate-x-1/2"
           style={{ zIndex: Z_TEXT }}
@@ -557,7 +570,7 @@ export const HeroSection = () => {
             組織を率いるリーダーと現場を
             <br className="lg:hidden" />
             「データと対話」でつなぎ、
-            <br className="" />
+            <br />
             行動変容を促すプラットフォーム <br className="lg:hidden" />
             <span className="font-extrabold text-white mt-2 lg:mt-0 bg-black px-2 py-0 inline-block">
               SOSIKIO

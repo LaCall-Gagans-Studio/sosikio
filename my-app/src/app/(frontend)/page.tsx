@@ -1,36 +1,37 @@
-'use client'
-
-import React from 'react'
-// import Attractors from './texst'
-
-// sections
+// src/app/page.tsx
 import { HeroSection } from '@/sections/hero'
 import { OverviewSection } from '@/sections/overview'
 import { AboutSection } from '@/sections/about'
-// import { ArchiveSection } from '../../sections/archive'
 import { ContactTrialSection } from '@/sections/contact-trial'
 
-import { products } from './data_products'
-import { allTestimonials } from './data_testimonials'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
 
-// --- メインページコンポーネント ---
-export default function Page() {
+export const dynamic = 'force-dynamic'
+
+export default async function Page() {
+  const payload = await getPayload({ config: configPromise })
+
+  const [{ docs: products }, overview] = await Promise.all([
+    payload.find({
+      collection: 'products',
+      sort: 'order',
+      depth: 2,
+    }),
+    payload.findGlobal({
+      slug: 'overview',
+      depth: 2,
+    }),
+  ])
+
+  const keywords = (overview.issueKeywords ?? []).map((item) => item.keyword)
+
   return (
     <main className="bg-[#f1f1f1] text-gray-800 font-zenKakuGothicNew tracking-wide">
-      {/* --- Hero Section --- */}
-      <HeroSection />
-
-      {/* --- Overview Section --- */}
-      <OverviewSection testimonials={allTestimonials} />
-
-      {/* --- About Section --- */}
+      <HeroSection keywords={keywords} />
+      <OverviewSection products={products} overview={overview} />
       <AboutSection products={products} />
-
-      {/* --- ContactTrial Section --- */}
-      <ContactTrialSection />
-
-      {/* --- Archive Section --- */}
-      {/* <ArchiveSection allTestimonials={allTestimonials} products={products} /> */}
+      <ContactTrialSection products={products} />
     </main>
   )
 }

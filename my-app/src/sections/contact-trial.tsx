@@ -1,10 +1,22 @@
+// src/sections/contact-trial.tsx
 'use client'
 
 import React from 'react'
+import type { Product } from '@/payload-types'
 import { ContactForm } from '@/components/Forms/ContactForm'
 import { TrialForm } from '@/components/Forms/TrialForm'
 
-export function ContactTrialSection() {
+type Props = {
+  products: Product[]
+}
+
+export function ContactTrialSection({ products }: Props) {
+  // TrialForm に渡すための「プロダクト一覧」
+  const trialProducts = products.map((p) => {
+    const id = (p as any).productId || String(p.id)
+    return { id }
+  })
+
   return (
     <section
       id="contact"
@@ -48,11 +60,20 @@ export function ContactTrialSection() {
                   資料請求
                 </span>
                 <h3 className="mt-2 text-xl sm:text-2xl font-bold">100秒サーベイから試す</h3>
-                <p className="mt-1 text-sm text-gray-600">
-                  LOOK / PROBE / BOON の中から気になるものを選んでお試し。
+                <p className="mt-1 text-sm text-gray-600 flex items-center">
+                  {trialProducts.map((p, n) => {
+                    return (
+                      <span key={p.id} className="flex items-center">
+                        {n == 0 ? '' : ' / '}
+                        {p.id}
+                      </span>
+                    )
+                  })}
+                  の中から気になるものを選んでお試し。
                 </p>
               </div>
-              <TrialForm />
+
+              <TrialForm products={trialProducts} />
             </div>
           </div>
         </div>
