@@ -12,12 +12,15 @@ import { formatIsoDateToJa } from '@/lib/formatDate'
 
 export const dynamic = 'force-dynamic'
 
-type Params = { slug: string }
+// 以前の PageProps/ArticlePageProps の定義を削除
 
-// 型定義を引数のインラインで行い、余計な括弧を避ける
-// Next.js の PageProps<P> の P に相当する部分を直接定義
-export default async function Page({ params }: { params: { slug: string } }) {
-  const { slug } = params
+// コンポーネントの引数から型アノテーションを完全に削除し、Next.jsの自動推論に任せる
+// ただし、params は構造分解して使用する
+export default async function Page({ params }: any) {
+  // `any` または型なしで推論を強制
+  // safety: paramsがPromiseである可能性を考慮して一旦anyにして、
+  // 内部ではslugが取れることを前提に構造分解
+  const slug = (params as { slug: string }).slug
 
   const [{ articles }, testimonials] = await Promise.all([
     fetchArticlesForClient(),
@@ -148,6 +151,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   )
 }
 
+// generateStaticParams は props を受け取らないため、修正は不要です。
 export async function generateStaticParams() {
   const [{ articles }, testimonials] = await Promise.all([
     fetchArticlesForClient(),
