@@ -16,7 +16,7 @@ export const Overview: GlobalConfig = {
       fields: [
         {
           name: 'title',
-          label: 'タイトル（例：組織を読み解き、翻訳する）',
+          label: 'タイトル（例：組織を読み解き、翻訳する）※[[]]で黒背景',
           type: 'text',
           required: true,
         },

@@ -46,6 +46,9 @@ const isMobileLike = () =>
 export const HeroSection = ({ keywords }: HeroSectionProps) => {
   const heroRef = useRef<HTMLDivElement>(null)
 
+  // 💡 [修正] 画像の初期化完了状態を追跡するstate
+  const [isImageReady, setIsImageReady] = useState(false)
+
   // 円（kazaHole）とスコープ画像
   const holeWrapperRef = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
@@ -280,8 +283,9 @@ export const HeroSection = ({ keywords }: HeroSectionProps) => {
     // 背景画像
     const scope = scopeBgRef.current
     if (scope) {
+      // clip-path に必要なスタイルは useEffect内で設定
       scope.style.backgroundImage = `url("${SCOPE_BG_URL}")`
-      scope.style.backgroundSize = 'contain'
+      scope.style.backgroundSize = 'cover' // 'contain'から'cover'に変更（CSSの記載と合わせる）
       scope.style.backgroundPosition = 'center'
       scope.style.pointerEvents = 'none'
       scope.style.zIndex = String(Z_SCOPE_BG)
@@ -347,13 +351,16 @@ export const HeroSection = ({ keywords }: HeroSectionProps) => {
       }
     }
 
-    heroRef.current.addEventListener('click', onClick)
-    window.addEventListener('resize', onResize)
-    document.addEventListener('visibilitychange', onVisChange)
+    heroRef.current.addEventListener('click', onClick as any)
+    window.addEventListener('resize', onResize as any)
+    document.addEventListener('visibilitychange', onVisChange as any)
 
     // 初回スケジュール
     scheduleNextAutoBlast()
     scheduleNextGustBlast()
+
+    // 💡 [修正] 初期化が完了し、clipPathが適用可能になったら画像をフェードインさせる
+    setIsImageReady(true)
 
     // ====== ループ ======
     let rafId = 0
@@ -541,11 +548,15 @@ export const HeroSection = ({ keywords }: HeroSectionProps) => {
           background: 'linear-gradient(to bottom, #ffffff 0%, #f7f7f7 35%, #f1f1f1 100%)',
         }}
       />
+
       {/* スコープ：背景画像（clip-path） */}
       <div
         ref={scopeBgRef}
-        className="absolute inset-0 opacity-30"
+        className="absolute inset-0" // opacity-30は削除し、styleで制御
         style={{
+          // 💡 [修正] 初期化が完了するまで opacity: 0 を維持し、完了後に 0.3 に設定
+          opacity: isImageReady ? 0.3 : 0,
+          transition: 'opacity 0.5s ease-in-out', // フェードイン効果
           zIndex: Z_SCOPE_BG,
           backgroundImage: `url("${SCOPE_BG_URL}")`,
           backgroundSize: 'cover',
@@ -553,6 +564,7 @@ export const HeroSection = ({ keywords }: HeroSectionProps) => {
           pointerEvents: 'none',
         }}
       />
+
       {/* テキスト */}
       <div className="absolute pointer-events-none inset-0 font-semibold antialiased">
         <div

@@ -2,6 +2,7 @@
 'use client'
 
 import React from 'react'
+import { useMemo } from 'react'
 import { motion, Variants } from 'framer-motion'
 import { ArrowRight, ShieldCheck } from 'lucide-react'
 import Link from 'next/link'
@@ -34,6 +35,9 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
   const hero = overview.hero
   const logos = overview.clientLogos ?? []
   const strengths = overview.strengths ?? []
+  const titleHighlight = useMemo(() => {
+    return getHighlightedTitle(hero?.title ?? '組織を読み解き、翻訳する')
+  }, [hero?.title])
 
   const selectProductAndScroll = (productKey: string) => {
     const aboutSection = document.getElementById('about')
@@ -58,7 +62,7 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
         >
           <div className="flex flex-col justify-center items-center text-center">
             <h1 className="font-zenKakuGothicAntique text-[clamp(2.25rem,6vw,4.5rem)]">
-              {hero?.title ?? '組織を読み解き、翻訳する'}
+              {titleHighlight}
             </h1>
 
             <div className="flex flex-row items-center mt-4 sm:mt-6 gap-2 sm:gap-3">
@@ -311,4 +315,36 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
       </div>
     </section>
   )
+}
+
+const getHighlightedTitle = (title: string): React.ReactNode[] => {
+  const parts: React.ReactNode[] = []
+  // [[...]] パターンをキャプチャする正規表現
+  const regex = /(\[\[.*?\]\])/g
+  let lastIndex = 0
+
+  title.replace(regex, (match, highlightedPart, index) => {
+    // 1. ハイライト前の通常テキストを追加
+    if (index > lastIndex) {
+      parts.push(title.substring(lastIndex, index))
+    }
+
+    // 2. ハイライト部分のテキスト (記号 [[ ]] を除く) を追加
+    const textToHighlight = highlightedPart.slice(2, -2)
+    parts.push(
+      <span key={index} className="bg-slate-900 text-white p-0.5  whitespace-nowrap">
+        {textToHighlight}
+      </span>,
+    )
+
+    lastIndex = index + match.length
+    return match
+  })
+
+  // 3. 最後の通常テキストを追加
+  if (lastIndex < title.length) {
+    parts.push(title.substring(lastIndex))
+  }
+
+  return parts
 }
