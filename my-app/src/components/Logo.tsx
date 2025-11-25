@@ -20,7 +20,7 @@ export const Logo = (props: Props) => {
       loading={loading}
       fetchPriority={priority}
       decoding="async"
-      className={clsx('w-auto h-16 object-cover', className)}
+      className={clsx('w-auto h-16 object-contain', className)}
       src="/mats/logo/logo_SOSIKIO.png"
     />
   )

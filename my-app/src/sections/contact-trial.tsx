@@ -60,17 +60,20 @@ export function ContactTrialSection({ products }: Props) {
                   資料請求
                 </span>
                 <h3 className="mt-2 text-xl sm:text-2xl font-bold">100秒サーベイから試す</h3>
-                <p className="mt-1 text-sm text-gray-600 flex items-center">
+                <span className="mt-1 text-sm text-gray-600 flex flex-row items-center">
                   {trialProducts.map((p, n) => {
                     return (
-                      <span key={p.id} className="flex items-center">
+                      <span
+                        key={p.id}
+                        className="flex items-center flex-row flex-nowrap text-nowrap"
+                      >
                         {n == 0 ? '' : ' / '}
                         {p.id}
                       </span>
                     )
                   })}
-                  の中から気になるものを選んでお試し。
-                </p>
+                </span>
+                <p className="mt-1 text-sm text-gray-600 ">の中から気になるものを選んでお試し。</p>
               </div>
 
               <TrialForm products={trialProducts} />

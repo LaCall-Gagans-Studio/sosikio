@@ -262,14 +262,14 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
             <div className="mt-16 sm:mt-20 md:mt-28 text-center relative overflow-hidden p-6 sm:p-8 md:p-12 rounded-lg py-16 bg-white sm:py-20 md:py-24 border border-slate-200 shadow-2xl">
               {/* 背景グラデーションは少し透明度を調整して馴染ませるか、そのまま維持 */}
               <div className="absolute inset-0 bg-gradient-to-br from-orange-100/50 via-rose-100/30 to-cyan-100/30 -z-10" />
-              <h2 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tighter text-slate-900 ">
+              <h2 className="text-4xl sm:text-5xl md:text-7xl font-semibold tracking-wide text-slate-900 ">
                 WHY SOSIKIO
               </h2>
               <h2 className="text-2xl mt-2 sm:text-3xl md:text-4xl font-bold tracking-normal text-slate-900 mb-6 sm:mb-8 md:mb-10">
                 SOSIKIOだけの強み
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 text-left">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 text-left">
                 {strengths.map((s, i) => {
                   const Icon = getIconComponent((s as any).icon)
 
@@ -295,7 +295,9 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
                           </span>
                           <h3 className="text-lg sm:text-lg lg:text-xl font-semibold text-slate-900 leading-snug">
                             {/* タイトル強調: 反転して黒背景に白文字 */}
-                            <span className="text-white bg-slate-900 px-1 py-1">{s.title}</span>
+                            <span className="text-white bg-slate-900 px-1 py-1 text-nowrap md:text-wrap whitespace-pre-wrap">
+                              {s.title}
+                            </span>
                           </h3>
                         </div>
                       </div>
@@ -329,29 +331,40 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
 
 const getHighlightedTitle = (title: string): React.ReactNode[] => {
   const parts: React.ReactNode[] = []
-  // [[...]] パターンをキャプチャする正規表現
-  const regex = /(\[\[.*?\]\])/g
+
+  // 修正点①: \\n (文字としての\n) もパイプ | で追加してキャプチャする
+  // (\[\[.*?\]\]|\\n|\n)
+  // ※ \\n は正規表現文字列内ではバックスラッシュをエスケープするため \\\\n と書く必要がありますが、
+  //   リテラル正規表現 /.../ では \\n で「バックスラッシュ+n」を意味します。
+  const regex = /(\[\[.*?\]\]|\\n|\n)/g
+
   let lastIndex = 0
 
-  title.replace(regex, (match, highlightedPart, index) => {
-    // 1. ハイライト前の通常テキストを追加
+  title.replace(regex, (match, captured, index) => {
+    // 1. 通常テキストを追加
     if (index > lastIndex) {
       parts.push(title.substring(lastIndex, index))
     }
 
-    // 2. ハイライト部分のテキスト (記号 [[ ]] を除く) を追加
-    const textToHighlight = highlightedPart.slice(2, -2)
-    parts.push(
-      <span key={index} className="bg-slate-900 text-white p-0.5  whitespace-nowrap">
-        {textToHighlight}
-      </span>,
-    )
+    // 2. マッチした内容に応じた処理
+    // 修正点②: 文字列としての '\\n' も改行扱いにする
+    if (match === '\n' || match === '\\n') {
+      parts.push(<br key={index} className="lg:hidden" />)
+    } else {
+      // [[...]] の場合
+      const textToHighlight = match.slice(2, -2)
+      parts.push(
+        <span key={index} className="bg-slate-900 text-white p-0.5 whitespace-nowrap">
+          {textToHighlight}
+        </span>,
+      )
+    }
 
     lastIndex = index + match.length
     return match
   })
 
-  // 3. 最後の通常テキストを追加
+  // 3. 残りのテキストを追加
   if (lastIndex < title.length) {
     parts.push(title.substring(lastIndex))
   }

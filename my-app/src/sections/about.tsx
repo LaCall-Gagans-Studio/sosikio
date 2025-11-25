@@ -41,6 +41,8 @@ const PointDetailModal: React.FC<{ point: PointDetail; onClose: () => void }> = 
   point,
   onClose,
 }) => {
+  console.log('動作しました')
+
   return (
     <AnimatePresence>
       <motion.div
@@ -194,7 +196,7 @@ const ProductAboutPage: React.FC<{ product: CmsProduct; allProducts: CmsProduct[
             className="mt-16 sm:mt-20 md:mt-24 lg:mt-40"
           >
             <div className="text-center mb-10 sm:mb-12 md:mb-16">
-              <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-9xl font-black tracking-tighter text-gray-900 leading-none">
+              <h2 className="text-6xl sm:text-6xl md:text-7xl lg:text-9xl font-black tracking-tighter text-gray-900 leading-none">
                 {process.title_en}
               </h2>
               <p
@@ -212,16 +214,16 @@ const ProductAboutPage: React.FC<{ product: CmsProduct; allProducts: CmsProduct[
                   className="relative text-left p-6 sm:p-7 md:p-8 bg-white rounded-lg border border-gray-200"
                 >
                   <div
-                    className={`text-5xl sm:text-6xl md:text-7xl font-black  mb-3 sm:mb-4`}
+                    className={`text-6xl md:text-7xl font-black  mb-3 sm:mb-4`}
                     style={{ color: product.mainColor ?? undefined }}
                   >
                     {String(i + 1).padStart(2, '0')}
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+                  <h3 className="text-3xl font-extrabold text-gray-900 tracking-tight">
                     {step.title_en}
                   </h3>
-                  <p className="text-lg sm:text-xl font-bold text-gray-800">{step.title_jp}</p>
-                  <p className="mt-3 sm:mt-4 text-gray-700 text-sm sm:text-base leading-relaxed">
+                  <p className="text-xl font-bold text-gray-800">{step.title_jp}</p>
+                  <p className="mt-4 text-gray-700 text-sm sm:text-base leading-relaxed">
                     {step.description}
                   </p>
                 </div>
@@ -240,7 +242,7 @@ const ProductAboutPage: React.FC<{ product: CmsProduct; allProducts: CmsProduct[
             className="mt-16 sm:mt-20 md:mt-24 lg:mt-40"
           >
             <div className="text-center w-auto">
-              <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-9xl font-black tracking-tighter text-gray-900 leading-tight">
+              <h2 className="text-6xl md:text-7xl lg:text-9xl font-black tracking-tighter text-gray-900 leading-tight">
                 {features.title_en}
               </h2>
               <p
@@ -306,17 +308,17 @@ const ProductAboutPage: React.FC<{ product: CmsProduct; allProducts: CmsProduct[
             style={{ backgroundColor: product.mainColor ?? undefined }}
           >
             <div className="absolute inset-0 -z-10" />
-            <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter">
+            <h2 className="text-4xl md:text-7xl lg:text-8xl font-black tracking-tighter">
               {cta.title_en}
             </h2>
-            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mt-2">{cta.title_jp}</h3>
+            <h3 className="text-base md:text-4xl font-bold mt-2">{cta.title_jp}</h3>
             <p className="mt-4 sm:mt-6 max-w-3xl mx-auto text-base sm:text-lg text-gray-100 leading-relaxed px-2">
               {cta.description}
             </p>
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="mt-6 sm:mt-8 px-7 sm:px-9 md:px-10 py-3.5 sm:py-4 bg-white text-gray-900 font-bold rounded-lg text-base sm:text-lg shadow-lg"
+              className="mt-6 sm:mt-8 px-7 sm:px-9 md:px-10 py-3.5 sm:py-4 bg-white flex items-center text-gray-900 font-bold rounded-lg text-sm sm:text-lg shadow-lg flex-nowrap"
             >
               <span className={`font-bold`} style={{ color: product.mainColor ?? undefined }}>
                 {cta.buttonText}
@@ -381,7 +383,7 @@ export const AboutSection: React.FC<{ products: CmsProduct[] }> = ({ products })
       {/* プロダクト選択（横スクロール可） */}
       <div className="container mx-auto mb-10 sm:mb-12 md:mb-16">
         <div className="flex justify-center">
-          <div className="flex items-center p-1 sm:p-1.5 rounded-lg bg-white/70 gap-2 shadow-md overflow-x-auto max-w-full">
+          <div className="grid grid-cols-3 items-center p-1 sm:p-1.5 rounded-lg bg-white/70 gap-2 shadow-md overflow-x-auto max-w-full">
             {products.map((p, index) => {
               const isActive = activeIndex === index
               return (
@@ -404,13 +406,13 @@ export const AboutSection: React.FC<{ products: CmsProduct[] }> = ({ products })
                     }`}
                     style={{ color: p.mainColor ?? undefined }}
                   >
-                    <p className="text-base sm:text-lg md:text-2xl font-bold mb-1 tracking-tight">
+                    <p className="text-base sm:text-lg md:text-2xl font-bold mb-1 tracking-tight text-left">
                       {p.tagline}
                     </p>
                     {p.logo && (
                       <img
                         src={getMediaUrl(p.logo as CmsMedia)}
-                        className="h-7 sm:h-8 md:h-10 w-auto mx-auto"
+                        className="h-7 sm:h-8 md:h-10 w-auto md:mx-auto"
                         alt={`${p.name} ロゴ`}
                       />
                     )}
