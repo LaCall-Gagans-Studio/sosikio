@@ -16,12 +16,6 @@ const getMediaUrl = (media: CmsMedia): string => {
   return media.url ?? ''
 }
 
-type PointDetail = {
-  title: string
-  description: string
-  image: string
-}
-
 type ProductId = string
 
 // --- 汎用アニメーション設定 ---
@@ -35,70 +29,9 @@ const sectionVariants: Variants = {
 }
 
 // ========================
-// PointDetailModal
-// ========================
-const PointDetailModal: React.FC<{ point: PointDetail; onClose: () => void }> = ({
-  point,
-  onClose,
-}) => {
-  console.log('動作しました')
-
-  return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-3 sm:p-4 backdrop-blur-sm font-zenKakuGothicAntique"
-        onClick={onClose}
-        role="dialog"
-        aria-modal="true"
-        aria-label={`${point.title} の詳細`}
-      >
-        <motion.div
-          initial={{ scale: 0.95, y: 12 }}
-          animate={{ scale: 1, y: 0 }}
-          exit={{ scale: 0.95, y: 12 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          className="bg-white rounded-lg w-full max-w-lg sm:max-w-2xl md:max-w-3xl overflow-hidden shadow-2xl relative"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <img
-            src={point.image}
-            alt={point.title}
-            className="w-full h-44 sm:h-56 md:h-64 object-cover"
-          />
-          <div className="p-5 sm:p-7 md:p-8">
-            <h3 className="text-2xl sm:text-3xl md:text-3xl font-bold tracking-tight">
-              {point.title}
-            </h3>
-            <p className="mt-3 sm:mt-4 text-gray-700 leading-relaxed text-base sm:text-lg">
-              {point.description}
-            </p>
-          </div>
-          <button
-            onClick={onClose}
-            className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2 sm:p-2.5 rounded-lg bg-black/20 text-white hover:bg-black/40 transition"
-            aria-label="閉じる"
-          >
-            <X size={22} className="sm:hidden" />
-            <X size={24} className="hidden sm:block" />
-          </button>
-        </motion.div>
-      </motion.div>
-    </AnimatePresence>
-  )
-}
-
-// ========================
 // ProductAboutPage
 // ========================
-const ProductAboutPage: React.FC<{ product: CmsProduct; allProducts: CmsProduct[] }> = ({
-  product,
-  allProducts,
-}) => {
-  const [modalPoint, setModalPoint] = useState<PointDetail | null>(null)
-
+const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
   // about が未設定の場合のガード
   const about = product.about
   const main = about?.main
@@ -108,10 +41,6 @@ const ProductAboutPage: React.FC<{ product: CmsProduct; allProducts: CmsProduct[
 
   return (
     <>
-      <AnimatePresence>
-        {modalPoint && <PointDetailModal point={modalPoint} onClose={() => setModalPoint(null)} />}
-      </AnimatePresence>
-
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* 1. about_hero */}
         <motion.div
@@ -318,7 +247,7 @@ const ProductAboutPage: React.FC<{ product: CmsProduct; allProducts: CmsProduct[
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="mt-6 sm:mt-8 px-7 sm:px-9 md:px-10 py-3.5 sm:py-4 bg-white flex items-center text-gray-900 font-bold rounded-lg text-sm sm:text-lg shadow-lg flex-nowrap"
+              className="mt-6 sm:mt-8 px-7 sm:px-9 md:px-10 py-3.5 mx-auto sm:py-4 bg-white flex items-center text-gray-900 font-bold rounded-lg text-sm sm:text-lg shadow-lg flex-nowrap"
             >
               <span className={`font-bold`} style={{ color: product.mainColor ?? undefined }}>
                 {cta.buttonText}
@@ -406,7 +335,7 @@ export const AboutSection: React.FC<{ products: CmsProduct[] }> = ({ products })
                     }`}
                     style={{ color: p.mainColor ?? undefined }}
                   >
-                    <p className="text-base sm:text-lg md:text-2xl font-bold mb-1 tracking-tight text-left">
+                    <p className="text-sm md:text-2xl font-bold mb-1 tracking-tight lg:px-0 text-left text-nowrap">
                       {p.tagline}
                     </p>
                     {p.logo && (
@@ -437,7 +366,7 @@ export const AboutSection: React.FC<{ products: CmsProduct[] }> = ({ products })
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
               className="w-full bg-white rounded-lg p-5 sm:p-6 md:p-8 lg:p-12 shadow-2xl border border-gray-100"
             >
-              <ProductAboutPage product={activeProduct} allProducts={products} />
+              <ProductAboutPage product={activeProduct} />
             </motion.div>
           </AnimatePresence>
         </div>

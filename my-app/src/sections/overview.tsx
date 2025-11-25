@@ -178,15 +178,19 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
                 <img
                   src={getMediaUrl(hero.mainLogo as CmsMedia)}
                   alt="SOSIKIO Concept"
-                  className="h-12 sm:h-14 md:h-16"
+                  className="w-4/5 h-auto lg::h-16 lg:max-w-52 lg:w-auto object-contain"
                 />
               )}
               を構成する3つのコアサービス
             </h2>
-            <p className="mt-4 text-sm sm:text-base md:text-lg text-gray-600 font-medium">
-              「データで組織を<b>ミル</b>」　「会議を<b>キク</b>」　「対話で<b>アゲル</b>」
-              <br className="hidden md:block" />
-              明日から始められる即効性にこだわった 3 つのサービス
+            <p className="mt-4 text-sm sm:text-base md:text-lg text-gray-600 font-medium whitespace-pre-wrap">
+              「データで組織を<b>ミル</b>」　
+              <br className="lg:hidden" />
+              「会議を<b>キク</b>」　 「対話で<b>アゲル</b>」
+              <br className="" />
+              明日から始められる
+              <br className="lg:hidden" />
+              即効性にこだわった 3 つのサービス
             </p>
           </div>
 
@@ -329,7 +333,7 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
   )
 }
 
-const getHighlightedTitle = (title: string): React.ReactNode[] => {
+export const getHighlightedTitle = (title: string): React.ReactNode[] => {
   const parts: React.ReactNode[] = []
 
   // 修正点①: \\n (文字としての\n) もパイプ | で追加してキャプチャする
