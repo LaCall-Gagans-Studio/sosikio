@@ -259,12 +259,13 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
 
           {/* WHY SOSIKIO */}
           {strengths.length > 0 && (
-            <div className="mt-16 sm:mt-20 md:mt-28 text-center relative overflow-hidden p-6 sm:p-8 md:p-12 rounded-lg py-16 bg-black sm:py-20 md:py-24 border border-slate-700 shadow-2xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-500 via-rose-500/5 to-cyan-500/5 -z-10" />
-              <h2 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tighter text-white ">
+            <div className="mt-16 sm:mt-20 md:mt-28 text-center relative overflow-hidden p-6 sm:p-8 md:p-12 rounded-lg py-16 bg-white sm:py-20 md:py-24 border border-slate-200 shadow-2xl">
+              {/* 背景グラデーションは少し透明度を調整して馴染ませるか、そのまま維持 */}
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-100/50 via-rose-100/30 to-cyan-100/30 -z-10" />
+              <h2 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tighter text-slate-900 ">
                 WHY SOSIKIO
               </h2>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter text-white mb-6 sm:mb-8 md:mb-10">
+              <h2 className="text-2xl mt-2 sm:text-3xl md:text-4xl font-bold tracking-normal text-slate-900 mb-6 sm:mb-8 md:mb-10">
                 SOSIKIOだけの強み
               </h2>
 
@@ -275,32 +276,41 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
                   return (
                     <div
                       key={i}
-                      className="group rounded-xl border border-slate-700/60 bg-white/5 backdrop-blur-sm p-5 sm:p-6 md:p-7 hover:bg-white/7 transition"
+                      // カード: 白背景ベースに見やすい薄いグレー、ホバーで少し濃く
+                      className="group rounded-xl border border-slate-200 bg-slate-50 p-5 sm:p-6 md:p-7 hover:bg-slate-100 transition"
                     >
                       {s.badge && (
-                        <div className="mb-3">
-                          <span className="shrink-0 rounded-md bg-emerald-400/15 text-emerald-200 mb-3 px-2.5 py-1 text-[13px] font-semibold border border-emerald-400/30">
+                        <div className="mb-5">
+                          {/* バッジ: エメラルドの色味を濃く調整 */}
+                          <span className="shrink-0 rounded-md bg-emerald-100 text-emerald-800 mb-3 px-2.5 py-1 text-[13px] font-semibold border border-emerald-200">
                             {s.badge}
                           </span>
                         </div>
                       )}
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex items-center gap-3">
-                          <span className="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-white/10">
-                            <Icon className="h-6 w-6 text-white" aria-hidden />
+                          {/* アイコン背景: 薄い黒透過に変更 */}
+                          <span className="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-slate-900">
+                            <Icon className="h-6 w-6 text-slate-100" aria-hidden />
                           </span>
-                          <h3 className="text-lg sm:text-lg lg:text-xl font-semibold text-white leading-snug">
-                            <span className="text-black bg-white px-1 py-1">{s.title}</span>
+                          <h3 className="text-lg sm:text-lg lg:text-xl font-semibold text-slate-900 leading-snug">
+                            {/* タイトル強調: 反転して黒背景に白文字 */}
+                            <span className="text-white bg-slate-900 px-1 py-1">{s.title}</span>
                           </h3>
                         </div>
                       </div>
 
-                      <p className="mt-3 text-base text-white">{s.description}</p>
+                      {/* 説明文: 濃いグレー */}
+                      <p className="mt-4 text-base text-slate-600">{s.description}</p>
 
                       <ul className="mt-4 space-y-2.5">
                         {(s.points ?? []).map((p, idx) => (
-                          <li key={idx} className="flex gap-2 text-white text-sm lg:text-base">
-                            <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+                          // リストアイテム: 濃いグレー
+                          <li key={idx} className="flex gap-2 text-slate-700 text-sm lg:text-base">
+                            <ShieldCheck
+                              className="mt-2 h-4 w-4 shrink-0 text-emerald-800 font-bold"
+                              aria-hidden
+                            />
                             <span>{p.text}</span>
                           </li>
                         ))}

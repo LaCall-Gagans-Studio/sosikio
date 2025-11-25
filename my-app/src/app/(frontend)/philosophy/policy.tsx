@@ -98,7 +98,7 @@ export const PolicySection = () => {
   return (
     <section
       id="policy-section"
-      className="bg-[#f1f1f1] overflow-x-clip font-zenKakuGothicAntique flex flex-col items-center space-y-16 lg:space-y-20 pb-24 sm:pb-28 md:pb-36 lg:pb-44"
+      className="bg-[#f1f1f1] pt-8 overflow-x-clip font-zenKakuGothicAntique flex flex-col items-center space-y-16 lg:space-y-20 pb-24 sm:pb-28 md:pb-36 lg:pb-44"
     >
       {PolicyData.map((p) => (
         <div key={p.id} className={`w-full ${p.offsetClass}`}>

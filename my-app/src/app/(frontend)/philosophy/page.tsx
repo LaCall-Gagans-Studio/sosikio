@@ -29,7 +29,7 @@ export default async function PhilosophyPage() {
   const keywords = (overview.issueKeywords ?? []).map((item) => item.keyword)
 
   return (
-    <Suspense fallback={<p className="px-5 py-16 text-sm text-ws-primary/70">読み込み中…</p>}>
+    <Suspense fallback={<p className="px-5 py-16 text-sm  text-ws-primary/70">読み込み中…</p>}>
       <PhilosophyPageClient
         vision={visionAndRep?.vision ?? null}
         representative={visionAndRep?.representative ?? null}

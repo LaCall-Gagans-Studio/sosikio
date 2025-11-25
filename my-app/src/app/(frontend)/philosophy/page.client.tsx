@@ -3,11 +3,9 @@
 
 import * as React from 'react'
 import Link from 'next/link'
-import { type Variants } from 'framer-motion'
 
-import { HeroPSection } from '@/app/(frontend)/philosophy/hero_philosophy'
-import { HeroSection } from '@/sections/hero'
-import { PolicySection } from '@/sections/policy'
+import { HeroSection } from './hero.p'
+import { PolicySection } from '@/app/(frontend)/philosophy/policy'
 import type { Staff, TimelineItem, RelatedCompany } from '@/lib/philosophy'
 
 type PhilosophyPageClientProps = {
@@ -37,7 +35,7 @@ export default function PhilosophyPageClient({
 }: PhilosophyPageClientProps) {
   return (
     <main className="min-h-screen bg-white text-gray-900">
-      <HeroPSection keywords={keywords} />
+      <HeroSection keywords={keywords} />
       <PolicySection />
 
       {/* 2) リード */}

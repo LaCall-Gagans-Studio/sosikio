@@ -3,6 +3,9 @@ import { HeroSection } from '@/sections/hero'
 import { OverviewSection } from '@/sections/overview'
 import { AboutSection } from '@/sections/about'
 import { ContactTrialSection } from '@/sections/contact-trial'
+import { NewsSection } from '@/sections/news'
+
+import { fetchArticlesForClient, fetchTestimonialsForClient } from '@/lib/articles'
 
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
@@ -17,7 +20,7 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 export default async function Page() {
   const payload = await getPayload({ config: configPromise })
 
-  const [{ docs: products }, overview] = await Promise.all([
+  const [{ docs: products }, overview, articlesData, testimonials] = await Promise.all([
     payload.find({
       collection: 'products',
       sort: 'order',
@@ -27,6 +30,8 @@ export default async function Page() {
       slug: 'overview',
       depth: 2,
     }),
+    fetchArticlesForClient(),
+    fetchTestimonialsForClient(),
   ])
 
   const keywords = (overview.issueKeywords ?? []).map((item) => item.keyword)
@@ -34,6 +39,7 @@ export default async function Page() {
   return (
     <main className="bg-[#f1f1f1] text-gray-800 font-zenKakuGothicNew tracking-wide">
       <HeroSection keywords={keywords} />
+      <NewsSection articles={articlesData.articles} testimonials={testimonials} />
       <OverviewSection products={products} overview={overview} />
       <AboutSection products={products} />
       <ContactTrialSection products={products} />
