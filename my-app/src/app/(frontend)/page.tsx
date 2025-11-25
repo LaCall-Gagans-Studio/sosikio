@@ -10,13 +10,6 @@ import { fetchArticlesForClient, fetchTestimonialsForClient } from '@/lib/articl
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 
-export const dynamic = 'force-dynamic'
-/**
- * 指定したミリ秒だけ処理を遅延させる関数
- * @param ms 遅延させるミリ秒
- */
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
-
 export default async function Page() {
   const payload = await getPayload({ config: configPromise })
 

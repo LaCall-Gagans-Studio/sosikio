@@ -1,21 +1,60 @@
-@import "tailwindcss";
+/* 1. フォントのインポートは一番上 */
 @import url('https://fonts.googleapis.com/css2?family=Kosugi&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap');
 
+/* 2. Tailwind 本体とプラグインの読み込み */
+@import 'tailwindcss';
+
+/* プラグインは @plugin で読み込みます (npm installが必要です) */
+@plugin "@tailwindcss/typography";
+
+/* 3. テーマ設定 (以前の tailwind.config.js の内容をここに統合) */
 @theme {
-  /* fonts */
-  --font-kosugi: "Kosugi", sans-serif;
-  --font-zenKakuGothicNew: "Zen Kaku Gothic New", sans-serif;
+  /* Fonts */
+  --font-kosugi: 'Kosugi', sans-serif;
+  --font-zenKakuGothicNew: 'Zen Kaku Gothic New', sans-serif;
   --font-zenKakuGothicAntique: serif;
 
-  /* colors */
-  --color-ws-primary: #ffc34e;
-  --color-ws-secondary: #f7c67c;
+  /* Colors: JSとCSSの設定をマージしました */
+  --color-ws-primary: #ffc34e; /* CSS側の値を優先 */
+  --color-ws-secondary: #f7c67c; /* CSS側の値を優先 */
+  --color-ws-tertiary: #89cbca; /* JSから移植 */
   --color-ws-background: #ffffff;
+  --color-ws-white: #ffffff;
+  --color-ws-black: #333200; /* JSから移植 */
+  --color-ws-gray: #e1e6d8; /* JSから移植 */
+
+  /* Keyframes: JSから移植 */
+  @keyframes ticker {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
 }
 
+/* 4. 基本スタイルのリセットなど */
 @layer base {
+  /* 見出しのリセット */
   h1,
   h2,
   h3,
@@ -25,15 +64,15 @@
     font-size: unset;
     font-weight: unset;
   }
+
+  /* ダークモード/ライトモードのちらつき防止 */
+  html[data-theme='dark'],
+  html[data-theme='light'] {
+    opacity: initial;
+  }
 }
 
-
-
-html[data-theme='dark'],
-html[data-theme='light'] {
-  opacity: initial;
-}
-
+/* 5. ユーティリティクラスの追加 */
 .animate-infinite-scroll:hover {
   animation-play-state: paused;
 }

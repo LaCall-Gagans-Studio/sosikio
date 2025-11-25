@@ -16,11 +16,11 @@ export const dynamic = 'force-dynamic'
 
 // コンポーネントの引数から型アノテーションを完全に削除し、Next.jsの自動推論に任せる
 // ただし、params は構造分解して使用する
-export default async function Page({ params }: any) {
-  // `any` または型なしで推論を強制
-  // safety: paramsがPromiseである可能性を考慮して一旦anyにして、
-  // 内部ではslugが取れることを前提に構造分解
-  const slug = (params as { slug: string }).slug
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  // 修正点2: params を await してから slug を取り出す
+  const { slug } = await params
+
+  // const slug = (params as { slug: string }).slug  <-- これは古い書き方でエラーになります
 
   const [{ articles }, testimonials] = await Promise.all([
     fetchArticlesForClient(),
@@ -117,9 +117,8 @@ export default async function Page({ params }: any) {
 
         {/* 本文 */}
         <article className="rounded-2xl bg-slate-50/80 px-4 py-6 sm:px-6 sm:py-8 shadow-sm border border-slate-200/70">
-          <div className="prose prose-slate max-w-none prose-p:leading-relaxed prose-headings:scroll-mt-20">
-            {/* Lexical RichText をそのまま描画（コラム・VOICEともに Lexical JSON 想定） */}
-            <RichText data={article.content} />
+          <div className="prose prose-blue prose-img:rounded-xl prose-ul:list-disc max-w-none prose-p:leading-relaxed prose-headings:scroll-mt-20">
+            <RichText data={article.content} className="w-full" />
           </div>
         </article>
 
