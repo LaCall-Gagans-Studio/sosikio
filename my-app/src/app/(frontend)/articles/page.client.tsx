@@ -64,7 +64,7 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
     setSelected((prev) => (prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]))
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-ws-background via-slate-100 to-slate-400 ">
+    <main className="min-h-screen bg-gradient-to-b from-ws-background via-slate-100 to-slate-200 ">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 space-y-16">
         {/* ヘッダー */}
         <header className="space-y-2">
@@ -199,7 +199,7 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
                       'rounded-full px-3.5 py-1 text-xs sm:text-[13px] font-medium transition-colors border',
                       isActive
                         ? 'bg-cyan-500 text-slate-950 border-transparent shadow-sm shadow-cyan-500/50'
-                        : 'bg-slate-800/60 text-slate-200 border-slate-700 hover:bg-cyan-600 hover:text-white hover:border-cyan-500',
+                        : 'bg-slate-800 text-slate-200 border-slate-700 hover:bg-cyan-600 hover:text-white hover:border-cyan-500',
                     ].join(' ')}
                   >
                     #{t}
@@ -225,7 +225,7 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
               <li key={a.slug}>
                 <Link
                   href={`/articles/${a.slug}`}
-                  className="group block h-full rounded-2xl bg-gradient-to-br from-cyan-500/25 via-slate-900 to-slate-900 p-[1px] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_18px_60px_rgba(34,211,238,0.25)]"
+                  className="group block h-full rounded-2xl bg-gradient-to-br from-cyan-500/5 via-slate-400 to-slate-500  p-[1px] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_18px_60px_rgba(34,211,238,0.25)]"
                 >
                   <div className="flex h-full flex-col overflow-hidden rounded-[1rem] bg-slate-900/90 border border-slate-800/80">
                     {a.image && (

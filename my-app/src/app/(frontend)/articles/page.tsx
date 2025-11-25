@@ -1,6 +1,6 @@
 // app/(frontend)/articles/page.tsx
 import { Suspense } from 'react'
-import { ArticlesClient } from './client'
+import { ArticlesClient } from './page.client'
 import { fetchArticlesForClient, fetchTestimonialsForClient } from '@/lib/articles'
 
 export default async function ArticlesPage() {
