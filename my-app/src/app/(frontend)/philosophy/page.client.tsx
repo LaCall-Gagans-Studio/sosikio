@@ -1,8 +1,8 @@
-// src/app/(frontend)/philosophy/page.client.tsx
 'use client'
 
 import * as React from 'react'
 import Link from 'next/link'
+import { ArrowDown } from 'lucide-react'
 
 import { HeroSection } from './hero.p'
 import { PolicySection } from '@/app/(frontend)/philosophy/policy'
@@ -36,16 +36,21 @@ export default function PhilosophyPageClient({
   return (
     <main className="min-h-screen bg-white text-gray-900">
       <HeroSection keywords={keywords} />
+      <PageGuide />
       <PolicySection />
 
       {/* 2) リード */}
       {representative && (
         <section
-          className="bg-gray-50 text-center container mx-auto px-6 py-16 sm:py-10 mt-"
+          className="bg-gray-50 text-center container mx-auto px-6 py-16 sm:py-20 pt-10"
           id="leader"
         >
-          <h1 className="text-2xl sm:text-6xl font-bold">{vision?.tagline}</h1>
-          <p className="text-2xl sm:text-2xl mt-5 whitespace-pre-wrap">{vision?.lead}</p>
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight font-zenKakuGothicAntique">
+            {vision?.tagline}
+          </h1>
+          <p className="text-lg sm:text-xl md:text-2xl mt-8 whitespace-pre-wrap leading-relaxed font-medium text-gray-700">
+            {vision?.lead}
+          </p>
         </section>
       )}
 
@@ -116,6 +121,70 @@ export default function PhilosophyPageClient({
       {/* 5) 関連会社情報（北菱電興） */}
       {company && <RelatedAndOffices company={company} />}
     </main>
+  )
+}
+
+// --- コンポーネント: ページ内ガイド ---
+function PageGuide() {
+  const items = [
+    { label: 'Philosophy', href: '#policy-section', jp: '理念・想い' },
+    { label: 'Message', href: '#leader', jp: '代表挨拶' },
+    { label: 'Members', href: '#boonist', jp: 'スタッフ' },
+    { label: 'History', href: '#history', jp: '沿革' },
+    { label: 'Company', href: '#related-offices', jp: '会社情報' },
+  ]
+
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, href: string) => {
+    e.preventDefault()
+    const targetId = href.replace('#', '')
+    const elem = document.getElementById(targetId)
+    if (elem) {
+      const headerOffset = 80 // ヘッダーの高さ分オフセット（HeaderClientと同様）
+      const elementPosition = elem.getBoundingClientRect().top
+      const offsetPosition = elementPosition + window.scrollY - headerOffset
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      })
+    }
+  }
+
+  return (
+    <div className="relative bg-[#f1f1f1]">
+      <div className="container mx-auto px-6 py-8 border-b border-gray-300/50">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          {/* 左側: コンテンツ一覧 */}
+          <nav className="w-full md:w-auto">
+            <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-3 text-center md:text-left">
+              SOSIKI O シル
+            </p>
+            <ul className="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-3">
+              {items.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    href={item.href}
+                    onClick={(e) => handleScroll(e, item.href)}
+                    className="group flex items-center gap-2 text-base font-medium text-gray-600 hover:text-black transition-colors"
+                  >
+                    <span className="font-bold font-zenKakuGothicAntique">{item.label}</span>
+                    <span className="text-base text-gray-400 group-hover:text-gray-600">
+                      {item.jp}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* 右側: スクロール促進アニメーション */}
+          <div className="hidden md:flex items-center gap-2 text-gray-400 animate-bounce">
+            <span className="text-xs font-bold tracking-widest uppercase">Scroll</span>
+            <ArrowDown className="w-4 h-4" />
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 

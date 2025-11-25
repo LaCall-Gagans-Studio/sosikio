@@ -61,12 +61,12 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
           className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8"
         >
           <div className="flex flex-col justify-center items-center text-center">
-            <h1 className="font-zenKakuGothicAntique text-[clamp(2.25rem,6vw,4.5rem)]">
+            <h1 className="font-zenKakuGothicAntique whitespace-pre-wrap text-[clamp(2.25rem,6vw,4.5rem)]">
               {titleHighlight}
             </h1>
 
             <div className="flex flex-row items-center mt-4 sm:mt-6 gap-2 sm:gap-3">
-              <span className="text-xl lg:text-3xl font-zenKakuGothicAntique [writing-mode:vertical-rl]">
+              <span className="text-xl lg:text-3xl font-zenKakuGothicAntique md:[writing-mode:vertical-rl] ">
                 それが
               </span>
               {hero?.mainLogo && (
