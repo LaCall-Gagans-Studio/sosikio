@@ -143,7 +143,7 @@ export function FooterClient({ products }: Props) {
             <ul className="space-y-2 text-sm">
               <li>
                 <button
-                  onClick={() => handleClick('/privacy')}
+                  onClick={() => handleClick('https://www.hokuryodenko.co.jp/privacy/')}
                   className="hover:text-white transition"
                 >
                   プライバシーポリシー
@@ -151,7 +151,7 @@ export function FooterClient({ products }: Props) {
               </li>
               <li>
                 <button
-                  onClick={() => handleClick('/terms')}
+                  onClick={() => handleClick('/rule')}
                   className="hover:text-white transition"
                 >
                   利用規約

@@ -106,7 +106,7 @@ export function ContactForm() {
         <span>
           送信にあたり
           <a
-            href="/privacy"
+            href="https://www.hokuryodenko.co.jp/privacy/"
             className="underline underline-offset-2 hover:opacity-80"
             target="_blank"
             rel="noreferrer"

@@ -159,6 +159,10 @@ export interface Staff {
   name: string;
   role: string;
   bio?: string | null;
+  career?: string | null;
+  vision?: string | null;
+  hobbies?: string | null;
+  favoriteWords?: string | null;
   avatar: number | Media;
   links?:
     | {
@@ -167,6 +171,7 @@ export interface Staff {
         id?: string | null;
       }[]
     | null;
+  order?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -177,6 +182,7 @@ export interface Staff {
 export interface Timeline {
   id: number;
   year: string;
+  month?: string | null;
   title: string;
   detail?: string | null;
   order?: number | null;
@@ -461,6 +467,10 @@ export interface StaffSelect<T extends boolean = true> {
   name?: T;
   role?: T;
   bio?: T;
+  career?: T;
+  vision?: T;
+  hobbies?: T;
+  favoriteWords?: T;
   avatar?: T;
   links?:
     | T
@@ -469,6 +479,7 @@ export interface StaffSelect<T extends boolean = true> {
         href?: T;
         id?: T;
       };
+  order?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -478,6 +489,7 @@ export interface StaffSelect<T extends boolean = true> {
  */
 export interface TimelineSelect<T extends boolean = true> {
   year?: T;
+  month?: T;
   title?: T;
   detail?: T;
   order?: T;

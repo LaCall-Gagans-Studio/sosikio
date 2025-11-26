@@ -6,12 +6,17 @@ export type Staff = {
   name: string
   role: string
   bio?: string
+  career?: string
+  vision?: string
+  hobbies?: string
+  favoriteWords?: string
   avatar: string
   links?: { label: string; href: string }[]
 }
 
 export type TimelineItem = {
   year: string
+  month?: string
   title: string
   detail?: string
 }
@@ -54,6 +59,10 @@ export type StaffDoc = {
   name: string
   role: string
   bio?: string
+  career?: string
+  vision?: string
+  hobbies?: string
+  favoriteWords?: string
   avatar: string // resolved URL
   links?: { label: string; href: string }[]
 }
@@ -61,6 +70,7 @@ export type StaffDoc = {
 export type TimelineDoc = {
   id: string
   year: string
+  month?: string
   title: string
   detail?: string
   order?: number
@@ -129,7 +139,7 @@ export async function getVisionAndRep(): Promise<{
 }
 
 export async function getStaff(): Promise<StaffDoc[]> {
-  const r = await fetch(`${BASE}/api/staff?limit=100&depth=1&sort=name`, {
+  const r = await fetch(`${BASE}/api/staff?limit=100&depth=1&sort=order`, {
     next: { revalidate: 60 },
   })
   if (!r.ok) return []
@@ -139,6 +149,10 @@ export async function getStaff(): Promise<StaffDoc[]> {
     name: d.name,
     role: d.role,
     bio: d.bio,
+    career: d.career,
+    vision: d.vision,
+    hobbies: d.hobbies,
+    favoriteWords: d.favoriteWords,
     avatar: fileToUrl(d.avatar),
     links: (d.links ?? []).map((l: any) => ({ label: l.label, href: l.href })),
   }))
@@ -153,6 +167,7 @@ export async function getTimeline(): Promise<TimelineDoc[]> {
   return (json.docs ?? []).map((d: any) => ({
     id: d.id,
     year: d.year,
+    month: d.month,
     title: d.title,
     detail: d.detail,
     order: d.order,

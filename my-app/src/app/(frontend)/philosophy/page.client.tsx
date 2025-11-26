@@ -1,8 +1,9 @@
+// src/app/(frontend)/philosophy/page.client.tsx
 'use client'
 
 import * as React from 'react'
 import Link from 'next/link'
-import { ArrowDown } from 'lucide-react'
+import { ArrowDown, X } from 'lucide-react'
 
 import { HeroSection } from './hero.p'
 import { PolicySection } from '@/app/(frontend)/philosophy/policy'
@@ -33,6 +34,8 @@ export default function PhilosophyPageClient({
   company,
   keywords,
 }: PhilosophyPageClientProps) {
+  const [selectedStaff, setSelectedStaff] = React.useState<Staff | null>(null)
+
   return (
     <main className="min-h-screen bg-white text-gray-900">
       <HeroSection keywords={keywords} />
@@ -91,7 +94,7 @@ export default function PhilosophyPageClient({
 
             <div className="mt-8 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {staffs.map((s) => (
-                <StaffCard key={s.id} s={s} />
+                <StaffCard key={s.id} s={s} onClick={() => setSelectedStaff(s)} />
               ))}
             </div>
           </div>
@@ -105,12 +108,17 @@ export default function PhilosophyPageClient({
             <h2 className="text-2xl sm:text-3xl font-bold">沿革</h2>
             <ol className="mt-8 relative border-s-2 border-gray-200">
               {timeline.map((t, i) => (
-                <li key={i} className="mb-8 ms-6">
-                  <span className="absolute -start-3 flex h-6 w-6 items-center justify-center rounded-lg bg-black text-white text-xs">
+                <li key={i} className="mb-8 ms-6 relative">
+                  <span
+                    className={`absolute -left-9 flex top-1/2 -translate-y-1/2 h-6 w-auto min-w-6 px-1 items-center justify-center rounded-lg bg-black text-white text-xs whitespace-nowrap`}
+                  >
                     {t.year.slice(-2)}
+                    {t.month ? `-${t.month}` : ''}
                   </span>
-                  <h3 className="text-lg font-semibold">{t.title}</h3>
-                  {t.detail && <p className="mt-1 text-sm text-gray-600">{t.detail}</p>}
+                  <div className={`${t.month ? 'pl-5' : ''}`}>
+                    <h3 className="text-lg font-semibold">{t.title}</h3>
+                    {t.detail && <p className="mt-1 text-sm text-gray-600">{t.detail}</p>}
+                  </div>
                 </li>
               ))}
             </ol>
@@ -120,6 +128,9 @@ export default function PhilosophyPageClient({
 
       {/* 5) 関連会社情報（北菱電興） */}
       {company && <RelatedAndOffices company={company} />}
+
+      {/* Staff Modal */}
+      {selectedStaff && <StaffModal staff={selectedStaff} onClose={() => setSelectedStaff(null)} />}
     </main>
   )
 }
@@ -157,7 +168,7 @@ function PageGuide() {
           {/* 左側: コンテンツ一覧 */}
           <nav className="w-full md:w-auto">
             <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-3 text-center md:text-left">
-              SOSIKI O シル
+              SOSIKIO O シル
             </p>
             <ul className="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-3">
               {items.map((item) => (
@@ -188,9 +199,12 @@ function PageGuide() {
   )
 }
 
-function StaffCard({ s }: { s: Staff }) {
+function StaffCard({ s, onClick }: { s: Staff; onClick: () => void }) {
   return (
-    <div className="group rounded-lg border bg-white p-5 shadow-sm transition hover:shadow-lg">
+    <button
+      onClick={onClick}
+      className="group rounded-lg border bg-white p-5 shadow-sm transition hover:shadow-lg text-left w-full"
+    >
       <div className="relative aspect-square w-full overflow-hidden rounded-lg">
         <img
           src={s.avatar}
@@ -201,22 +215,127 @@ function StaffCard({ s }: { s: Staff }) {
       <div className="mt-4">
         <p className="text-base font-bold">{s.name}</p>
         <p className="text-sm text-gray-500">{s.role}</p>
-        {s.bio && <p className="mt-2 text-sm text-gray-700">{s.bio}</p>}
+        {s.bio && <p className="mt-2 text-sm text-gray-700 line-clamp-2">{s.bio}</p>}
         {s.links && s.links.length > 0 && (
-          <div className="mt-3 flex flex-wrap gap-2">
+          <div className="mt-3 flex flex-wrap gap-2" onClick={(e) => e.stopPropagation()}>
             {s.links.map((l, i) => (
               <Link
                 key={i}
                 href={l.href}
                 target="_blank"
                 rel="noreferrer"
-                className="text-xs font-semibold underline underline-offset-4"
+                className="text-xs font-semibold underline underline-offset-4 hover:text-blue-600"
               >
                 {l.label}
               </Link>
             ))}
           </div>
         )}
+      </div>
+    </button>
+  )
+}
+
+function StaffModal({ staff, onClose }: { staff: Staff; onClose: () => void }) {
+  // Prevent scrolling when modal is open
+  React.useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [])
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col md:flex-row">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 z-10 p-2 bg-white/80 rounded-full hover:bg-gray-100 transition"
+        >
+          <X className="w-6 h-6" />
+        </button>
+
+        {/* Left: Image & Basic Info */}
+        <div className="w-full md:w-2/5 bg-gray-50 p-8 flex flex-col items-center text-center overflow-y-auto">
+          <div className="w-48 h-48 rounded-full overflow-hidden shadow-md mb-6">
+            <img src={staff.avatar} alt={staff.name} className="w-full h-full object-cover" />
+          </div>
+          <h3 className="text-2xl font-bold mb-2">{staff.name}</h3>
+          <p className="text-gray-600 font-medium mb-6">{staff.role}</p>
+
+          {staff.links && staff.links.length > 0 && (
+            <div className="flex flex-wrap gap-3 justify-center">
+              {staff.links.map((l, i) => (
+                <Link
+                  key={i}
+                  href={l.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="px-4 py-2 bg-white border rounded-full text-sm font-semibold hover:bg-gray-100 transition"
+                >
+                  {l.label}
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Right: Details */}
+        <div className="w-full md:w-3/5 p-8 overflow-y-auto">
+          <div className="space-y-8">
+            {staff.bio && (
+              <section>
+                <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">
+                  自己紹介
+                </h4>
+                <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">{staff.bio}</p>
+              </section>
+            )}
+
+            {staff.career && (
+              <section>
+                <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">
+                  経歴
+                </h4>
+                <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">{staff.career}</p>
+              </section>
+            )}
+
+            {staff.vision && (
+              <section>
+                <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">
+                  ビジョン
+                </h4>
+                <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">{staff.vision}</p>
+              </section>
+            )}
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {staff.hobbies && (
+                <section>
+                  <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">
+                    趣味
+                  </h4>
+                  <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">
+                    {staff.hobbies}
+                  </p>
+                </section>
+              )}
+
+              {staff.favoriteWords && (
+                <section>
+                  <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">
+                    好きな言葉
+                  </h4>
+                  <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">
+                    {staff.favoriteWords}
+                  </p>
+                </section>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )
