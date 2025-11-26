@@ -248,7 +248,7 @@ function StaffModal({ staff, onClose }: { staff: Staff; onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col md:flex-row">
+      <div className="relative w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[80vh] flex flex-col md:flex-row">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 z-10 p-2 bg-white/80 rounded-full hover:bg-gray-100 transition"
@@ -257,12 +257,16 @@ function StaffModal({ staff, onClose }: { staff: Staff; onClose: () => void }) {
         </button>
 
         {/* Left: Image & Basic Info */}
-        <div className="w-full md:w-2/5 bg-gray-50 p-8 flex flex-col items-center text-center overflow-y-auto">
-          <div className="w-48 h-48 rounded-full overflow-hidden shadow-md mb-6">
-            <img src={staff.avatar} alt={staff.name} className="w-full h-full object-cover" />
+        <div className="w-full md:w-2/5 bg-gray-50 p-8 flex flex-col items-center text-center overflow-y-visible">
+          <div className="flex md:flex-col items-center">
+            <div className="h-24 w-24 md:w-48 md:h-48 rounded-full overflow-hidden shadow-md mb-6">
+              <img src={staff.avatar} alt={staff.name} className="w-full h-full object-cover" />
+            </div>
+            <div className="ml-4 md:ml-0">
+              <h3 className="text-2xl font-bold mb-2">{staff.name}</h3>
+              <p className="text-gray-600 font-medium mb-2 md:mb-6">{staff.role}</p>
+            </div>
           </div>
-          <h3 className="text-2xl font-bold mb-2">{staff.name}</h3>
-          <p className="text-gray-600 font-medium mb-6">{staff.role}</p>
 
           {staff.links && staff.links.length > 0 && (
             <div className="flex flex-wrap gap-3 justify-center">

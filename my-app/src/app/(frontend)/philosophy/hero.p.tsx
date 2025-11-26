@@ -529,7 +529,7 @@ export const HeroSection = ({ keywords }: HeroSectionProps) => {
   const containerStyle: React.CSSProperties = {
     position: 'relative',
     width: '100%',
-    height: 'calc(80vh)',
+    height: 'calc(85vh)',
     overflow: 'hidden',
     backgroundColor: '#f1f1f1',
     display: 'flex',
