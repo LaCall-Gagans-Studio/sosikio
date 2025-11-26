@@ -76,6 +76,7 @@ export function ContactForm() {
             className="mt-1 w-full rounded-md border px-3 py-2 outline-none focus:ring-2 focus:ring-black"
             placeholder="山田 太郎"
             required
+            disabled={done === 'ok'} // 送信後は入力不可にする（任意）
           />
         </label>
         <label className="block">
@@ -87,6 +88,7 @@ export function ContactForm() {
             className="mt-1 w-full rounded-md border px-3 py-2 outline-none focus:ring-2 focus:ring-black"
             placeholder="you@example.com"
             required
+            disabled={done === 'ok'}
           />
         </label>
       </div>
@@ -99,6 +101,7 @@ export function ContactForm() {
           onChange={onChange('company')}
           className="mt-1 w-full rounded-md border px-3 py-2 outline-none focus:ring-2 focus:ring-black"
           placeholder="株式会社○○"
+          disabled={done === 'ok'}
         />
       </label>
 
@@ -110,6 +113,7 @@ export function ContactForm() {
           className="mt-1 w-full rounded-md border px-3 py-2 min-h-[120px] outline-none focus:ring-2 focus:ring-black"
           placeholder="気になっている点や現状の課題などをご記入ください。"
           required
+          disabled={done === 'ok'}
         />
       </label>
 
@@ -120,6 +124,7 @@ export function ContactForm() {
           onChange={onChange('agree')}
           className="mt-1"
           required
+          disabled={done === 'ok'}
         />
         <span>
           送信にあたり
@@ -136,16 +141,34 @@ export function ContactForm() {
       </label>
 
       <div className="flex items-center gap-3">
-        <button
-          type="submit"
-          disabled={submitting}
-          className="inline-flex items-center justify-center rounded-md bg-black px-5 py-2.5 text-white font-semibold hover:bg-black/85 disabled:opacity-60"
-        >
-          {submitting ? '送信中…' : '送信する'}
-        </button>
-        {done === 'ok' && (
-          <p className="text-sm text-green-600">送信しました。ありがとうございます！</p>
+        {/* doneが 'ok' でない場合のみボタンを表示 */}
+        {done !== 'ok' && (
+          <button
+            type="submit"
+            disabled={submitting}
+            className="inline-flex items-center justify-center rounded-md bg-black px-5 py-2.5 text-white font-semibold hover:bg-black/85 disabled:opacity-60"
+          >
+            {submitting ? '送信中…' : '送信する'}
+          </button>
         )}
+
+        {done === 'ok' && (
+          <div className="mt-2 w-full p-4 bg-green-50 border border-green-200 rounded-md text-green-800 text-sm leading-relaxed">
+            <p className="font-bold mb-2">お問い合わせありがとうございます。</p>
+            <p>
+              送信が完了しました。
+              <br />
+              内容を確認のうえ、担当者より4〜5営業日以内にご連絡させていただきます。
+              <br />
+              今しばらくお待ちいただけますようお願い申し上げます。
+            </p>
+            {/* 再読み込みの案内を追加 */}
+            <p className="mt-4 pt-4 border-t border-green-200 text-xs text-green-700">
+              ※もう一度送信されたい場合はページを再読み込みしてください。
+            </p>
+          </div>
+        )}
+
         {done === 'ng' && <p className="text-sm text-red-600">未入力の必須項目があります。</p>}
       </div>
     </form>

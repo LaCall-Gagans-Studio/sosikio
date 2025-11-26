@@ -12,15 +12,15 @@ export const metadata: Metadata = {
     template: '%s | SOSIKIO',
   },
   description:
-    'SOSIKIOは、組織開発・人材育成の専門家チームです。データと対話で、組織の課題を解決します。',
+    '「組織の課題は、なんとなく分かっている。でも、どこから手をつければ…」SOSIKIOは、そんな漠然とした不安を「確信」に変えるプラットフォームです。',
   openGraph: {
     type: 'website',
     locale: 'ja_JP',
-    url: 'https://sosikio.com',
+    url: 'https://sosikio.jp',
     siteName: 'SOSIKIO',
     title: 'SOSIKIO - 組織を率いる人を、1人にさせない。',
     description:
-      'SOSIKIOは、組織開発・人材育成の専門家チームです。データと対話で、組織の課題を解決します。',
+      '「組織の課題は、なんとなく分かっている。でも、どこから手をつければ…」SOSIKIOは、そんな漠然とした不安を「確信」に変えるプラットフォームです。',
     images: [
       {
         url: '/og-image.png', // TODO: Add actual OG image
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'SOSIKIO - 組織を率いる人を、1人にさせない。',
     description:
-      'SOSIKIOは、組織開発・人材育成の専門家チームです。データと対話で、組織の課題を解決します。',
+      '「組織の課題は、なんとなく分かっている。でも、どこから手をつければ…」SOSIKIOは、そんな漠然とした不安を「確信」に変えるプラットフォームです。',
     // site: '@sosikio', // If there is a Twitter account
     // creator: '@sosikio',
   },

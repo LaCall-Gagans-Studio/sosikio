@@ -1,4 +1,3 @@
-// src/components/Forms/TrialForm.tsx
 'use client'
 
 import React from 'react'
@@ -63,10 +62,32 @@ export function TrialForm({ products }: Props) {
     }
 
     setSubmitting(true)
-    // ★ここで実バックエンドにPOSTする（fetch など）に差し替え
-    await new Promise((r) => setTimeout(r, 900))
-    setSubmitting(false)
-    setDone('ok')
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'trial',
+          ...state,
+        }),
+      })
+
+      if (res.ok) {
+        setDone('ok')
+        // 送信完了時はフォームの内容を保持したまま完了状態にする
+      } else {
+        setDone('ng')
+        console.error('送信エラー')
+      }
+    } catch (err) {
+      console.error(err)
+      setDone('ng')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -81,6 +102,7 @@ export function TrialForm({ products }: Props) {
             className="mt-1 w-full rounded-md border px-3 py-2 outline-none focus:ring-2 focus:ring-black"
             placeholder="株式会社○○"
             required
+            disabled={done === 'ok'}
           />
         </label>
         <label className="block">
@@ -92,6 +114,7 @@ export function TrialForm({ products }: Props) {
             className="mt-1 w-full rounded-md border px-3 py-2 outline-none focus:ring-2 focus:ring-black"
             placeholder="山田 太郎"
             required
+            disabled={done === 'ok'}
           />
         </label>
       </div>
@@ -106,6 +129,7 @@ export function TrialForm({ products }: Props) {
             className="mt-1 w-full rounded-md border px-3 py-2 outline-none focus:ring-2 focus:ring-black"
             placeholder="you@example.com"
             required
+            disabled={done === 'ok'}
           />
         </label>
         <label className="block">
@@ -116,6 +140,7 @@ export function TrialForm({ products }: Props) {
             onChange={onText('phone')}
             className="mt-1 w-full rounded-md border px-3 py-2 outline-none focus:ring-2 focus:ring-black"
             placeholder="03-1234-5678"
+            disabled={done === 'ok'}
           />
         </label>
       </div>
@@ -125,7 +150,12 @@ export function TrialForm({ products }: Props) {
         <div className="mt-1 grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm">
           {products.map((p) => (
             <label key={p.id} className="inline-flex items-center gap-2">
-              <input type="checkbox" checked={!!state.products[p.id]} onChange={onCheck(p.id)} />
+              <input
+                type="checkbox"
+                checked={!!state.products[p.id]}
+                onChange={onCheck(p.id)}
+                disabled={done === 'ok'}
+              />
               <span className="font-semibold">{p.id}</span>
             </label>
           ))}
@@ -139,6 +169,7 @@ export function TrialForm({ products }: Props) {
             value={state.size}
             onChange={onText('size')}
             className="mt-1 w-full rounded-md border px-3 py-2 outline-none focus:ring-2 focus:ring-black bg-white"
+            disabled={done === 'ok'}
           >
             <option value="1-10">1–10名</option>
             <option value="11-50">11–50名</option>
@@ -153,6 +184,7 @@ export function TrialForm({ products }: Props) {
             value={state.preferred}
             onChange={onText('preferred')}
             className="mt-1 w-full rounded-md border px-3 py-2 outline-none focus:ring-2 focus:ring-black"
+            disabled={done === 'ok'}
           />
         </label>
       </div>
@@ -164,20 +196,37 @@ export function TrialForm({ products }: Props) {
           onChange={onText('note')}
           className="mt-1 w-full rounded-md border px-3 py-2 min-h-[100px] outline-none focus:ring-2 focus:ring-black"
           placeholder="現状の課題やご希望など"
+          disabled={done === 'ok'}
         />
       </label>
 
       <div className="flex items-center gap-3">
-        <button
-          type="submit"
-          disabled={submitting}
-          className="inline-flex items-center justify-center rounded-md bg-black px-5 py-2.5 text-white font-semibold hover:bg-black/85 disabled:opacity-60"
-        >
-          {submitting ? '送信中…' : '資料請求を申し込む'}
-        </button>
-        {done === 'ok' && (
-          <p className="text-sm text-green-600">送信しました。折り返しご連絡します！</p>
+        {done !== 'ok' && (
+          <button
+            type="submit"
+            disabled={submitting}
+            className="inline-flex items-center justify-center rounded-md bg-black px-5 py-2.5 text-white font-semibold hover:bg-black/85 disabled:opacity-60"
+          >
+            {submitting ? '送信中…' : '資料請求を申し込む'}
+          </button>
         )}
+
+        {done === 'ok' && (
+          <div className="mt-2 w-full p-4 bg-green-50 border border-green-200 rounded-md text-green-800 text-sm leading-relaxed">
+            <p className="font-bold mb-2">お問い合わせありがとうございます。</p>
+            <p>
+              送信が完了しました。
+              <br />
+              内容を確認のうえ、担当者より4〜5営業日以内にご連絡させていただきます。
+              <br />
+              今しばらくお待ちいただけますようお願い申し上げます。
+            </p>
+            <p className="mt-4 pt-4 border-t border-green-200 text-xs text-green-700">
+              ※もう一度送信されたい場合はページを再読み込みしてください。
+            </p>
+          </div>
+        )}
+
         {done === 'ng' && (
           <p className="text-sm text-red-600">必須項目とサービス選択を確認してください。</p>
         )}

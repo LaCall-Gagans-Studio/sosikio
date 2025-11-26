@@ -72,7 +72,7 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
               {hero?.mainLogo && (
                 <img
                   src={getMediaUrl(hero.mainLogo as CmsMedia)}
-                  className="h-16 sm:h-24 md:h-28 lg:h-32 sm:ml-3"
+                  className="h-16 sm:h-24 md:h-28 lg:h-32 xl:h-44 sm:ml-3"
                   alt="SOSIKIO"
                 />
               )}
