@@ -249,7 +249,18 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
               whileTap={{ scale: 0.97 }}
               className="mt-6 sm:mt-8 px-7 sm:px-9 md:px-10 py-3.5 mx-auto sm:py-4 bg-white flex items-center text-gray-900 font-bold rounded-lg text-sm sm:text-lg shadow-lg flex-nowrap"
             >
-              <span className={`font-bold`} style={{ color: product.mainColor ?? undefined }}>
+              <span
+                className={`font-bold`}
+                style={{ color: product.mainColor ?? undefined }}
+                onClick={(e) => {
+                  const el = document.getElementById('trial')
+                  if (el) {
+                    e.preventDefault()
+                    const y = el.getBoundingClientRect().top + window.scrollY - 100
+                    window.scrollTo({ top: y, behavior: 'smooth' })
+                  }
+                }}
+              >
                 {cta.buttonText}
               </span>
               <ArrowRight className="inline-block ml-2" />
