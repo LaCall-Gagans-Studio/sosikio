@@ -32,18 +32,36 @@ export function ContactForm() {
     e.preventDefault()
     setDone(null)
 
-    // 簡易バリデーション
     if (!state.name || !state.email || !state.message || !state.agree) {
       setDone('ng')
       return
     }
 
     setSubmitting(true)
-    // ★ここで実バックエンドにPOSTする（fetch など）
-    await new Promise((r) => setTimeout(r, 800))
-    setSubmitting(false)
-    setDone('ok')
-    setState({ name: '', email: '', company: '', message: '', agree: false })
+
+    try {
+      // ★ ここでAPIルート (/api/contact) にデータを送信します
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(state),
+      })
+
+      if (res.ok) {
+        setDone('ok')
+        setState({ name: '', email: '', company: '', message: '', agree: false })
+      } else {
+        setDone('ng')
+        console.error('送信エラー')
+      }
+    } catch (err) {
+      console.error(err)
+      setDone('ng')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (

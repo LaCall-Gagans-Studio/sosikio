@@ -305,6 +305,8 @@ export interface Article {
   id: number;
   title: string;
   slug: string;
+  isTopDisplay?: boolean | null;
+  category: 'column' | 'exhibition' | 'product_info';
   date: string;
   image?: (number | null) | Media;
   tags?:
@@ -589,6 +591,8 @@ export interface TestimonialsSelect<T extends boolean = true> {
 export interface ArticlesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
+  isTopDisplay?: T;
+  category?: T;
   date?: T;
   image?: T;
   tags?:

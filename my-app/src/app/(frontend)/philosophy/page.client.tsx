@@ -140,7 +140,7 @@ function PageGuide() {
   const items = [
     { label: 'Philosophy', href: '#policy-section', jp: '理念・想い' },
     { label: 'Message', href: '#leader', jp: '代表挨拶' },
-    { label: 'Members', href: '#boonist', jp: 'スタッフ' },
+    { label: 'Boonist', href: '#boonist', jp: 'スタッフ' },
     { label: 'History', href: '#history', jp: '沿革' },
     { label: 'Company', href: '#related-offices', jp: '会社情報' },
   ]

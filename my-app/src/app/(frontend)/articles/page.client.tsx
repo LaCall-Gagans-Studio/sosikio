@@ -156,9 +156,9 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
               <h2 className="text-2xl sm:text-3xl font-semibold flex items-center gap-3">
-                <span>コラム</span>
+                <span>SOSIKIO O モットシル</span>
                 <span className="text-xs font-medium uppercase tracking-[0.18em] bg-black text-white p-1 ">
-                  COLUMNS
+                  Dive into the SOSIKIO!
                 </span>
               </h2>
               <p className="mt-1 text-sm text-slate-600 max-w-xl">
@@ -225,7 +225,11 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
               <li key={a.slug}>
                 <Link
                   href={`/articles/${a.slug}`}
-                  className="group block h-full rounded-2xl bg-gradient-to-br from-cyan-500/5 via-slate-400 to-slate-500  p-[1px] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_18px_60px_rgba(34,211,238,0.25)]"
+                  className={`group block h-full rounded-2xl p-[1px] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_18px_60px_rgba(34,211,238,0.25)] ${
+                    a.category !== 'column'
+                      ? 'bg-gradient-to-br from-red-400 via-orange-400 to-red-500 shadow-md'
+                      : 'bg-gradient-to-br from-cyan-500/5 via-slate-400 to-slate-500'
+                  }`}
                 >
                   <div className="flex h-full flex-col overflow-hidden rounded-[1rem] bg-slate-900/90 border border-slate-800/80">
                     {a.image && (
@@ -237,15 +241,32 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
                           className="w-full h-full object-cover transition duration-500 group-hover:scale-105 group-hover:opacity-90"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/0 to-transparent" />
+                        {a.category !== 'column' && (
+                          <div className="absolute top-2 right-2  text-white bg-red-500 text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
+                            PICKUP
+                          </div>
+                        )}
                       </div>
                     )}
 
                     <div className="flex flex-1 flex-col p-5">
                       <div className="flex items-center justify-between gap-2 mb-3">
-                        <span className="inline-flex items-center rounded-full bg-cyan-500/90 px-3 py-1 text-[11px] font-semibold tracking-wide text-slate-950">
-                          コラム
+                        <span
+                          className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold tracking-wide shadow-sm ${
+                            a.category === 'column'
+                              ? 'bg-cyan-500/90 text-slate-950'
+                              : 'bg-red-500/90 text-white'
+                          }`}
+                        >
+                          {a.category === 'exhibition'
+                            ? '展示会'
+                            : a.category === 'product_info'
+                              ? '製品情報'
+                              : 'コラム'}
                         </span>
-                        <span className="text-[11px] font-mono text-slate-400">{a.date}</span>
+                        <span className="text-[11px] font-mono text-slate-400">
+                          {formatIsoDateToJa(a.date)}
+                        </span>
                       </div>
 
                       <h3 className="text-base sm:text-lg font-semibold leading-snug text-slate-50 line-clamp-2">

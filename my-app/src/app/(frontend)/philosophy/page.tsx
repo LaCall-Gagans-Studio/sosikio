@@ -4,6 +4,13 @@ import { getVisionAndRep, getStaff, getTimeline, getRelatedCompany } from '@/lib
 import PhilosophyPageClient from './page.client'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Philosophy',
+  description:
+    'SOSIKIOの理念・ビジョンについて。私たちは、組織を率いる人を、1人にさせないために存在します。',
+}
 
 export default async function PhilosophyPage() {
   // ① getPayloadの初期化を Promise として定義し、他のデータ取得と同時に開始

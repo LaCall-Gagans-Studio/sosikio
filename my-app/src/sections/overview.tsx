@@ -299,7 +299,7 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
                           </span>
                           <h3 className="text-lg sm:text-lg lg:text-xl font-semibold text-slate-900 leading-snug">
                             {/* タイトル強調: 反転して黒背景に白文字 */}
-                            <span className="text-white bg-slate-900 px-1 py-1 text-nowrap md:text-wrap whitespace-pre-wrap">
+                            <span className="text-white bg-slate-900 px-1 py-1 text-nowrap md:text-wrap xl:text-nowrap whitespace-pre-wrap">
                               {s.title}
                             </span>
                           </h3>

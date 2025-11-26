@@ -2,6 +2,13 @@
 import { Suspense } from 'react'
 import { ArticlesClient } from './page.client'
 import { fetchArticlesForClient, fetchTestimonialsForClient } from '@/lib/articles'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Library',
+  description:
+    'SOSIKIO Libraryでは、組織開発に関するコラムや、実際にSOSIKIOを活用している企業様の声をお届けします。',
+}
 
 export default async function ArticlesPage() {
   const [{ articles, tags }, testimonials] = await Promise.all([

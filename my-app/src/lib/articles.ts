@@ -19,6 +19,8 @@ interface BaseContent {
 
 export interface ArticleForClient extends BaseContent {
   type: 'column'
+  isTopDisplay?: boolean
+  category?: 'column' | 'exhibition' | 'product_info'
 }
 
 export interface TestimonialForClient extends BaseContent {
@@ -62,6 +64,8 @@ export async function fetchArticlesForClient() {
       slug: doc.slug,
       title: doc.title,
       type: 'column',
+      isTopDisplay: doc.isTopDisplay ?? false,
+      category: (doc.category as 'column' | 'exhibition' | 'product_info') ?? 'column',
       date: doc.date || '',
       image: imageUrl,
       tags,

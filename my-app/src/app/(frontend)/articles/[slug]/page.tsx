@@ -12,6 +12,54 @@ import { formatIsoDateToJa } from '@/lib/formatDate'
 
 export const dynamic = 'force-dynamic'
 
+import type { Metadata } from 'next'
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const [{ articles }, testimonials] = await Promise.all([
+    fetchArticlesForClient(),
+    fetchTestimonialsForClient(),
+  ])
+
+  const articleFromColumns = articles.find((a) => a.slug === slug)
+  const articleFromVoices = testimonials.find((t) => t.slug === slug)
+
+  const article = (articleFromColumns ?? articleFromVoices) as
+    | ArticleForClient
+    | TestimonialForClient
+    | undefined
+
+  if (!article) {
+    return {
+      title: 'Article Not Found',
+    }
+  }
+
+  return {
+    title: article.title,
+    description: article.excerpt,
+    openGraph: {
+      title: article.title,
+      description: article.excerpt,
+      type: 'article',
+      images: article.image
+        ? [
+            {
+              url: article.image,
+              width: 1200,
+              height: 630,
+              alt: article.title,
+            },
+          ]
+        : undefined,
+    },
+  }
+}
+
 // 以前の PageProps/ArticlePageProps の定義を削除
 
 // コンポーネントの引数から型アノテーションを完全に削除し、Next.jsの自動推論に任せる
@@ -49,7 +97,15 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
               SOSIKIO Library
             </Link>
             <span className="mx-1.5">/</span>
-            <span className="text-slate-700">{isVoice ? 'お客様の声' : 'コラム'}</span>
+            <span className="text-slate-700">
+              {isVoice
+                ? 'お客様の声'
+                : article.category === 'exhibition'
+                  ? '展示会'
+                  : article.category === 'product_info'
+                    ? '製品情報'
+                    : 'コラム'}
+            </span>
           </nav>
 
           <div className="flex flex-wrap items-center gap-3">
@@ -58,10 +114,18 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                 'inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold tracking-wide',
                 isVoice
                   ? 'bg-rose-500/90 text-white shadow-sm shadow-rose-500/40'
-                  : 'bg-cyan-500/90 text-slate-950 shadow-sm shadow-cyan-500/40',
+                  : article.category === 'column'
+                    ? 'bg-cyan-500/90 text-slate-950 shadow-sm shadow-cyan-500/40'
+                    : 'bg-red-500/90 text-white shadow-sm shadow-red-500/40',
               ].join(' ')}
             >
-              {isVoice ? 'お客様の声' : 'コラム'}
+              {isVoice
+                ? 'お客様の声'
+                : article.category === 'exhibition'
+                  ? '展示会'
+                  : article.category === 'product_info'
+                    ? '製品情報'
+                    : 'コラム'}
             </span>
             <span className="text-[11px] font-mono text-slate-500">
               {formatIsoDateToJa(article.date)}

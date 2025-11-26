@@ -7,6 +7,7 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
@@ -74,4 +75,17 @@ export default buildConfig({
       },
     }),
   ],
+  email: nodemailerAdapter({
+    defaultFromAddress: process.env.MAIL_FROM || 'info@example.com',
+    defaultFromName: 'SOSIKIO Admin',
+    transportOptions: {
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT),
+      secure: true,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    },
+  }),
 })

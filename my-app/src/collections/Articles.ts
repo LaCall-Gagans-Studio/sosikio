@@ -27,6 +27,24 @@ export const Articles: CollectionConfig = {
       unique: true,
     },
     {
+      name: 'isTopDisplay',
+      label: 'トップに表示',
+      type: 'checkbox',
+      defaultValue: false,
+    },
+    {
+      name: 'category',
+      label: 'カテゴリ',
+      type: 'select',
+      options: [
+        { label: 'コラム', value: 'column' },
+        { label: '展示会', value: 'exhibition' },
+        { label: '製品情報', value: 'product_info' },
+      ],
+      defaultValue: 'column',
+      required: true,
+    },
+    {
       name: 'date',
       label: '公開日',
       type: 'date',
@@ -67,12 +85,5 @@ export const Articles: CollectionConfig = {
       type: 'richText',
       required: true,
     },
-    // もし「トップ表示用おすすめ」フラグ欲しければ
-    // {
-    //   name: 'featured',
-    //   label: 'トップに表示',
-    //   type: 'checkbox',
-    //   defaultValue: false,
-    // },
   ],
 }
