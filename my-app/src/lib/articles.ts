@@ -14,7 +14,9 @@ interface BaseContent {
   image: string
   tags: string[]
   excerpt: string
-  content: SerializedEditorState
+  content?: SerializedEditorState
+  linkType?: 'internal' | 'external'
+  externalLink?: string
 }
 
 export interface ArticleForClient extends BaseContent {
@@ -72,6 +74,8 @@ export async function fetchArticlesForClient() {
       excerpt: doc.excerpt || '',
       // Articles コレクションの content は richText（Lexical）想定
       content: doc.content as SerializedEditorState,
+      linkType: (doc as any).linkType ?? 'internal',
+      externalLink: (doc as any).externalLink ?? '',
     }
   })
 
@@ -108,6 +112,8 @@ export async function fetchTestimonialsForClient() {
       excerpt: t.quote,
       // Testimonials に追加した richText の content フィールドを使用
       content: (t as any).content as SerializedEditorState,
+      linkType: (t as any).linkType ?? 'internal',
+      externalLink: (t as any).externalLink ?? '',
       voice: {
         name: t.name,
         title: t.title,

@@ -279,7 +279,9 @@ export interface Testimonial {
   logo?: (number | null) | Media;
   avatar?: (number | null) | Media;
   products: ('LOOK' | 'PROBE' | 'BOON')[];
-  content: {
+  linkType?: ('internal' | 'external') | null;
+  externalLink?: string | null;
+  content?: {
     root: {
       type: string;
       children: {
@@ -293,7 +295,7 @@ export interface Testimonial {
       version: number;
     };
     [k: string]: unknown;
-  };
+  } | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -316,7 +318,9 @@ export interface Article {
       }[]
     | null;
   excerpt: string;
-  content: {
+  linkType?: ('internal' | 'external') | null;
+  externalLink?: string | null;
+  content?: {
     root: {
       type: string;
       children: {
@@ -330,7 +334,7 @@ export interface Article {
       version: number;
     };
     [k: string]: unknown;
-  };
+  } | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -580,6 +584,8 @@ export interface TestimonialsSelect<T extends boolean = true> {
   logo?: T;
   avatar?: T;
   products?: T;
+  linkType?: T;
+  externalLink?: T;
   content?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -602,6 +608,8 @@ export interface ArticlesSelect<T extends boolean = true> {
         id?: T;
       };
   excerpt?: T;
+  linkType?: T;
+  externalLink?: T;
   content?: T;
   updatedAt?: T;
   createdAt?: T;

@@ -37,7 +37,7 @@ export default function PhilosophyPageClient({
   const [selectedStaff, setSelectedStaff] = React.useState<Staff | null>(null)
 
   return (
-    <main className="min-h-screen bg-white text-gray-900">
+    <main className="min-h-screen bg-gray-50 text-gray-900">
       <HeroSection keywords={keywords} />
       <PageGuide />
       <PolicySection />
@@ -88,8 +88,8 @@ export default function PhilosophyPageClient({
         <section id="boonist">
           <div className="container mx-auto px-6 py-16 sm:py-24">
             <div className="gap-4">
-              <h2 className="text-2xl sm:text-3xl lg:text-7xl font-bold">Member</h2>
-              <p>（スタッフ）</p>
+              <h2 className="text-2xl sm:text-3xl lg:text-7xl font-bold mb-3">Member</h2>
+              <p>メンバー</p>
             </div>
 
             <div className="mt-8 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -106,22 +106,29 @@ export default function PhilosophyPageClient({
         <section className="bg-gray-50" id="history">
           <div className="container mx-auto px-6 py-16 sm:py-24">
             <h2 className="text-2xl sm:text-3xl font-bold">沿革</h2>
-            <ol className="mt-8 relative border-s-2 border-gray-200">
-              {timeline.map((t, i) => (
-                <li key={i} className="mb-8 ms-6 relative">
-                  <span
-                    className={`absolute -left-9 flex top-1/2 -translate-y-1/2 h-6 w-auto min-w-6 px-1 items-center justify-center rounded-lg bg-black text-white text-xs whitespace-nowrap`}
-                  >
-                    {t.year.slice(-2)}
-                    {t.month ? `-${t.month}` : ''}
-                  </span>
-                  <div className={`${t.month ? 'pl-5' : ''}`}>
-                    <h3 className="text-lg font-semibold">{t.title}</h3>
-                    {t.detail && <p className="mt-1 text-sm text-gray-600">{t.detail}</p>}
-                  </div>
-                </li>
-              ))}
-            </ol>
+            <div className="mt-12 max-w-3xl mx-auto md:mx-0">
+              <ol className="relative border-l border-gray-300 space-y-10">
+                {timeline.map((t, i) => (
+                  <li key={i} className="ml-6 sm:ml-10">
+                    <div className="absolute -left-1.5 mt-1.5 h-3 w-3 rounded-full border border-white bg-gray-400" />
+                    <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-6">
+                      <span className="text-lg font-bold text-gray-500 font-zenKakuGothicAntique min-w-20">
+                        {t.year}
+                        {t.month ? `.${t.month}` : ''}
+                      </span>
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-900">{t.title}</h3>
+                        {t.detail && (
+                          <p className="mt-2 text-base text-gray-600 leading-relaxed whitespace-pre-wrap">
+                            {t.detail}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
           </div>
         </section>
       )}

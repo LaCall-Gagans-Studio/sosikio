@@ -99,7 +99,13 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
                 <li key={t.slug}>
                   {/* 外側のグラデ枠 */}
                   <Link
-                    href={`/articles/${t.slug}`}
+                    href={
+                      t.linkType === 'external' && t.externalLink
+                        ? t.externalLink
+                        : `/articles/${t.slug}`
+                    }
+                    target={t.linkType === 'external' ? '_blank' : undefined}
+                    rel={t.linkType === 'external' ? 'noopener noreferrer' : undefined}
                     className="group block h-full rounded-2xl border p-[1px] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_18px_60px_rgba(244,114,182,0.25)]"
                   >
                     <div className="flex h-full flex-col overflow-hidden rounded-[1rem] ">
@@ -224,9 +230,15 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
             {filteredArticles.map((a) => (
               <li key={a.slug}>
                 <Link
-                  href={`/articles/${a.slug}`}
+                  href={
+                    a.linkType === 'external' && a.externalLink
+                      ? a.externalLink
+                      : `/articles/${a.slug}`
+                  }
+                  target={a.linkType === 'external' ? '_blank' : undefined}
+                  rel={a.linkType === 'external' ? 'noopener noreferrer' : undefined}
                   className={`group block h-full rounded-2xl p-[1px] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_18px_60px_rgba(34,211,238,0.25)] ${
-                    a.category !== 'column'
+                    a.isTopDisplay!
                       ? 'bg-gradient-to-br from-red-400 via-orange-400 to-red-500 shadow-md'
                       : 'bg-gradient-to-br from-cyan-500/5 via-slate-400 to-slate-500'
                   }`}
@@ -241,7 +253,7 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
                           className="w-full h-full object-cover transition duration-500 group-hover:scale-105 group-hover:opacity-90"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/0 to-transparent" />
-                        {a.category !== 'column' && (
+                        {a.isTopDisplay && (
                           <div className="absolute top-2 right-2  text-white bg-red-500 text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
                             PICKUP
                           </div>

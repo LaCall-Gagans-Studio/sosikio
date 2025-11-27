@@ -61,10 +61,33 @@ export const Testimonials: CollectionConfig = {
       ],
     },
     {
+      name: 'linkType',
+      label: 'リンクタイプ',
+      type: 'radio',
+      options: [
+        { label: '内部コンテンツ', value: 'internal' },
+        { label: '外部リンク', value: 'external' },
+      ],
+      defaultValue: 'internal',
+      admin: {
+        layout: 'horizontal',
+      },
+    },
+    {
+      name: 'externalLink',
+      label: '外部リンクURL',
+      type: 'text',
+      admin: {
+        condition: (_, siblingData) => siblingData?.linkType === 'external',
+      },
+    },
+    {
       name: 'content',
       label: '本文（リッチテキスト）',
       type: 'richText',
-      required: true,
+      admin: {
+        condition: (_, siblingData) => siblingData?.linkType === 'internal',
+      },
     },
   ],
 }

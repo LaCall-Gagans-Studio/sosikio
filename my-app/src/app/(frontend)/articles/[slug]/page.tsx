@@ -182,7 +182,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         {/* 本文 */}
         <article className="rounded-2xl bg-slate-50/80 px-4 py-6 sm:px-6 sm:py-8 shadow-sm border border-slate-200/70">
           <div className="prose prose-blue prose-img:rounded-xl prose-ul:list-disc max-w-none prose-p:leading-relaxed prose-headings:scroll-mt-20">
-            <RichText data={article.content} className="w-full" />
+            {article.content && <RichText data={article.content} className="w-full" />}
           </div>
         </article>
 

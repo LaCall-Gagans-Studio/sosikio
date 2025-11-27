@@ -6,7 +6,7 @@ export const Timeline: CollectionConfig = {
   labels: { singular: '沿革項目', plural: '沿革' },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['year', 'title', 'order', 'updatedAt'],
+    defaultColumns: ['year', 'month', 'title', 'order', 'updatedAt'],
     group: '静的コンテンツ',
   },
   access: { read: () => true },

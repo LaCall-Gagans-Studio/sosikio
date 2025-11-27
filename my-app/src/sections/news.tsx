@@ -46,7 +46,13 @@ export function NewsSection({ articles, testimonials }: Props) {
             return (
               <li key={item.slug} className="border-b border-gray-300/60">
                 <Link
-                  href={`/articles/${item.slug}`}
+                  href={
+                    item.linkType === 'external' && item.externalLink
+                      ? item.externalLink
+                      : `/articles/${item.slug}`
+                  }
+                  target={item.linkType === 'external' ? '_blank' : undefined}
+                  rel={item.linkType === 'external' ? 'noopener noreferrer' : undefined}
                   className="group flex flex-col sm:flex-row sm:items-center py-5 px-2 hover:bg-white transition-colors duration-200"
                 >
                   {/* 日付とタグ */}
