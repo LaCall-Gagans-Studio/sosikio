@@ -117,7 +117,7 @@ export default function PhilosophyPageClient({
                         {t.month ? `.${t.month}` : ''}
                       </span>
                       <div>
-                        <h3 className="text-xl font-bold text-gray-900">{t.title}</h3>
+                        <h3 className="text-xl font-base md:font-bold text-gray-900">{t.title}</h3>
                         {t.detail && (
                           <p className="mt-2 text-base text-gray-600 leading-relaxed whitespace-pre-wrap">
                             {t.detail}
