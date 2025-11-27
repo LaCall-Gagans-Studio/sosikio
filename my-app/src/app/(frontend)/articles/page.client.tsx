@@ -5,7 +5,7 @@ import * as React from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import type { ArticleForClient, TestimonialForClient } from '@/lib/articles'
-import { Search, Tag, XCircle } from 'lucide-react'
+import { Search, Tag, XCircle, ChevronLeft, ChevronRight } from 'lucide-react'
 import { formatIsoDateToJa } from '@/lib/formatDate'
 
 type Props = {
@@ -21,6 +21,44 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
   // フィルタ（コラムだけ対象）
   const [keyword, setKeyword] = React.useState('')
   const [selected, setSelected] = React.useState<string[]>([])
+
+  // --- お客様の声 ページネーション ---
+  const [testimonialPage, setTestimonialPage] = React.useState(1)
+  const [itemsPerPage, setItemsPerPage] = React.useState(6)
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth
+      if (width < 560) {
+        setItemsPerPage(2)
+      } else if (width < 1024) {
+        setItemsPerPage(4)
+      } else {
+        setItemsPerPage(6)
+      }
+    }
+
+    // Initial check
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const totalTestimonialPages = Math.ceil(initialTestimonials.length / itemsPerPage)
+
+  const currentTestimonials = React.useMemo(() => {
+    const start = (testimonialPage - 1) * itemsPerPage
+    return initialTestimonials.slice(start, start + itemsPerPage)
+  }, [testimonialPage, initialTestimonials, itemsPerPage])
+
+  const handlePrevTestimonial = () => {
+    setTestimonialPage((p) => Math.max(1, p - 1))
+  }
+
+  const handleNextTestimonial = () => {
+    setTestimonialPage((p) => Math.min(totalTestimonialPages, p + 1))
+  }
 
   // --- 初期化 ---
   const didInitRef = React.useRef(false)
@@ -92,10 +130,32 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
                   SOSIKIO を活用している企業の生のインサイトをピックアップしています。
                 </p>
               </div>
+
+              {/* ページネーションボタン（右上） */}
+              {totalTestimonialPages > 1 && (
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={handlePrevTestimonial}
+                    disabled={testimonialPage === 1}
+                    className="p-2 rounded-full border border-slate-900 bg-slate-900 text-white hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition"
+                    aria-label="前のページ"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={handleNextTestimonial}
+                    disabled={testimonialPage === totalTestimonialPages}
+                    className="p-2 rounded-full border border-slate-900 bg-slate-900 text-white hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition"
+                    aria-label="次のページ"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+              )}
             </div>
 
             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
-              {initialTestimonials.map((t) => (
+              {currentTestimonials.map((t) => (
                 <li key={t.slug}>
                   {/* 外側のグラデ枠 */}
                   <Link
@@ -162,7 +222,7 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
               <h2 className="text-2xl sm:text-3xl font-semibold flex items-center gap-3">
-                <span>SOSIKIO O モットシル</span>
+                <span className="text-nowrap">SOSIKIO O モットシル</span>
                 <span className="text-xs font-medium uppercase tracking-[0.18em] bg-black text-white p-1 ">
                   Dive into the SOSIKIO!
                 </span>

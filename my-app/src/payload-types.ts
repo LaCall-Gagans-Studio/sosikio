@@ -704,6 +704,12 @@ export interface RelatedCompany {
   capital?: string | null;
   motto?: string | null;
   employees?: string | null;
+  bases?:
+    | {
+        name: string;
+        id?: string | null;
+      }[]
+    | null;
   businesses?:
     | {
         name: string;
@@ -821,6 +827,12 @@ export interface RelatedCompanySelect<T extends boolean = true> {
   capital?: T;
   motto?: T;
   employees?: T;
+  bases?:
+    | T
+    | {
+        name?: T;
+        id?: T;
+      };
   businesses?:
     | T
     | {

@@ -408,6 +408,12 @@ function RelatedAndOffices({ company }: { company: RelatedCompany }) {
                   <span>{c.employees}</span>
                 </div>
               )}
+              {c.bases?.length ? (
+                <div className="sm:col-span-2">
+                  <span className="font-semibold">主な拠点：</span>
+                  <span>{c.bases.join('、')}</span>
+                </div>
+              ) : null}
             </div>
 
             {c.businesses?.length ? (

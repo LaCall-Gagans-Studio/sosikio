@@ -45,6 +45,7 @@ export type RelatedCompany = {
   capital?: string
   motto?: string // 社是
   employees?: string
+  bases?: string[] // 主な拠点情報
   businesses?: string[] // 事業領域の見出しだけ抽出
   offices: CompanyOffice[]
 }
@@ -97,6 +98,7 @@ export type RelatedCompanyDoc = {
   capital?: string
   motto?: string
   employees?: string
+  bases?: string[]
   businesses?: string[]
   offices: {
     label: string
@@ -190,6 +192,7 @@ export async function getRelatedCompany(): Promise<RelatedCompanyDoc | null> {
     capital: g?.capital ?? '',
     motto: g?.motto ?? '',
     employees: g?.employees ?? '',
+    bases: (g?.bases ?? []).map((b: any) => b?.name).filter(Boolean),
     businesses: (g?.businesses ?? []).map((b: any) => b?.name).filter(Boolean),
     offices: (g?.offices ?? []).map((o: any) => ({
       label: o?.label ?? '',

@@ -22,6 +22,12 @@ export const RelatedCompany: GlobalConfig = {
     { name: 'motto', label: '社是', type: 'text' },
     { name: 'employees', label: '従業員数', type: 'text' },
     {
+      name: 'bases',
+      label: '主な拠点情報',
+      type: 'array',
+      fields: [{ name: 'name', label: '拠点名', type: 'text', required: true }],
+    },
+    {
       name: 'businesses',
       label: '主な事業領域',
       type: 'array',
