@@ -107,7 +107,7 @@ export function FooterClient({ products }: Props) {
                   onClick={() => handleClick('/philosophy#boonist')}
                   className="hover:text-white transition"
                 >
-                  BOONIST!一覧
+                  Member一覧
                 </button>
               </li>
               <li>

@@ -88,7 +88,7 @@ export default function PhilosophyPageClient({
         <section id="boonist">
           <div className="container mx-auto px-6 py-16 sm:py-24">
             <div className="gap-4">
-              <h2 className="text-2xl sm:text-3xl lg:text-7xl font-bold">BOONIST</h2>
+              <h2 className="text-2xl sm:text-3xl lg:text-7xl font-bold">Member</h2>
               <p>（スタッフ）</p>
             </div>
 
@@ -140,7 +140,7 @@ function PageGuide() {
   const items = [
     { label: 'Philosophy', href: '#policy-section', jp: '理念・想い' },
     { label: 'Message', href: '#leader', jp: '代表挨拶' },
-    { label: 'Boonist', href: '#boonist', jp: 'スタッフ' },
+    { label: 'Member', href: '#boonist', jp: 'スタッフ' },
     { label: 'History', href: '#history', jp: '沿革' },
     { label: 'Company', href: '#related-offices', jp: '会社情報' },
   ]
