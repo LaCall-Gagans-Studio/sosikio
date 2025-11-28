@@ -212,7 +212,7 @@ const KikuBackground = ({ color = '#9333ea' }: { color?: string }) => (
 
 const KikuCardBg = ({ color = '#9333ea' }: { color?: string }) => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none flex items-center justify-center gap-3">
-    {[...Array(28)].map((_, i) => (
+    {[...Array(20)].map((_, i) => (
       <motion.div
         key={i}
         className="w-6 sm:w-8 rounded-full"
