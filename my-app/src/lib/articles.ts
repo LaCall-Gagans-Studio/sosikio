@@ -93,7 +93,10 @@ export async function fetchTestimonialsForClient() {
 
   const res = await payload.find({
     collection: 'testimonials',
-    sort: '-createdAt',
+    where: {
+      _status: { equals: 'published' },
+    },
+    sort: '-date',
     depth: 1,
     limit: 100,
   })
@@ -106,7 +109,7 @@ export async function fetchTestimonialsForClient() {
       slug: `voice-${t.id}`,
       title: `${t.company} ご担当者様の声`,
       type: 'voice',
-      date: (t as any).createdAt ?? '',
+      date: (t as any).date ?? '',
       image: avatarUrl || logoUrl,
       tags: ['お客様の声', ...(t.products || [])],
       excerpt: t.quote,

@@ -272,6 +272,7 @@ export interface Product {
  */
 export interface Testimonial {
   id: number;
+  date: string;
   quote: string;
   name: string;
   title: string;
@@ -298,6 +299,7 @@ export interface Testimonial {
   } | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -577,6 +579,7 @@ export interface ProductsSelect<T extends boolean = true> {
  * via the `definition` "testimonials_select".
  */
 export interface TestimonialsSelect<T extends boolean = true> {
+  date?: T;
   quote?: T;
   name?: T;
   title?: T;
@@ -589,6 +592,7 @@ export interface TestimonialsSelect<T extends boolean = true> {
   content?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

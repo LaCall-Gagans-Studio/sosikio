@@ -410,7 +410,7 @@ function RelatedAndOffices({ company }: { company: RelatedCompany }) {
               )}
               {c.bases?.length ? (
                 <div className="sm:col-span-2">
-                  <span className="font-semibold">主な拠点：</span>
+                  <span className="font-semibold">活動拠点：</span>
                   <span>{c.bases.join('、')}</span>
                 </div>
               ) : null}

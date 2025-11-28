@@ -6,10 +6,19 @@ export const Testimonials: CollectionConfig = {
   labels: { singular: 'お客様の声', plural: 'お客様の声' },
   admin: {
     useAsTitle: 'company',
-    defaultColumns: ['company', 'name', 'products'],
+    defaultColumns: ['company', 'name', 'date', 'products'],
     group: '更新コンテンツ',
   },
+  versions: {
+    drafts: true,
+  },
   fields: [
+    {
+      name: 'date',
+      label: '公開日',
+      type: 'date',
+      required: true,
+    },
     {
       name: 'quote',
       label: 'コメント',
