@@ -173,24 +173,6 @@ export const Products: CollectionConfig = {
               minRows: 1,
               fields: [
                 {
-                  name: 'icon',
-                  label: 'アイコン',
-                  type: 'select',
-                  required: true,
-                  options: [
-                    { label: 'Layers', value: 'layers' },
-                    { label: 'TrendingUp', value: 'trendingUp' },
-                    { label: 'Zap', value: 'zap' },
-                    { label: 'PlayCircle', value: 'playCircle' },
-                    { label: 'BrainCircuit', value: 'brainCircuit' },
-                    { label: 'Headphones', value: 'headphones' },
-                    { label: 'BarChart2', value: 'barChart2' },
-                    { label: 'Users', value: 'users' },
-                    { label: 'Target', value: 'target' },
-                    { label: 'Briefcase', value: 'briefcase' },
-                  ],
-                },
-                {
                   name: 'title_jp',
                   label: 'タイトル（日）',
                   type: 'text',
@@ -235,20 +217,6 @@ export const Products: CollectionConfig = {
               type: 'array',
               minRows: 1,
               fields: [
-                {
-                  name: 'icon',
-                  label: 'アイコン',
-                  type: 'select',
-                  required: true,
-                  options: [
-                    { label: 'BarChart2', value: 'barChart2' },
-                    { label: 'Users', value: 'users' },
-                    { label: 'Headphones', value: 'headphones' },
-                    { label: 'TrendingUp', value: 'trendingUp' },
-                    { label: 'Target', value: 'target' },
-                    { label: 'Briefcase', value: 'briefcase' },
-                  ],
-                },
                 {
                   name: 'title_jp',
                   label: 'タイトル（日）',

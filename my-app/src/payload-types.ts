@@ -228,17 +228,6 @@ export interface Product {
       title_en?: string | null;
       steps?:
         | {
-            icon:
-              | 'layers'
-              | 'trendingUp'
-              | 'zap'
-              | 'playCircle'
-              | 'brainCircuit'
-              | 'headphones'
-              | 'barChart2'
-              | 'users'
-              | 'target'
-              | 'briefcase';
             title_jp: string;
             title_en?: string | null;
             description: string;
@@ -251,7 +240,6 @@ export interface Product {
       title_en?: string | null;
       items?:
         | {
-            icon: 'barChart2' | 'users' | 'headphones' | 'trendingUp' | 'target' | 'briefcase';
             title_jp: string;
             title_en?: string | null;
             description: string;
@@ -544,7 +532,6 @@ export interface ProductsSelect<T extends boolean = true> {
               steps?:
                 | T
                 | {
-                    icon?: T;
                     title_jp?: T;
                     title_en?: T;
                     description?: T;
@@ -559,7 +546,6 @@ export interface ProductsSelect<T extends boolean = true> {
               items?:
                 | T
                 | {
-                    icon?: T;
                     title_jp?: T;
                     title_en?: T;
                     description?: T;
