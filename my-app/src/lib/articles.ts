@@ -111,7 +111,7 @@ export async function fetchTestimonialsForClient() {
       type: 'voice',
       date: (t as any).date ?? '',
       image: avatarUrl || logoUrl,
-      tags: ['お客様の声', ...(t.products || [])],
+      tags: [...(t.products || [])],
       excerpt: t.quote,
       // Testimonials に追加した richText の content フィールドを使用
       content: (t as any).content as SerializedEditorState,
