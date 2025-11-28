@@ -634,13 +634,13 @@ export const HeroSection = ({ keywords }: HeroSectionProps) => {
             left: 0,
             zIndex: 40,
             color: '#000',
-            fontWeight: 'lighter' as any,
+            fontWeight: '100' as any,
             pointerEvents: 'none',
             userSelect: 'none',
             transform: 'translate(-9999px, -9999px)',
             fontFamily: '"MS 明朝","serif"',
           }}
-          className="text-2xl lg:text-4xl"
+          className="text-2xl lg:text-4xl font-extralight"
         >
           {word.text}
         </div>
