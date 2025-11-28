@@ -10,6 +10,8 @@ import { fetchArticlesForClient, fetchTestimonialsForClient } from '@/lib/articl
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 
+export const dynamic = 'force-dynamic'
+
 export default async function Page() {
   const payload = await getPayload({ config: configPromise })
 
