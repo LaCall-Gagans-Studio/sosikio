@@ -7,7 +7,7 @@ import { motion, Variants } from 'framer-motion'
 import { ShieldCheck } from 'lucide-react'
 import Link from 'next/link'
 import { getIconComponent } from '@/components/getIconComponent'
-import { OverviewProductsTest } from '@/components/overview.products-test'
+import { OverviewProducts } from '@/components/overview.products'
 import type { Product, Overview as OverviewType, Media } from '@/payload-types'
 
 // --- 汎用アニメーション設定 ---
@@ -155,7 +155,7 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
         )}
 
         {/* 各プロダクト */}
-        <OverviewProductsTest products={products} mainLogo={hero?.mainLogo as CmsMedia} />
+        <OverviewProducts products={products} mainLogo={hero?.mainLogo as CmsMedia} />
 
         <motion.div
           variants={sectionVariants}
