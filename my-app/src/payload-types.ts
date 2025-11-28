@@ -213,6 +213,10 @@ export interface Product {
   image: number | Media;
   mainColor: string;
   subColor: string;
+  /**
+   * トップページ等のアニメーション演出を選択します
+   */
+  animation?: ('miru' | 'kiku' | 'ageru') | null;
   about: {
     main: {
       heading_jp: string;
@@ -521,6 +525,7 @@ export interface ProductsSelect<T extends boolean = true> {
   image?: T;
   mainColor?: T;
   subColor?: T;
+  animation?: T;
   about?:
     | T
     | {

@@ -103,6 +103,20 @@ export const Products: CollectionConfig = {
       required: true,
       defaultValue: '#5bb5c3',
     },
+    {
+      name: 'animation',
+      label: 'アニメーションタイプ',
+      type: 'select',
+      options: [
+        { label: '見る (Miru)', value: 'miru' },
+        { label: '聞く (Kiku)', value: 'kiku' },
+        { label: '発射 (Ageru)', value: 'ageru' },
+      ],
+      defaultValue: 'miru',
+      admin: {
+        description: 'トップページ等のアニメーション演出を選択します',
+      },
+    },
 
     // ---- about.main ----
     {

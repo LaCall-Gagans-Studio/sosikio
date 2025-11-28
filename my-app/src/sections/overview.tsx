@@ -7,7 +7,7 @@ import { motion, Variants } from 'framer-motion'
 import { ShieldCheck } from 'lucide-react'
 import Link from 'next/link'
 import { getIconComponent } from '@/components/getIconComponent'
-import { OverviewProducts } from '@/components/overview.products'
+import { OverviewProductsTest } from '@/components/overview.products-test'
 import type { Product, Overview as OverviewType, Media } from '@/payload-types'
 
 // --- 汎用アニメーション設定 ---
@@ -155,7 +155,7 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
         )}
 
         {/* 各プロダクト */}
-        <OverviewProducts products={products} mainLogo={hero?.mainLogo as CmsMedia} />
+        <OverviewProductsTest products={products} mainLogo={hero?.mainLogo as CmsMedia} />
 
         <motion.div
           variants={sectionVariants}
@@ -168,7 +168,7 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
           {strengths.length > 0 && (
             <div className="mt-16 sm:mt-20 md:mt-28 text-center relative overflow-hidden p-6 sm:p-8 md:p-12 rounded-lg py-16 bg-white sm:py-20 md:py-24 border border-slate-200 shadow-2xl">
               {/* 背景グラデーションは少し透明度を調整して馴染ませるか、そのまま維持 */}
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-100/50 via-rose-100/30 to-cyan-100/30 -z-10" />
+              <div className="absolute inset-0 bg-cyan-100/30 -z-10" />
               <h2 className="text-4xl sm:text-5xl md:text-7xl font-semibold tracking-wide text-slate-900 ">
                 WHY SOSIKIO
               </h2>
