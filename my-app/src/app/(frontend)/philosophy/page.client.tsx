@@ -281,12 +281,12 @@ function StaffModal({ staff, onClose }: { staff: Staff; onClose: () => void }) {
         {/* Left: Image & Basic Info */}
         <div className="w-full md:w-2/5 bg-gray-50 p-8 flex flex-col items-center text-center overflow-y-visible">
           <div className="flex md:flex-col items-center">
-            <div className="h-24 w-24 md:w-48 md:h-48 rounded-full overflow-hidden shadow-md mb-6">
+            <div className="h-24 w-24 md:w-48 md:h-48 rounded-full shrink-0 overflow-hidden shadow-md mb-6">
               <img src={staff.avatar} alt={staff.name} className="w-full h-full object-cover" />
             </div>
-            <div className="ml-4 md:ml-0">
+            <div className="ml-4 md:ml-0 text-left md:text-center whitespace-pre-wrap text-wrap">
               <h3 className="text-2xl font-bold mb-2">{staff.name}</h3>
-              <p className="text-gray-600 font-medium mb-2 md:mb-6">{staff.role}</p>
+              <p className="text-gray-600 font-medium md:mb-6">{staff.role}</p>
             </div>
           </div>
 
