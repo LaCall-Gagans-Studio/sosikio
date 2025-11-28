@@ -370,13 +370,13 @@ export const OverviewProducts: React.FC<Props> = ({ products, mainLogo }) => {
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-16 bg-white py-3 bg-opacity-50">
+        <div className="text-center mb-16 bg-white py-3 bg-opacity-50" id="products">
           <h2 className="text-3xl lg:text-5xl font-bold mb-3 flex md:flex-row items-center justify-center md:gap-4">
             {mainLogo && (
               <img
                 src={getMediaUrl(mainLogo)}
                 alt="SOSIKIO"
-                className="h-24 lg:h-28 object-contain object-center"
+                className="h-20 md:h-24 lg:h-28 object-contain object-center"
               />
             )}
             <span className="text-slate-800 text-left text-xl md:text-3xl">Core Services</span>
