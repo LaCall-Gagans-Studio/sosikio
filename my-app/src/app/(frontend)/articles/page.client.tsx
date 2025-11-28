@@ -158,7 +158,6 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
               {currentTestimonials.map((t) => (
                 <li key={t.slug}>
                   {/* 外側のグラデ枠 */}
-                  <p className="bg-red-500 text-white text-sm">{t.linkType}</p>
                   <Link
                     href={
                       t.linkType === 'external' && t.externalLink
