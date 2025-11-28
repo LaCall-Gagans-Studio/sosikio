@@ -8,6 +8,7 @@ import { ArrowDown, X } from 'lucide-react'
 import { HeroSection } from './hero.p'
 import { PolicySection } from '@/app/(frontend)/philosophy/policy'
 import type { Staff, TimelineItem, RelatedCompany } from '@/lib/philosophy'
+import { getHighlightedTitle } from '@/sections/overview'
 
 type PhilosophyPageClientProps = {
   vision: {
@@ -49,9 +50,9 @@ export default function PhilosophyPageClient({
           id="leader"
         >
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight font-zenKakuGothicAntique">
-            {vision?.tagline}
+            {getHighlightedTitle(vision?.tagline || '')}
           </h1>
-          <p className="text-lg sm:text-xl md:text-2xl mt-8 whitespace-pre-wrap leading-relaxed font-medium text-gray-700">
+          <p className="text-lg sm:text-xl md:text-2xl mt-8 whitespace-pre-wrap leading-relaxed font-zenKakuGothicAntique md:font-medium text-gray-700">
             {vision?.lead}
           </p>
         </section>

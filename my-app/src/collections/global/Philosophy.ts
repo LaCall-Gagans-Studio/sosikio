@@ -12,7 +12,12 @@ export const Philosophy: GlobalConfig = {
       label: 'ビジョン',
       type: 'group',
       fields: [
-        { name: 'tagline', label: 'タグライン', type: 'text', required: true },
+        {
+          name: 'tagline',
+          label: 'タグライン ※[[]]で黒背景、\nでスマホ時改行',
+          type: 'text',
+          required: true,
+        },
         { name: 'lead', label: 'リード', type: 'textarea', required: true },
       ],
     },
