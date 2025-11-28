@@ -88,8 +88,16 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const isVoice = article.type === 'voice'
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-ws-background via-slate-100 to-slate-200">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 space-y-10">
+    <main className="relative min-h-screen bg-gradient-to-b from-ws-background via-slate-100 to-slate-200">
+      {/* Dotted Background Pattern */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none opacity-40"
+        style={{
+          backgroundImage: 'radial-gradient(#94a3b8 1px, transparent 1px)',
+          backgroundSize: '32px 32px',
+        }}
+      />
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 space-y-10">
         {/* パンくず & ラベル */}
         <div className="space-y-4">
           <nav className="text-xs text-slate-500">

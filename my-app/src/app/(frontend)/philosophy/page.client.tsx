@@ -57,83 +57,95 @@ export default function PhilosophyPageClient({
         </section>
       )}
 
-      {/* 2) 代表 & 挨拶 */}
-      {representative && (
-        <section className="bg-gray-50" id="leader">
-          <div className="container mx-auto px-6 py-16 sm:py-24">
-            <div className="flex flex-col lg:flex-row items-center gap-8 lg:items-start">
-              <div className="relative aspect-square min-w-60 w-72 rounded-lg overflow-hidden shadow-lg">
-                <img
-                  src={representative.avatar || '/common/default-avatar.png'}
-                  alt={representative.name}
-                  className="w-full h-full object-cover"
-                />
+      {/* 2)〜4) 背景ドットエリア */}
+      <div className="relative">
+        <div
+          className="absolute inset-0 z-0 pointer-events-none opacity-40"
+          style={{
+            backgroundImage: 'radial-gradient(#94a3b8 1px, transparent 1px)',
+            backgroundSize: '32px 32px',
+          }}
+        />
+        <div className="relative z-10">
+          {/* 2) 代表 & 挨拶 */}
+          {representative && (
+            <section className="" id="leader">
+              <div className="container mx-auto px-6 py-16 sm:py-24">
+                <div className="flex flex-col lg:flex-row items-center gap-8 lg:items-start">
+                  <div className="relative aspect-square min-w-60 w-72 rounded-lg overflow-hidden shadow-lg">
+                    <img
+                      src={representative.avatar || '/common/default-avatar.png'}
+                      alt={representative.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl sm:text-3xl font-bold">代表あいさつ</h2>
+                    <p className="mt-1 text-lg text-gray-500">
+                      {representative.name}（{representative.title}）
+                    </p>
+                    <p className="mt-4 text-gray-700 leading-relaxed whitespace-pre-wrap">
+                      {representative.greeting}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div>
-                <h2 className="text-2xl sm:text-3xl font-bold">代表あいさつ</h2>
-                <p className="mt-1 text-lg text-gray-500">
-                  {representative.name}（{representative.title}）
-                </p>
-                <p className="mt-4 text-gray-700 leading-relaxed whitespace-pre-wrap">
-                  {representative.greeting}
-                </p>
+            </section>
+          )}
+
+          {/* 3) BOONIST 紹介 */}
+          {staffs.length > 0 && (
+            <section id="boonist">
+              <div className="container mx-auto px-6 py-16 sm:py-24">
+                <div className="gap-4">
+                  <h2 className="text-2xl sm:text-3xl lg:text-7xl font-bold mb-3">Member</h2>
+                  <p>メンバー</p>
+                </div>
+
+                <div className="mt-8 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {staffs.map((s) => (
+                    <StaffCard key={s.id} s={s} onClick={() => setSelectedStaff(s)} />
+                  ))}
+                </div>
               </div>
-            </div>
-          </div>
-        </section>
-      )}
+            </section>
+          )}
 
-      {/* 3) BOONIST 紹介 */}
-      {staffs.length > 0 && (
-        <section id="boonist">
-          <div className="container mx-auto px-6 py-16 sm:py-24">
-            <div className="gap-4">
-              <h2 className="text-2xl sm:text-3xl lg:text-7xl font-bold mb-3">Member</h2>
-              <p>メンバー</p>
-            </div>
-
-            <div className="mt-8 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {staffs.map((s) => (
-                <StaffCard key={s.id} s={s} onClick={() => setSelectedStaff(s)} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 4) 沿革 */}
-      {timeline.length > 0 && (
-        <section className="bg-gray-50" id="history">
-          <div className="container mx-auto px-6 py-16 sm:py-24">
-            <h2 className="text-2xl sm:text-3xl font-bold">沿革</h2>
-            <div className="mt-12 max-w-3xl mx-auto md:mx-0">
-              <ol className="relative border-l border-gray-300 space-y-10">
-                {timeline.map((t, i) => (
-                  <li key={i} className="ml-6 sm:ml-10">
-                    <div className="absolute -left-1.5 mt-1.5 h-3 w-3 rounded-full border border-white bg-gray-400" />
-                    <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-6">
-                      <span className="text-lg font-bold text-gray-500 font-zenKakuGothicAntique min-w-20">
-                        {t.year}
-                        {t.month ? `.${t.month}` : ''}
-                      </span>
-                      <div>
-                        <h3 className="text-xl font-medium md:font-bold text-gray-900">
-                          {t.title}
-                        </h3>
-                        {t.detail && (
-                          <p className="mt-2 text-base text-gray-600 leading-relaxed whitespace-pre-wrap">
-                            {t.detail}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
-        </section>
-      )}
+          {/* 4) 沿革 */}
+          {timeline.length > 0 && (
+            <section className="" id="history">
+              <div className="container mx-auto px-6 py-16 sm:py-24">
+                <h2 className="text-2xl sm:text-3xl font-bold">沿革</h2>
+                <div className="mt-12 max-w-3xl mx-auto md:mx-0">
+                  <ol className="relative border-l border-gray-300 space-y-10">
+                    {timeline.map((t, i) => (
+                      <li key={i} className="ml-6 sm:ml-10">
+                        <div className="absolute -left-1.5 mt-1.5 h-3 w-3 rounded-full border border-white bg-gray-400" />
+                        <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-6">
+                          <span className="text-lg font-bold text-gray-500 font-zenKakuGothicAntique min-w-20">
+                            {t.year}
+                            {t.month ? `.${t.month}` : ''}
+                          </span>
+                          <div>
+                            <h3 className="text-xl font-medium md:font-bold text-gray-900">
+                              {t.title}
+                            </h3>
+                            {t.detail && (
+                              <p className="mt-2 text-base text-gray-600 leading-relaxed whitespace-pre-wrap">
+                                {t.detail}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              </div>
+            </section>
+          )}
+        </div>
+      </div>
 
       {/* 5) 関連会社情報（北菱電興） */}
       {company && <RelatedAndOffices company={company} />}
@@ -212,7 +224,7 @@ function StaffCard({ s, onClick }: { s: Staff; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="group rounded-lg border bg-white p-5 shadow-sm transition hover:shadow-lg text-left w-full"
+      className="group rounded-lg border bg-white p-5 shadow-sm flex flex-col justify-start transition hover:shadow-lg text-left w-full"
     >
       <div className="relative aspect-square w-full overflow-hidden rounded-lg">
         <img

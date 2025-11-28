@@ -102,8 +102,16 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
     setSelected((prev) => (prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]))
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-ws-background via-slate-100 to-slate-200 ">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 space-y-16">
+    <main className="relative min-h-screen bg-gradient-to-b from-ws-background via-slate-100 to-slate-200">
+      {/* Dotted Background Pattern */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none opacity-40"
+        style={{
+          backgroundImage: 'radial-gradient(#94a3b8 1px, transparent 1px)',
+          backgroundSize: '32px 32px',
+        }}
+      />
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 space-y-16">
         {/* ヘッダー */}
         <header className="space-y-2">
           <p className="text-xs uppercase font-bold tracking-[0.25em] bg-black text-white">
