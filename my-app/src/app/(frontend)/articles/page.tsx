@@ -4,6 +4,8 @@ import { ArticlesClient } from './page.client'
 import { fetchArticlesForClient, fetchTestimonialsForClient } from '@/lib/articles'
 import type { Metadata } from 'next'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Library',
   description:
