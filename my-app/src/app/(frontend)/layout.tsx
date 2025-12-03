@@ -45,12 +45,6 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
   return (
     <html lang="ja">
-      <head>
-        <meta
-          name="google-site-verification"
-          content="0S1CwlvHSXTogRkfGd7R_6dMdlrDhvDQlaUnkV7qzQE"
-        />
-      </head>
       <body>
         <Header />
         <main>{children}</main>
