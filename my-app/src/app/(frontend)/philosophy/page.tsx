@@ -39,7 +39,7 @@ export default async function PhilosophyPage() {
     <Suspense fallback={<p className="px-5 py-16 text-sm  text-ws-primary/70">読み込み中…</p>}>
       <PhilosophyPageClient
         vision={visionAndRep?.vision ?? null}
-        representative={visionAndRep?.representative ?? null}
+        representatives={visionAndRep?.representatives ?? []}
         staffs={staffs ?? []}
         timeline={timeline ?? []}
         company={company ?? null}

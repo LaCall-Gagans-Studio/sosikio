@@ -22,9 +22,9 @@ export const Philosophy: GlobalConfig = {
       ],
     },
     {
-      name: 'representative',
+      name: 'representatives',
       label: '代表',
-      type: 'group',
+      type: 'array',
       fields: [
         { name: 'name', label: '氏名', type: 'text', required: true },
         { name: 'title', label: '肩書', type: 'text', required: true },

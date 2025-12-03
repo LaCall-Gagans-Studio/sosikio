@@ -15,12 +15,12 @@ type PhilosophyPageClientProps = {
     tagline: string
     lead: string
   } | null
-  representative: {
+  representatives: {
     name: string
     title: string
     avatar?: string | null
     greeting: string
-  } | null
+  }[]
   staffs: Staff[]
   timeline: TimelineItem[]
   company: RelatedCompany | null
@@ -29,7 +29,7 @@ type PhilosophyPageClientProps = {
 
 export default function PhilosophyPageClient({
   vision,
-  representative,
+  representatives,
   staffs,
   timeline,
   company,
@@ -44,7 +44,7 @@ export default function PhilosophyPageClient({
       <PolicySection />
 
       {/* 2) リード */}
-      {representative && (
+      {representatives.length > 0 && (
         <section
           className="bg-gray-50 text-center container mx-auto px-6 py-16 sm:py-20 pt-10"
           id="leader"
@@ -69,26 +69,35 @@ export default function PhilosophyPageClient({
         />
         <div className="relative z-10">
           {/* 2) 代表 & 挨拶 */}
-          {representative && (
+          {representatives.length > 0 && (
             <section className="" id="leader">
               <div className="container mx-auto px-6 py-16 sm:py-24">
-                <div className="flex flex-col lg:flex-row items-center gap-8 lg:items-start">
-                  <div className="relative aspect-square min-w-60 w-72 rounded-lg overflow-hidden shadow-lg">
-                    <img
-                      src={representative.avatar || '/common/default-avatar.png'}
-                      alt={representative.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl sm:text-3xl font-bold">代表あいさつ</h2>
-                    <p className="mt-1 text-lg text-gray-500">
-                      {representative.name}（{representative.title}）
-                    </p>
-                    <p className="mt-4 text-gray-700 leading-relaxed whitespace-pre-wrap">
-                      {representative.greeting}
-                    </p>
-                  </div>
+                <div className="gap-4 mb-12">
+                  <h2 className="text-2xl sm:text-3xl lg:text-7xl font-bold mb-3">Leader</h2>
+                  <p>代表挨拶</p>
+                </div>
+                <div className={`grid grid-cols-1 xl:grid-cols-2 gap-12`}>
+                  {representatives.map((rep, index) => (
+                    <div
+                      key={index}
+                      className={`flex flex-row box-border p-6 bg-white rounded-lg border-2 lg:flex-row items-center gap-8`}
+                    >
+                      <div className="relative aspect-square min-w-60 w-72 rounded-lg overflow-hidden shadow-lg shrink-0">
+                        <img
+                          src={rep.avatar || '/common/default-avatar.png'}
+                          alt={rep.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="text-left">
+                        <h2 className="text-2xl sm:text-3xl font-bold">{rep.title}</h2>
+                        <p className="mt-1 text-lg text-gray-500">{rep.name}</p>
+                        <p className="mt-4 text-sm text-gray-700 leading-relaxed whitespace-pre-wrap text-left">
+                          {rep.greeting}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </section>

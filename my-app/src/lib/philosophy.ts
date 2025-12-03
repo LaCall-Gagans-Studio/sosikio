@@ -119,7 +119,7 @@ function fileToUrl(f: any): string {
 // ---- fetchers ----
 export async function getVisionAndRep(): Promise<{
   vision: VisionDoc
-  representative: RepresentativeDoc
+  representatives: RepresentativeDoc[]
 } | null> {
   const r = await fetch(`${BASE}/api/globals/philosophy?depth=1`, { next: { revalidate: 60 } })
   if (!r.ok) return null
@@ -130,14 +130,16 @@ export async function getVisionAndRep(): Promise<{
     lead: g?.vision?.lead ?? '',
   }
 
-  const representative: RepresentativeDoc = {
-    name: g?.representative?.name ?? '',
-    title: g?.representative?.title ?? '',
-    greeting: g?.representative?.greeting ?? '',
-    avatar: fileToUrl(g?.representative?.avatar),
-  }
+  const representatives: RepresentativeDoc[] = Array.isArray(g?.representatives)
+    ? g.representatives.map((rep: any) => ({
+        name: rep.name ?? '',
+        title: rep.title ?? '',
+        greeting: rep.greeting ?? '',
+        avatar: fileToUrl(rep.avatar),
+      }))
+    : []
 
-  return { vision, representative }
+  return { vision, representatives }
 }
 
 export async function getStaff(): Promise<StaffDoc[]> {

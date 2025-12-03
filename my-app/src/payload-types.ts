@@ -676,12 +676,15 @@ export interface Philosophy {
     tagline: string;
     lead: string;
   };
-  representative: {
-    name: string;
-    title: string;
-    avatar: number | Media;
-    greeting: string;
-  };
+  representatives?:
+    | {
+        name: string;
+        title: string;
+        avatar: number | Media;
+        greeting: string;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -797,13 +800,14 @@ export interface PhilosophySelect<T extends boolean = true> {
         tagline?: T;
         lead?: T;
       };
-  representative?:
+  representatives?:
     | T
     | {
         name?: T;
         title?: T;
         avatar?: T;
         greeting?: T;
+        id?: T;
       };
   updatedAt?: T;
   createdAt?: T;
