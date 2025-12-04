@@ -80,7 +80,7 @@ export default function PhilosophyPageClient({
                   {representatives.map((rep, index) => (
                     <div
                       key={index}
-                      className={`flex flex-row box-border p-6 bg-white rounded-lg border-2 lg:flex-row items-center gap-8`}
+                      className={`flex flex-col lg:flex-row box-border p-6 bg-white rounded-lg border-2 items-center gap-8`}
                     >
                       <div className="relative aspect-square min-w-60 w-72 rounded-lg overflow-hidden shadow-lg shrink-0">
                         <img
