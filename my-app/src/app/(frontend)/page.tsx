@@ -35,18 +35,19 @@ export default async function Page() {
     <main className="bg-[#f1f1f1] text-gray-800 font-zenKakuGothicNew tracking-wide">
       <HeroSection
         keywords={keywords}
-        containerHeight="calc(85vh)"
-        wordFontWeight="lighter"
+        containerHeight="calc(90vh)"
+        wordFontWeight="100" // または 100
         title={
           <>
-            日常に
+            組織を
             <br className="hidden lg:block" />
-            組織が変わる
+            率いる人を、
             <br />
-            歓びを
+            1人にさせない。
           </>
         }
       />
+
       <NewsSection articles={articlesData.articles} testimonials={testimonials} />
       <OverviewSection products={products} overview={overview} />
       <AboutSection products={products} />

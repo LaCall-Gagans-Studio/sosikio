@@ -578,7 +578,7 @@ export const HeroSection = ({
       {/* テキスト */}
       <div className="absolute pointer-events-none inset-0 font-semibold antialiased">
         <div
-          className="absolute left-1/2 top-1/2 pointer-events-none translate-y-24 lg:-translate-y-1/2 lg:-translate-x-0 -translate-x-1/2"
+          className="absolute left-1/2 bottom-36 lg:top-1/2 pointer-events-none translate-y-24 lg:-translate-y-1/2 lg:-translate-x-0 -translate-x-1/2"
           style={{ zIndex: Z_TEXT }}
         >
           <h1 className="font-zenKakuGothicAntique text-nowrap text-4xl leading-snug text-center lg:text-left sm:text-5xl md:text-6xl lg:text-7xl lg:leading-normal">

@@ -41,15 +41,15 @@ export default function PhilosophyPageClient({
     <main className="min-h-screen bg-gray-50 text-gray-900">
       <HeroSection
         keywords={keywords}
-        containerHeight="calc(96vh)"
-        wordFontWeight="100" // または 100
+        containerHeight="calc(90vh)"
+        wordFontWeight="lighter"
         title={
           <>
-            組織を
+            日常に
             <br className="hidden lg:block" />
-            率いる人を、
+            組織が変わる
             <br />
-            1人にさせない。
+            歓びを
           </>
         }
       />
