@@ -41,11 +41,13 @@ const GUST_DURATION_MS = 1500
 const GUST_TARGET_Y = 0.75
 const GUST_SPEED_THRESHOLD = 1.2
 
-const isMobileLike = () =>
-  (typeof window !== 'undefined' &&
-    window.matchMedia &&
-    window.matchMedia('(pointer:coarse)').matches) ||
-  (typeof navigator !== 'undefined' && /Mobi|Android/i.test(navigator.userAgent))
+// 768px 未満をモバイルとみなす場合
+const MOBILE_BREAKPOINT = 768
+
+const isMobileLike = () => {
+  if (typeof window === 'undefined') return false // サーバーサイド対策
+  return window.innerWidth < MOBILE_BREAKPOINT
+}
 
 // 💡 propsとしてkeywordsを受け取るように変更
 export const HeroSection = ({
@@ -578,15 +580,15 @@ export const HeroSection = ({
       {/* テキスト */}
       <div className="absolute pointer-events-none inset-0 font-semibold antialiased">
         <div
-          className="absolute left-1/2 bottom-36 lg:top-1/2 pointer-events-none translate-y-24 lg:-translate-y-1/2 lg:-translate-x-0 -translate-x-1/2"
+          className="absolute left-1/2 bottom-24 md:top-1/2 pointer-events-none -translate-y-24 md:-translate-y-2/3 md:-translate-x-0 -translate-x-1/2"
           style={{ zIndex: Z_TEXT }}
         >
-          <h1 className="font-zenKakuGothicAntique text-nowrap text-4xl leading-snug text-center lg:text-left sm:text-5xl md:text-6xl lg:text-7xl lg:leading-normal">
+          <h1 className="font-zenKakuGothicAntique text-nowrap text-4xl leading-snug text-center md:text-left sm:text-5xl md:text-6xl lg:text-7xl lg:leading-normal">
             {title}
           </h1>
-          <p className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg text-center lg:text-left leading-relaxed font-zenKakuGothicNew z-3">
+          <p className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg text-center md:text-left leading-relaxed font-zenKakuGothicNew z-3">
             組織を率いるリーダーと現場を
-            <br className="lg:hidden" />
+            <br className="md:hidden" />
             「データと対話」でつなぎ、
             <br />
             行動変容を促すプラットフォーム <br className="lg:hidden" />
