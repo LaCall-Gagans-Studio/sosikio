@@ -322,8 +322,14 @@ export const AboutSection: React.FC<{ products: CmsProduct[] }> = ({ products })
 
       {/* プロダクト選択（横スクロール可） */}
       <div className="container mx-auto mb-10 sm:mb-12 md:mb-16">
-        <div className="flex justify-center">
-          <div className="grid grid-cols-3 items-center p-1 sm:p-1.5 rounded-lg bg-white/70 gap-2 shadow-md overflow-x-auto max-w-full">
+        <div className="flex flex-col items-center justify-center">
+          {/* 改善点1: ラベルを追加して操作を促す */}
+          <p className="text-xs text-gray-500 mb-2 font-bold flex items-center gap-1">
+            <span className="inline-block w-2 h-2 rounded-full bg-black animate-pulse"></span>
+            表示するサービスを切り替え
+          </p>
+
+          <div className="grid grid-cols-3 items-center p-1 sm:p-1.5 rounded-xl bg-gray-100/80 gap-2 shadow-inner overflow-x-auto max-w-full border border-white/40">
             {products.map((p, index) => {
               const isActive = activeIndex === index
               return (
@@ -331,28 +337,41 @@ export const AboutSection: React.FC<{ products: CmsProduct[] }> = ({ products })
                   key={p.id}
                   onClick={() => handleSetActiveIndex(index)}
                   aria-pressed={isActive}
-                  className="relative shrink-0 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 rounded-lg font-bold transition-colors duration-300 z-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+                  // 改善点2: cursor-pointerの明示と、未選択時のスタイル（hover:scaleなど）を強化
+                  className={`
+              relative shrink-0 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 rounded-lg font-bold 
+              transition-all duration-300 z-10 
+              focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 
+              cursor-pointer select-none
+              ${isActive ? '' : 'hover:bg-white/60 hover:shadow-md hover:scale-[1.02] active:scale-95'}
+            `}
                 >
                   {isActive && (
                     <motion.div
                       layoutId="product-selector-bg"
-                      className="absolute inset-0 bg-white rounded-lg shadow-md"
+                      // 改善点3: アクティブな背景に強いシャドウを入れて「選ばれている感」を出す
+                      className="absolute inset-0 rounded-lg shadow-lg text-white ring-1 ring-black/5"
                       transition={{ type: 'spring', stiffness: 350, damping: 35 }}
-                    />
+                      style={{ backgroundColor: p.mainColor ?? undefined }}
+                    >
+                      {/* 改善点4: 下向きの三角などを入れて「下のコンテンツと繋がっている」ことを示唆する手もあり */}
+                      {/* <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-inherit rotate-45"></div> */}
+                    </motion.div>
                   )}
+
                   <span
-                    className={`relative block text-center ${
-                      isActive ? p.mainColor : 'text-gray-600'
+                    className={`relative block text-center flex flex-col items-center justify-center gap-1 ${
+                      isActive ? 'bg-opacity-5' : 'bg-opacity-20 opacity-70 hover:opacity-100' // 未選択は少し薄くしてメリハリをつける
                     }`}
-                    style={{ color: p.mainColor ?? undefined }}
+                    style={{ color: isActive ? 'white' : p.mainColor }}
                   >
-                    <p className="text-sm md:text-2xl font-bold mb-1 tracking-tight lg:px-0 text-left text-nowrap">
+                    <p className="text-sm md:text-2xl font-bold tracking-tight lg:px-0 text-nowrap">
                       {p.tagline}
                     </p>
                     {p.logo && (
                       <img
                         src={getMediaUrl(p.logo as CmsMedia)}
-                        className="h-7 sm:h-8 md:h-10 w-auto md:mx-auto"
+                        className="h-7 sm:h-8 md:h-10 w-auto object-contain drop-shadow-sm" // ロゴにも影を少し入れる
                         alt={`${p.name} ロゴ`}
                       />
                     )}

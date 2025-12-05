@@ -72,29 +72,51 @@ export default function PhilosophyPageClient({
           {representatives.length > 0 && (
             <section className="" id="leader">
               <div className="container mx-auto px-6 py-16 sm:py-24">
-                <div className="gap-4 mb-12">
-                  <h2 className="text-2xl sm:text-3xl lg:text-7xl font-bold mb-3">Leader</h2>
-                  <p>代表挨拶</p>
+                {/* セクション見出し */}
+                <div className="mb-16">
+                  <h2 className="text-2xl sm:text-3xl lg:text-7xl font-bold mb-3 tracking-tight">
+                    Leader
+                  </h2>
+                  <p className="text-gray-500 font-medium ml-1">代表挨拶</p>
                 </div>
-                <div className={`grid grid-cols-1 xl:grid-cols-2 gap-12`}>
+
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 lg:gap-12">
                   {representatives.map((rep, index) => (
                     <div
                       key={index}
-                      className={`flex flex-col lg:flex-row box-border p-6 bg-white rounded-lg border-2 items-center gap-8`}
+                      // 変更点1: ボーダーを細くし、影を柔らかくして「置いてある」感を出す（ボタンっぽさを消す）
+                      className="flex flex-col md:flex-row bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-10 gap-8 items-start"
                     >
-                      <div className="relative aspect-square min-w-60 w-72 rounded-lg overflow-hidden shadow-lg shrink-0">
-                        <img
-                          src={rep.avatar || '/common/default-avatar.png'}
-                          alt={rep.name}
-                          className="w-full h-full object-cover"
-                        />
+                      {/* 画像エリア */}
+                      <div className="shrink-0 w-full md:w-64 flex flex-col items-center md:items-start">
+                        <div className="relative aspect-[3/2] lg:aspect-[4/5] w-full md:w-64 overflow-hidden rounded-xl shadow-md bg-gray-50">
+                          <img
+                            src={rep.avatar || '/common/default-avatar.png'}
+                            alt={rep.name}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        {/* 装飾: ちょっとした信頼感の演出（サイン風など） */}
+                        <div className="mt-4 w-full h-1 bg-gradient-to-r from-blue-500/20 to-transparent rounded-full"></div>
                       </div>
-                      <div className="text-left">
-                        <h2 className="text-2xl sm:text-3xl font-bold">{rep.title}</h2>
-                        <p className="mt-1 text-lg text-gray-500">{rep.name}</p>
-                        <p className="mt-4 text-sm text-gray-700 leading-relaxed whitespace-pre-wrap text-left">
+
+                      {/* テキストエリア */}
+                      <div className="flex-1 min-w-0 text-left w-full">
+                        {/* ヘッダー部分: 役職と名前を明確にグループ化 */}
+                        <div className="border-b border-gray-100 pb-4 mb-5">
+                          <p className="text-sm font-bold text-black tracking-wide mb-1 uppercase">
+                            {rep.title} {/* 役職は小さく太くアクセントカラーで */}
+                          </p>
+                          <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight">
+                            {rep.name}
+                          </h3>
+                        </div>
+
+                        {/* 本文: 読みやすさ重視（行間を広めに） */}
+                        <div className="text-gray-600 text-sm sm:text-base leading-relaxed whitespace-pre-wrap font-medium">
+                          {/* 最初の1行だけ少し強調する等のデザインも可 */}
                           {rep.greeting}
-                        </p>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -234,31 +256,93 @@ function StaffCard({ s, onClick }: { s: Staff; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="group rounded-lg border bg-white p-5 shadow-sm flex flex-col justify-start transition hover:shadow-lg text-left w-full"
+      // 改善点1: hover時の「浮き上がり(-translate-y-1)」と「枠線の色変化」でボタン感を強調
+      className="group relative rounded-xl border border-gray-200 bg-white p-5 shadow-sm flex flex-col justify-start transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-blue-300 text-left w-full overflow-hidden"
     >
-      <div className="relative aspect-square w-full overflow-hidden rounded-lg">
+      {/* 画像エリア */}
+      <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-gray-100">
         <img
           src={s.avatar}
           alt={s.name}
-          className="object-cover h-full w-full transition group-hover:scale-105 "
+          className="object-cover h-full w-full transition duration-500 group-hover:scale-110"
         />
+        {/* ホバー時のオーバーレイ（PC向け） */}
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center">
+          <span className="opacity-0 group-hover:opacity-100 transition-all duration-300 bg-white/95 text-black-600 text-xs font-bold px-4 py-2 rounded-full shadow-lg transform translate-y-2 group-hover:translate-y-0 flex items-center gap-1">
+            詳細を見る <span className="text-lg leading-none">→</span>
+          </span>
+        </div>
       </div>
-      <div className="mt-4">
-        <p className="text-base font-bold">{s.name}</p>
-        <p className="text-sm text-gray-500">{s.role}</p>
-        {s.bio && <p className="mt-2 text-sm text-gray-700 line-clamp-2">{s.bio}</p>}
+
+      {/* テキストエリア */}
+      <div className="mt-4 flex flex-col flex-grow w-full">
+        <div className="flex justify-between items-start w-full">
+          <div>
+            <p className="text-base font-bold text-gray-900 group-hover:text-black-600 transition-colors">
+              {s.name}
+            </p>
+            <p className="text-xs text-gray-500 font-medium mt-0.5">{s.role}</p>
+          </div>
+          {/* 改善点2: 右上に小さなアイコンを置いて「遷移・展開」を示唆 */}
+          <div className="text-gray-300 group-hover:text-black-500 transition-colors">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="m12 16 4-4-4-4" />
+              <path d="M8 12h8" />
+            </svg>
+          </div>
+        </div>
+
+        {s.bio && (
+          <p className="mt-3 text-sm text-gray-600 line-clamp-2 leading-relaxed">{s.bio}</p>
+        )}
+
+        {/* 改善点3: スマホや初見ユーザー向けに、常に表示される「もっと見る」リンク風テキストを追加 */}
+        <div className="mt-4 pt-3 border-t border-dashed border-gray-100 w-full">
+          <span className="text-xs font-bold text-black flex items-center gap-1 group-hover:underline decoration-blue-600 underline-offset-2">
+            プロフィール詳細へ
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </span>
+        </div>
+
+        {/* 外部リンク（伝播防止付き） */}
         {s.links && s.links.length > 0 && (
-          <div className="mt-3 flex flex-wrap gap-2" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="mt-3 flex flex-wrap gap-2 pt-1"
+            onClick={(e) => e.stopPropagation()} // 親ボタンのクリック発火を防ぐ
+          >
             {s.links.map((l, i) => (
-              <Link
+              <a // Next.jsの場合はLinkコンポーネントでもOKですが、stopPropagationが必要なので注意
                 key={i}
                 href={l.href}
                 target="_blank"
                 rel="noreferrer"
-                className="text-xs font-semibold underline underline-offset-4 hover:text-blue-600"
+                className="text-[10px] bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-900 px-2 py-1 rounded transition-colors"
               >
-                {l.label}
-              </Link>
+                {l.label} ↗
+              </a>
             ))}
           </div>
         )}

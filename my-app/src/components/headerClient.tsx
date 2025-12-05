@@ -17,6 +17,7 @@ export const HeaderClient = () => {
   const router = useRouter()
   const pathname = usePathname()
   const panelRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
   // ヘッダー背景の挙動
   useEffect(() => {
@@ -40,7 +41,15 @@ export const HeaderClient = () => {
   useEffect(() => {
     if (!open) return
     const onDown = (e: MouseEvent) => {
-      if (panelRef.current && !panelRef.current.contains(e.target as Node)) setOpen(false)
+      // ボタン自体のクリックは除外（ボタンのonClickで制御するため）
+      if (
+        panelRef.current &&
+        !panelRef.current.contains(e.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(e.target as Node)
+      ) {
+        setOpen(false)
+      }
     }
     window.addEventListener('mousedown', onDown)
     return () => window.removeEventListener('mousedown', onDown)
@@ -108,6 +117,7 @@ export const HeaderClient = () => {
 
         {/* ハンバーガー（モバイル） */}
         <button
+          ref={buttonRef}
           aria-label="メニューを開く"
           aria-expanded={open}
           aria-controls="mobile-menu"
