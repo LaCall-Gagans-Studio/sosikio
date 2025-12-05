@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react'
 import Matter from 'matter-js'
 
-// 💡 外部から渡されるキーワードの型を定義
+//
 interface HeroSectionProps {
   keywords: string[]
   // タイトルは改行タグ(<br>)を含むため ReactNode で受け取る
@@ -30,7 +30,7 @@ const Z_TEXT = 30
 
 // 初期位置オフセット
 const INIT_OFFSET_DESKTOP = { x: -300, y: 0 }
-const INIT_OFFSET_MOBILE = { x: 0, y: -60 }
+const INIT_OFFSET_MOBILE = { x: 0, y: -100 }
 
 // 突風
 const GUST_MIN_MS = 8000
@@ -41,32 +41,27 @@ const GUST_DURATION_MS = 1500
 const GUST_TARGET_Y = 0.75
 const GUST_SPEED_THRESHOLD = 1.2
 
-// 768px 未満をモバイルとみなす場合
-const MOBILE_BREAKPOINT = 768
+const isMobileLike = () =>
+  (typeof window !== 'undefined' &&
+    window.matchMedia &&
+    window.matchMedia('(pointer:coarse)').matches) ||
+  (typeof navigator !== 'undefined' && /Mobi|Android/i.test(navigator.userAgent))
 
-const isMobileLike = () => {
-  if (typeof window === 'undefined') return false // サーバーサイド対策
-  return window.innerWidth < MOBILE_BREAKPOINT
-}
-
-// 💡 propsとしてkeywordsを受け取るように変更
+// propsを分解して受け取る
 export const HeroSection = ({
   keywords,
   title,
   containerHeight = 'calc(95vh)', // デフォルト値 (パターン2の方に合わせておく)
   wordFontWeight = '100', // デフォルト値
 }: HeroSectionProps) => {
-  const heroRef = useRef<HTMLDivElement>(null)
+  const heroRef = useRef<HTMLDivElement>(null) // 💡 [修正] 画像の初期化完了状態を追跡するstate
 
-  // 💡 [修正] 画像の初期化完了状態を追跡するstate
-  const [isImageReady, setIsImageReady] = useState(false)
+  const [isImageReady, setIsImageReady] = useState(false) // 円（kazaHole）とスコープ画像
 
-  // 円（kazaHole）とスコープ画像
   const holeWrapperRef = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
-  const scopeBgRef = useRef<HTMLDivElement>(null)
+  const scopeBgRef = useRef<HTMLDivElement>(null) // 文字（Matter.js）
 
-  // 文字（Matter.js）
   const [words, setWords] = useState<{ id: number; text: string }[]>([])
   const matterRefs = useRef<{
     engine: Matter.Engine | null
@@ -74,62 +69,53 @@ export const HeroSection = ({
     ground: Matter.Body | null
     bodies: { [id: number]: Matter.Body }
     elements: { [id: number]: HTMLDivElement | null }
-  }>({ engine: null, runner: null, ground: null, bodies: {}, elements: {} })
+  }>({ engine: null, runner: null, ground: null, bodies: {}, elements: {} }) // 外側発光
 
-  // 外側発光
   const [holeBoxShadow, setHoleBoxShadow] = useState<string>(`
     inset 0 0 0 ${HOLE_BORDER_PX}px #000,
     10px 10px 20px rgba(0, 0, 0, 0.3),
     -25px -25px 35px rgba(0, 220, 255, 0.85),
     25px -25px 35px rgba(255, 0, 150, 0.8),
     -20px 25px 35px rgba(255, 180, 0, 0.8)
-  `)
+  `) // フェーズ（演出）
 
-  // フェーズ（演出）
   const [phase, setPhase] = useState<'idle' | 'burst' | 'after'>('idle')
   const phaseRef = useRef<'idle' | 'burst' | 'after'>('idle')
-  const blastStartAt = useRef<number>(-1)
+  const blastStartAt = useRef<number>(-1) // 自動発射
 
-  // 自動発射
   const autoTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const lastBlastAtRef = useRef<number>(0)
   const AUTO_MIN_MS = 1400
   const AUTO_MAX_MS = 4800
-  const MIN_GAP_MS = 1000
+  const MIN_GAP_MS = 1000 // 突風
 
-  // 突風
   const gustTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const isGustingRef = useRef(false)
+  const isGustingRef = useRef(false) // 円の現在位置/目標位置
 
-  // 円の現在位置/目標位置
   const holePosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 })
   const holeTargetRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 })
-  const holeRadiusRef = useRef<number>(0)
+  const holeRadiusRef = useRef<number>(0) // hero 中央（viewport）
 
-  // hero 中央（viewport）
   const getHeroCenterLocalPos = () => {
     const host = heroRef.current
     if (!host) return { x: 0, y: 0 }
     const r = host.getBoundingClientRect()
     return { x: r.width / 2, y: r.height / 2 }
-  }
+  } // hero の下端（page 座標）— ground 用
 
-  // hero の下端（page 座標）— ground 用
   const getHeroBottomPageY = () => {
     const host = heroRef.current
     if (!host) return window.scrollY + window.innerHeight
     const r = host.getBoundingClientRect()
     return r.bottom + window.scrollY
-  }
+  } // 初期スポーン（端末別オフセット）
 
-  // 初期スポーン（端末別オフセット）
   const getInitialSpawnPos = () => {
     const cen = getHeroCenterLocalPos()
     const off = isMobileLike() ? INIT_OFFSET_MOBILE : INIT_OFFSET_DESKTOP
     return { x: cen.x + off.x, y: cen.y + off.y }
-  }
+  } // 円中心の page 座標（文字発射原点）
 
-  // 円中心の page 座標（文字発射原点）
   const getHolePagePos = () => {
     const host = heroRef.current
     if (!host) return { x: holePosRef.current.x, y: holePosRef.current.y } // フォールバック
@@ -140,34 +126,30 @@ export const HeroSection = ({
       x: heroLeft + holePosRef.current.x,
       y: heroTop + holePosRef.current.y,
     }
-  }
+  } // vmin→半径(px)
 
-  // vmin→半径(px)
   const computeHoleRadiusPx = () => {
     const vmin = Math.min(window.innerWidth, window.innerHeight)
     const diamVmin = isMobileLike() ? HOLE_DIAMETER_VMIN_MOBILE : HOLE_DIAMETER_VMIN
     return (diamVmin * vmin) / 100 / 2
-  }
+  } // --- スケジューラ ---
 
-  // --- スケジューラ ---
   const scheduleNextAutoBlast = () => {
     // 💡 keywords.length のチェックを追加
     if (document.hidden || keywords.length === 0) return
     if (autoTimeoutRef.current) clearTimeout(autoTimeoutRef.current)
     const wait = Math.floor(Math.random() * (AUTO_MAX_MS - AUTO_MIN_MS + 1)) + AUTO_MIN_MS
     autoTimeoutRef.current = setTimeout(() => triggerBlast(), wait)
-  }
+  } // 💡 keywordsを依存配列に持つuseCallbackとして再定義
 
-  // 💡 keywordsを依存配列に持つuseCallbackとして再定義
   const triggerBlast = useCallback(() => {
     if (keywords.length === 0) return
 
     const now = performance.now()
     if (now - lastBlastAtRef.current < MIN_GAP_MS) return
     lastBlastAtRef.current = now
-    blastStartAt.current = performance.now() / 1000
+    blastStartAt.current = performance.now() / 1000 // ランダム個数で単語追加
 
-    // ランダム個数で単語追加
     const numToSpawn = Math.floor(Math.random() * 3) + 2 // 2〜4
     const newWords: { id: number; text: string }[] = []
     for (let i = 0; i < numToSpawn; i++) {
@@ -176,9 +158,8 @@ export const HeroSection = ({
       const newWordId = Date.now() + Math.random() * (i + 1)
       newWords.push({ id: newWordId, text: randomWord })
     }
-    setWords((prev) => [...prev, ...newWords])
+    setWords((prev) => [...prev, ...newWords]) // 物理ボディ生成
 
-    // 物理ボディ生成
     setTimeout(() => {
       const spawn = getHolePagePos()
       newWords.forEach((word) => {
@@ -200,18 +181,16 @@ export const HeroSection = ({
         })
         Matter.Body.setPosition(newBody, { x: spawn.x, y: spawn.y })
         matterRefs.current.bodies[word.id] = newBody
-        matterRefs.current.engine && Matter.World.add(matterRefs.current.engine.world, newBody)
+        matterRefs.current.engine && Matter.World.add(matterRefs.current.engine.world, newBody) // 初速
 
-        // 初速
         const forceMagnitudeY = -0.05
         const forceMagnitudeX = (Math.random() - 0.5) * 0.3
         Matter.Body.applyForce(newBody, newBody.position, {
           x: forceMagnitudeX,
           y: forceMagnitudeY,
         })
-        Matter.Body.setAngularVelocity(newBody, (Math.random() - 0.5) * 0.2)
+        Matter.Body.setAngularVelocity(newBody, (Math.random() - 0.5) * 0.2) // TTL
 
-        // TTL
         const ttl = window.setTimeout(() => {
           const { engine: currentEngine, bodies, elements } = matterRefs.current
           const bodyToRemove = bodies[word.id]
@@ -228,8 +207,8 @@ export const HeroSection = ({
 
     scheduleNextAutoBlast()
   }, [keywords]) // 💡 propsのkeywordsを依存配列に設定
-
   // 突風
+
   const scheduleNextGustBlast = () => {
     if (document.hidden) return
     if (gustTimeoutRef.current) clearTimeout(gustTimeoutRef.current)
@@ -279,20 +258,17 @@ export const HeroSection = ({
       isGustingRef.current = false
       scheduleNextGustBlast()
     }, GUST_DURATION_MS)
-  }
+  } // 💡 Matter.js とイベントリスナーのセットアップ
 
-  // 💡 Matter.js とイベントリスナーのセットアップ
   useEffect(() => {
     // 💡 keywordsが空の場合はMatter.jsのセットアップをスキップ
-    if (!heroRef.current || keywords.length === 0) return
+    if (!heroRef.current || keywords.length === 0) return // 半径と初期位置
 
-    // 半径と初期位置
     holeRadiusRef.current = computeHoleRadiusPx()
     const init = getInitialSpawnPos()
     holePosRef.current = { ...init }
-    holeTargetRef.current = { ...init }
+    holeTargetRef.current = { ...init } // 背景画像
 
-    // 背景画像
     const scope = scopeBgRef.current
     if (scope) {
       // clip-path に必要なスタイルは useEffect内で設定
@@ -303,14 +279,12 @@ export const HeroSection = ({
       scope.style.zIndex = String(Z_SCOPE_BG)
       scope.style.position = 'absolute'
       scope.style.inset = '0'
-    }
+    } // Matter.js セットアップ
 
-    // Matter.js セットアップ
     const engine = Matter.Engine.create()
     const runner = Matter.Runner.create()
-    engine.world.gravity.y = 1.2
+    engine.world.gravity.y = 1.2 // ★ ground を hero の下端に配置
 
-    // ★ ground を hero の下端に配置
     const ground = Matter.Bodies.rectangle(
       window.innerWidth / 2,
       getHeroBottomPageY() + 50,
@@ -322,9 +296,8 @@ export const HeroSection = ({
     Matter.Runner.run(runner, engine)
     matterRefs.current.engine = engine
     matterRefs.current.runner = runner
-    matterRefs.current.ground = ground
+    matterRefs.current.ground = ground // ground 再配置（vh 変化・レイアウト変化）
 
-    // ground 再配置（vh 変化・レイアウト変化）
     const updateGround = () => {
       if (!matterRefs.current.ground) return
       Matter.Body.setPosition(matterRefs.current.ground, {
@@ -365,16 +338,13 @@ export const HeroSection = ({
 
     heroRef.current.addEventListener('click', onClick as any)
     window.addEventListener('resize', onResize as any)
-    document.addEventListener('visibilitychange', onVisChange as any)
+    document.addEventListener('visibilitychange', onVisChange as any) // 初回スケジュール
 
-    // 初回スケジュール
     scheduleNextAutoBlast()
-    scheduleNextGustBlast()
+    scheduleNextGustBlast() // 💡 [修正] 初期化が完了し、clipPathが適用可能になったら画像をフェードインさせる
 
-    // 💡 [修正] 初期化が完了し、clipPathが適用可能になったら画像をフェードインさせる
-    setIsImageReady(true)
+    setIsImageReady(true) // ====== ループ ======
 
-    // ====== ループ ======
     let rafId = 0
     const BURST_DURATION = 1.2
     const AFTER_DURATION = 4.0
@@ -383,24 +353,21 @@ export const HeroSection = ({
       rafId = requestAnimationFrame(tick)
 
       const pos = holePosRef.current
-      const target = holeTargetRef.current
+      const target = holeTargetRef.current // 追従は固定ターゲットへ LERP のみ
 
-      // 追従は固定ターゲットへ LERP のみ
       pos.x += (target.x - pos.x) * FOLLOW_LERP
       pos.y += (target.y - pos.y) * FOLLOW_LERP
 
       const nowSec = performance.now() / 1000
-      const timeSinceBlast = blastStartAt.current >= 0 ? nowSec - blastStartAt.current : Infinity
+      const timeSinceBlast = blastStartAt.current >= 0 ? nowSec - blastStartAt.current : Infinity // 膨張パルス
 
-      // 膨張パルス
       let pulseScale = 1
       if (timeSinceBlast < 1.0) {
         const progress = timeSinceBlast / 1.0
         const blastEffect = Math.exp(-progress * 5.0) * Math.sin(progress * Math.PI * 3.0)
         pulseScale = 1.0 + blastEffect * 0.5
-      }
+      } // ラッパー位置
 
-      // ラッパー位置
       const wrap = holeWrapperRef.current
       if (wrap) {
         wrap.style.transform = `translate(${pos.x}px, ${pos.y}px)`
@@ -412,13 +379,11 @@ export const HeroSection = ({
         wrap.style.height = '0'
         wrap.style.pointerEvents = 'none'
         wrap.style.willChange = 'transform'
-      }
+      } // モバイル/デスクトップ切替
 
-      // モバイル/デスクトップ切替
       const DIAM_VMIN = isMobileLike() ? HOLE_DIAMETER_VMIN_MOBILE : HOLE_DIAMETER_VMIN
-      const BORDER_PX = isMobileLike() ? HOLE_BORDER_PX_MOBILE : HOLE_BORDER_PX
+      const BORDER_PX = isMobileLike() ? HOLE_BORDER_PX_MOBILE : HOLE_BORDER_PX // リング
 
-      // リング
       const ring = ringRef.current
       const r = holeRadiusRef.current
       if (ring) {
@@ -448,25 +413,23 @@ export const HeroSection = ({
         const orangeY = 25 + amplitude * Math.sin(nowSec * speed * 1.3)
 
         const newBoxShadow = `
-          inset 0 0 0 ${BORDER_PX}px #000,
-          10px 10px 20px rgba(0,0,0,0.3),
-          ${blueX}px ${blueY}px ${blur}px rgba(0,220,255,0.85),
-          ${pinkX}px ${pinkY}px ${blur}px rgba(255,0,150,0.8),
-          ${orangeX}px ${orangeY}px ${blur}px rgba(255,180,0,0.8)
-        `
+    inset 0 0 0 ${BORDER_PX}px #000,
+    10px 10px 20px rgba(0,0,0,0.3),
+    ${blueX}px ${blueY}px ${blur}px rgba(0,220,255,0.85),
+    ${pinkX}px ${pinkY}px ${blur}px rgba(255,0,150,0.8),
+    ${orangeX}px ${orangeY}px ${blur}px rgba(255,180,0,0.8)
+  `
         if (holeBoxShadow !== newBoxShadow) setHoleBoxShadow(newBoxShadow)
         ring.style.boxShadow = holeBoxShadow
-      }
+      } // スコープ画像の穴
 
-      // スコープ画像の穴
       const scope = scopeBgRef.current
       if (scope) {
         const clip = `circle(${r}px at ${pos.x}px ${pos.y}px)`
         ;(scope.style as any).clipPath = clip
         ;(scope.style as any).webkitClipPath = clip
-      }
+      } // Matter DOM 同期
 
-      // Matter DOM 同期
       const heroRect = heroRef.current?.getBoundingClientRect()
       const heroTop = (heroRect?.top || 0) + window.scrollY
       const heroLeft = (heroRect?.left || 0) + window.scrollX
@@ -478,9 +441,8 @@ export const HeroSection = ({
         const { x, y } = body.position
         const angle = body.angle
         el.style.transform = `translate(${x - heroLeft - el.clientWidth / 2}px, ${y - heroTop - el.clientHeight / 2}px) rotate(${angle}rad)`
-      })
+      }) // 画面外クリーン
 
-      // 画面外クリーン
       const W = window.innerWidth
       const docH = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)
       const margin = 300
@@ -497,9 +459,8 @@ export const HeroSection = ({
           delete elements[id]
           setWords((prev) => prev.filter((w) => w.id !== id))
         }
-      })
+      }) // フェーズ更新
 
-      // フェーズ更新
       let nextPhase: 'idle' | 'burst' | 'after' = 'idle'
       if (timeSinceBlast >= 0 && timeSinceBlast < BURST_DURATION) nextPhase = 'burst'
       else if (timeSinceBlast >= BURST_DURATION && timeSinceBlast < BURST_DURATION + AFTER_DURATION)
@@ -510,9 +471,8 @@ export const HeroSection = ({
         setPhase(nextPhase)
       }
     }
-    rafId = requestAnimationFrame(tick)
+    rafId = requestAnimationFrame(tick) // クリーンアップ
 
-    // クリーンアップ
     return () => {
       cancelAnimationFrame(rafId)
       heroRef.current?.removeEventListener('click', onClick as any)
@@ -560,7 +520,6 @@ export const HeroSection = ({
           background: 'linear-gradient(to bottom, #ffffff 0%, #f7f7f7 35%, #f1f1f1 100%)',
         }}
       />
-
       {/* スコープ：背景画像（clip-path） */}
       <div
         ref={scopeBgRef}
@@ -576,29 +535,25 @@ export const HeroSection = ({
           pointerEvents: 'none',
         }}
       />
-
       {/* テキスト */}
       <div className="absolute pointer-events-none inset-0 font-semibold antialiased">
         <div
-          className="absolute left-1/2 bottom-24 md:top-1/2 pointer-events-none -translate-y-24 md:-translate-y-2/3 md:-translate-x-0 -translate-x-1/2"
+          className="absolute left-1/2 top-1/2 pointer-events-none translate-y-24 lg:-translate-y-1/2 lg:-translate-x-0 -translate-x-1/2"
           style={{ zIndex: Z_TEXT }}
         >
-          <h1 className="font-zenKakuGothicAntique text-nowrap text-4xl leading-snug text-center md:text-left sm:text-5xl md:text-6xl lg:text-7xl lg:leading-normal">
-            {title}
+          <h1 className="font-zenKakuGothicAntique text-nowrap text-4xl leading-snug text-center lg:text-left sm:text-5xl md:text-6xl lg:text-7xl lg:leading-normal">
+            日常に <br className="hidden lg:block" />
+            組織が変わる <br /> 歓びを
           </h1>
-          <p className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg text-center md:text-left leading-relaxed font-zenKakuGothicNew z-3">
-            組織を率いるリーダーと現場を
-            <br className="md:hidden" />
-            「データと対話」でつなぎ、
-            <br />
-            行動変容を促すプラットフォーム <br className="lg:hidden" />
-            <span className="font-extrabold text-white mt-1 lg:mt-0 bg-black px-2 py-0 inline-block">
+          <p className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg text-center lg:text-left leading-relaxed font-zenKakuGothicNew">
+            組織を率いるリーダーと現場を <br className="lg:hidden" />
+            「データと対話」でつなぎ、行動変容を促すプラットフォーム <br className="lg:hidden" />{' '}
+            <span className="font-extrabold text-white mt-2 lg:mt-0 bg-black px-2 py-0 inline-block">
               SOSIKIO
             </span>
           </p>
         </div>
       </div>
-
       {/* kazaHole（リングのみ。内側は透過） */}
       <div
         ref={holeWrapperRef}
@@ -628,7 +583,6 @@ export const HeroSection = ({
           }}
         />
       </div>
-
       {/* 飛び散る文字 */}
       {words.map((word) => (
         <div
@@ -642,12 +596,14 @@ export const HeroSection = ({
             left: 0,
             zIndex: 40,
             color: '#000',
+            // 💡 変更点4: フォントの太さを動的に指定
             fontWeight: wordFontWeight,
             pointerEvents: 'none',
             userSelect: 'none',
             transform: 'translate(-9999px, -9999px)',
             fontFamily: '"MS 明朝","serif"',
           }}
+          // クラス指定(font-extralight等)はstyleのfontWeightが優先されるため削除、または共通化
           className="text-2xl lg:text-4xl"
         >
           {word.text}
