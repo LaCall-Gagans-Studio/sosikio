@@ -5,8 +5,13 @@ import Matter from 'matter-js'
 
 // 💡 外部から渡されるキーワードの型を定義
 interface HeroSectionProps {
-  // キーワードは文字列の配列として受け取る
   keywords: string[]
+  // タイトルは改行タグ(<br>)を含むため ReactNode で受け取る
+  title: React.ReactNode
+  // 高さ (例: 'calc(85vh)', 'calc(95vh)') - 任意（デフォルトあり）
+  containerHeight?: string
+  // 飛び散る文字の太さ (例: 'lighter', '100') - 任意
+  wordFontWeight?: React.CSSProperties['fontWeight']
 }
 
 const SCOPE_BG_URL = 'mats/hero_bg.webp'
@@ -25,7 +30,7 @@ const Z_TEXT = 30
 
 // 初期位置オフセット
 const INIT_OFFSET_DESKTOP = { x: -300, y: 0 }
-const INIT_OFFSET_MOBILE = { x: 0, y: -100 }
+const INIT_OFFSET_MOBILE = { x: 0, y: -60 }
 
 // 突風
 const GUST_MIN_MS = 8000
@@ -43,7 +48,12 @@ const isMobileLike = () =>
   (typeof navigator !== 'undefined' && /Mobi|Android/i.test(navigator.userAgent))
 
 // 💡 propsとしてkeywordsを受け取るように変更
-export const HeroSection = ({ keywords }: HeroSectionProps) => {
+export const HeroSection = ({
+  keywords,
+  title,
+  containerHeight = 'calc(95vh)', // デフォルト値 (パターン2の方に合わせておく)
+  wordFontWeight = '100', // デフォルト値
+}: HeroSectionProps) => {
   const heroRef = useRef<HTMLDivElement>(null)
 
   // 💡 [修正] 画像の初期化完了状態を追跡するstate
@@ -529,7 +539,7 @@ export const HeroSection = ({ keywords }: HeroSectionProps) => {
   const containerStyle: React.CSSProperties = {
     position: 'relative',
     width: '100%',
-    height: 'calc(95vh)',
+    height: containerHeight, // ここでpropsの値を使用
     overflow: 'hidden',
     backgroundColor: '#f1f1f1',
     display: 'flex',
@@ -572,19 +582,15 @@ export const HeroSection = ({ keywords }: HeroSectionProps) => {
           style={{ zIndex: Z_TEXT }}
         >
           <h1 className="font-zenKakuGothicAntique text-nowrap text-4xl leading-snug text-center lg:text-left sm:text-5xl md:text-6xl lg:text-7xl lg:leading-normal">
-            組織を
-            <br className="hidden lg:block" />
-            率いる人を、
-            <br />
-            1人にさせない。
+            {title}
           </h1>
-          <p className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg text-center lg:text-left leading-relaxed font-zenKakuGothicNew">
+          <p className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg text-center lg:text-left leading-relaxed font-zenKakuGothicNew z-3">
             組織を率いるリーダーと現場を
             <br className="lg:hidden" />
             「データと対話」でつなぎ、
             <br />
             行動変容を促すプラットフォーム <br className="lg:hidden" />
-            <span className="font-extrabold text-white mt-2 lg:mt-0 bg-black px-2 py-0 inline-block">
+            <span className="font-extrabold text-white mt-1 lg:mt-0 bg-black px-2 py-0 inline-block">
               SOSIKIO
             </span>
           </p>
@@ -634,13 +640,13 @@ export const HeroSection = ({ keywords }: HeroSectionProps) => {
             left: 0,
             zIndex: 40,
             color: '#000',
-            fontWeight: '100' as any,
+            fontWeight: wordFontWeight,
             pointerEvents: 'none',
             userSelect: 'none',
             transform: 'translate(-9999px, -9999px)',
             fontFamily: '"MS 明朝","serif"',
           }}
-          className="text-2xl lg:text-4xl font-extralight"
+          className="text-2xl lg:text-4xl"
         >
           {word.text}
         </div>

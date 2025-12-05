@@ -5,7 +5,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import { ArrowDown, X } from 'lucide-react'
 
-import { HeroSection } from './hero.p'
+import { HeroSection } from '@/sections/hero'
 import { PolicySection } from '@/app/(frontend)/philosophy/policy'
 import type { Staff, TimelineItem, RelatedCompany } from '@/lib/philosophy'
 import { getHighlightedTitle } from '@/sections/overview'
@@ -39,7 +39,20 @@ export default function PhilosophyPageClient({
 
   return (
     <main className="min-h-screen bg-gray-50 text-gray-900">
-      <HeroSection keywords={keywords} />
+      <HeroSection
+        keywords={keywords}
+        containerHeight="calc(96vh)"
+        wordFontWeight="100" // または 100
+        title={
+          <>
+            組織を
+            <br className="hidden lg:block" />
+            率いる人を、
+            <br />
+            1人にさせない。
+          </>
+        }
+      />
       <PageGuide />
       <PolicySection />
 

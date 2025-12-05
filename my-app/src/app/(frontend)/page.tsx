@@ -33,7 +33,20 @@ export default async function Page() {
 
   return (
     <main className="bg-[#f1f1f1] text-gray-800 font-zenKakuGothicNew tracking-wide">
-      <HeroSection keywords={keywords} />
+      <HeroSection
+        keywords={keywords}
+        containerHeight="calc(85vh)"
+        wordFontWeight="lighter"
+        title={
+          <>
+            日常に
+            <br className="hidden lg:block" />
+            組織が変わる
+            <br />
+            歓びを
+          </>
+        }
+      />
       <NewsSection articles={articlesData.articles} testimonials={testimonials} />
       <OverviewSection products={products} overview={overview} />
       <AboutSection products={products} />
