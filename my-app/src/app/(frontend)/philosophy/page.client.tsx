@@ -192,7 +192,7 @@ export default function PhilosophyPageClient({
         </div>
       </div>
 
-      {/* 5) 関連会社情報（北菱電興） */}
+      {/* 5) 運営元会社情報（北菱電興） */}
       {company && <RelatedAndOffices company={company} />}
 
       {/* Staff Modal */}
@@ -479,7 +479,7 @@ function RelatedAndOffices({ company }: { company: RelatedCompany }) {
   return (
     <section id="related-offices" className="bg-white py-16 sm:py-24">
       <div className="container mx-auto px-6">
-        <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">所在 & 関連会社</h2>
+        <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">所在 & 運営元</h2>
 
         {/* 会社ボックス */}
         <div className="mt-8 sm:mt-10 rounded-lg border bg-white/70 shadow-sm p-6 sm:p-8 flex flex-col lg:flex-row gap-6">

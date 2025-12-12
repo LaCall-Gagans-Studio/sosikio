@@ -3,7 +3,7 @@ import type { GlobalConfig } from 'payload'
 
 export const RelatedCompany: GlobalConfig = {
   slug: 'related-company',
-  label: '関連会社情報',
+  label: '運営元会社情報',
   access: { read: () => true },
   admin: { group: '静的コンテンツ' },
   fields: [
