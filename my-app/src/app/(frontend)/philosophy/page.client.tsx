@@ -81,7 +81,7 @@ export default function PhilosophyPageClient({
           }}
         />
         <div className="relative z-10">
-          {/* 2) 代表 & 挨拶 */}
+          {/* 2) 率いる人 & 挨拶 */}
           {representatives.length > 0 && (
             <section className="" id="leader">
               <div className="container mx-auto px-6 py-16 sm:py-24">
@@ -90,7 +90,7 @@ export default function PhilosophyPageClient({
                   <h2 className="text-2xl sm:text-3xl lg:text-7xl font-bold mb-3 tracking-tight">
                     Leader
                   </h2>
-                  <p className="text-gray-500 font-medium ml-1">代表挨拶</p>
+                  <p className="text-gray-500 font-medium ml-1">率いる人 挨拶</p>
                 </div>
 
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 lg:gap-12">
@@ -205,7 +205,7 @@ export default function PhilosophyPageClient({
 function PageGuide() {
   const items = [
     { label: 'Philosophy', href: '#policy-section', jp: '理念・想い' },
-    { label: 'Message', href: '#leader', jp: '代表挨拶' },
+    { label: 'Message', href: '#leader', jp: '率いる人 挨拶' },
     { label: 'Member', href: '#boonist', jp: 'スタッフ' },
     { label: 'History', href: '#history', jp: '沿革' },
     { label: 'Company', href: '#related-offices', jp: '会社情報' },

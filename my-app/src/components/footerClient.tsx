@@ -99,7 +99,7 @@ export function FooterClient({ products }: Props) {
                   onClick={() => handleClick('/philosophy#leader')}
                   className="hover:text-white transition"
                 >
-                  代表挨拶
+                  率いる人 挨拶
                 </button>
               </li>
               <li>

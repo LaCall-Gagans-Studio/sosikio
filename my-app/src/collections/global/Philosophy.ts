@@ -3,7 +3,7 @@ import type { GlobalConfig } from 'payload'
 
 export const Philosophy: GlobalConfig = {
   slug: 'philosophy',
-  label: '理念 / 代表',
+  label: '理念 / 率いる人',
   access: { read: () => true },
   admin: { group: '静的コンテンツ' },
   fields: [
@@ -23,7 +23,7 @@ export const Philosophy: GlobalConfig = {
     },
     {
       name: 'representatives',
-      label: '代表',
+      label: '率いる人',
       type: 'array',
       fields: [
         { name: 'name', label: '氏名', type: 'text', required: true },
