@@ -90,9 +90,9 @@ export function FooterClient({ products }: Props) {
             </ul>
           </div>
 
-          {/* Company */}
+          {/* About Us */}
           <div>
-            <h4 className="font-semibold text-white tracking-wider mb-4">Company</h4>
+            <h4 className="font-semibold text-white tracking-wider mb-4">About Us</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <button
