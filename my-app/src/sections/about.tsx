@@ -47,7 +47,7 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
           variants={sectionVariants}
           initial="hidden"
           animate="visible"
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-16 items-center"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-12 items-center"
         >
           <div className="text-left flex flex-col justify-center">
             <div className="pl-2 sm:pl-4">
@@ -71,7 +71,7 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
               {product.catchphrase}
             </h3>
 
-            <p className="mt-4 sm:mt-6 text-gray-700 leading-relaxed sm:leading-loose text-base sm:text-lg font-medium pl-2 sm:pl-4">
+            <p className="mt-4 sm:mt-6 text-gray-800 leading-relaxed sm:leading-loose text-lg sm:text-xl font-medium pl-2 sm:pl-4">
               {product.description}
             </p>
           </div>
@@ -98,7 +98,7 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="mt-16 sm:mt-20 md:mt-24 lg:mt-40 mx-auto text-center"
+            className="mt-12 sm:mt-16 md:mt-20 lg:mt-24 mx-auto text-center"
           >
             <h2
               className={`text-3xl sm:text-4xl md:text-5xl font-black rounded-lg tracking-tighter text-white  text-center leading-tight px-3 py-2 inline-block`}
@@ -109,7 +109,7 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
             <h3 className="text-xl sm:text-2xl md:text-4xl font-bold tracking-tight text-gray-800 text-center mt-3 sm:mt-4">
               {main.heading_jp}
             </h3>
-            <p className="mt-6 sm:mt-8 text-base sm:text-lg md:text-xl max-w-3xl mx-auto text-gray-700 leading-relaxed sm:leading-loose whitespace-pre-wrap px-1">
+            <p className="mt-5 sm:mt-6 text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto text-gray-800 font-medium leading-relaxed sm:leading-loose whitespace-pre-wrap px-1">
               {main.text}
             </p>
           </motion.section>
@@ -122,9 +122,9 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="mt-16 sm:mt-20 md:mt-24 lg:mt-40"
+            className="mt-12 sm:mt-16 md:mt-20 lg:mt-24"
           >
-            <div className="text-center mb-10 sm:mb-12 md:mb-16">
+            <div className="text-center mb-8 sm:mb-10 md:mb-12">
               <h2 className="text-6xl sm:text-6xl md:text-7xl lg:text-9xl font-black tracking-tighter text-gray-900 leading-none">
                 {process.title_en}
               </h2>
@@ -152,7 +152,7 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
                     {step.title_en}
                   </h3>
                   <p className="text-xl font-bold text-gray-800">{step.title_jp}</p>
-                  <p className="mt-4 text-gray-700 text-sm sm:text-base leading-relaxed">
+                  <p className="mt-3 text-gray-800 text-base sm:text-lg leading-relaxed font-medium">
                     {step.description}
                   </p>
                 </div>
@@ -168,7 +168,7 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="mt-16 sm:mt-20 md:mt-24 lg:mt-40"
+            className="mt-12 sm:mt-16 md:mt-20 lg:mt-24"
           >
             <div className="text-center w-auto">
               <h2 className="text-6xl md:text-7xl lg:text-9xl font-black tracking-tighter text-gray-900 leading-tight">
@@ -182,7 +182,7 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
               </p>
             </div>
 
-            <div className="mt-12 sm:mt-16 md:mt-20 space-y-14 sm:space-y-16 md:space-y-20">
+            <div className="mt-10 sm:mt-12 md:mt-16 space-y-10 sm:space-y-12 md:space-y-16">
               {(features.items ?? []).map((feature, i) => (
                 <div
                   key={i}
@@ -216,7 +216,7 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
                     <p className="text-xl sm:text-2xl font-bold text-gray-800 mt-3">
                       {feature.title_jp}
                     </p>
-                    <p className="mt-3 sm:mt-4 md:mt-5 text-gray-700 leading-relaxed text-base sm:text-lg whitespace-pre-wrap">
+                    <p className="mt-3 sm:mt-4 md:mt-5 text-gray-800 font-medium leading-relaxed text-lg sm:text-xl whitespace-pre-wrap">
                       {feature.description}
                     </p>
                   </div>
@@ -233,7 +233,7 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className={`relative mt-16 sm:mt-20 md:mt-24 lg:mt-40 text-center  text-white p-8 sm:p-12 md:p-16 lg:p-20 rounded-lg overflow-hidden`}
+            className={`relative mt-12 sm:mt-16 md:mt-20 lg:mt-24 text-center  text-white p-6 sm:p-10 md:p-12 lg:p-16 rounded-lg overflow-hidden`}
             style={{ backgroundColor: product.mainColor ?? undefined }}
           >
             <div className="absolute inset-0 -z-10" />
@@ -241,7 +241,7 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
               {cta.title_en}
             </h2>
             <h3 className="text-base md:text-4xl font-bold mt-2">{cta.title_jp}</h3>
-            <p className="mt-4 sm:mt-6 max-w-3xl mx-auto text-base sm:text-lg text-gray-100 leading-relaxed px-2">
+            <p className="mt-4 sm:mt-6 max-w-3xl mx-auto text-lg sm:text-xl text-white font-medium leading-relaxed px-2">
               {cta.description}
             </p>
             <motion.button
@@ -321,7 +321,7 @@ export const AboutSection: React.FC<{ products: CmsProduct[] }> = ({ products })
       />
 
       {/* プロダクト選択（横スクロール可） */}
-      <div className="container mx-auto mb-10 sm:mb-12 md:mb-16">
+      <div className="container mx-auto mb-8 sm:mb-10 md:mb-12">
         <div className="flex flex-col items-center justify-center">
           {/* 改善点1: ラベルを追加して操作を促す */}
           <p className="text-xs text-gray-500 mb-2 font-bold flex items-center gap-1">
@@ -394,7 +394,7 @@ export const AboutSection: React.FC<{ products: CmsProduct[] }> = ({ products })
               animate={{ x: '0%', opacity: 1 }}
               exit={{ x: direction < 0 ? '100%' : '-100%', opacity: 0 }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="w-full bg-white rounded-lg p-5 sm:p-6 md:p-8 lg:p-12 shadow-2xl border border-gray-100"
+              className="w-full bg-white rounded-lg p-4 sm:p-6 md:p-8 shadow-2xl border border-gray-100"
             >
               <ProductAboutPage product={activeProduct} />
             </motion.div>

@@ -20,14 +20,14 @@ export function NewsSection({ articles, testimonials }: Props) {
   if (newsItems.length === 0) return null
 
   return (
-    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#f8f8f8]">
+    <section className="py-10 px-4 sm:px-6 lg:px-8 bg-[#f8f8f8]">
       <div className="max-w-5xl mx-auto">
         {/* ヘッダー部分 */}
         <div className="flex items-end justify-between mb-6 sm:mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
-            <span>Latest News</span>
-            <span className="text-xs font-medium uppercase tracking-[0.18em] bg-black text-white px-2 py-1 hidden sm:inline-block">
-              UPDATES
+            <span>最新情報</span>
+            <span className="text-sm text-gray-400 font-medium hidden sm:inline-block">
+              Latest News
             </span>
           </h2>
           <Link
@@ -53,18 +53,18 @@ export function NewsSection({ articles, testimonials }: Props) {
                   }
                   target={item.linkType === 'external' ? '_blank' : undefined}
                   rel={item.linkType === 'external' ? 'noopener noreferrer' : undefined}
-                  className="group flex flex-col sm:flex-row sm:items-center py-5 px-2 hover:bg-white transition-colors duration-200"
+                  className="group flex flex-col sm:flex-row sm:items-center py-4 px-3 hover:bg-white transition-colors duration-200 rounded-lg"
                 >
                   {/* 日付とタグ */}
                   <div className="flex items-center gap-3 mb-2 sm:mb-0 sm:w-48 shrink-0">
-                    <time className="text-sm text-gray-500 font-mono tracking-wide">
+                    <time className="text-sm font-medium text-gray-700 font-mono tracking-wide">
                       {formatIsoDateToJa(item.date)}
                     </time>
                     <span
-                      className={`inline-block px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase rounded-sm border ${
+                      className={`inline-block px-2.5 py-1 text-xs font-bold tracking-wider uppercase rounded-md border ${
                         isColumn
-                          ? 'border-cyan-200 text-cyan-700 bg-cyan-50'
-                          : 'border-rose-200 text-rose-700 bg-rose-50'
+                          ? 'border-cyan-200 text-cyan-800 bg-cyan-100'
+                          : 'border-rose-200 text-rose-800 bg-rose-100'
                       }`}
                     >
                       {isColumn ? 'COLUMN' : 'VOICE'}
@@ -72,7 +72,7 @@ export function NewsSection({ articles, testimonials }: Props) {
                   </div>
 
                   {/* タイトル */}
-                  <h3 className="flex-1 text-base font-medium text-gray-800 group-hover:text-cyan-700 transition-colors line-clamp-2 sm:line-clamp-1">
+                  <h3 className="flex-1 text-lg font-bold text-gray-900 group-hover:text-cyan-800 transition-colors line-clamp-2 sm:line-clamp-1 mt-2 sm:mt-0">
                     {item.title}
                   </h3>
 

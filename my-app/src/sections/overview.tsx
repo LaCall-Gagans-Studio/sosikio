@@ -42,7 +42,7 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
 
   return (
     <section className="bg-white" id="overview">
-      <div className="py-16 sm:py-20 lg:py-32 relative isolate">
+      <div className="py-12 sm:py-16 lg:py-20 relative isolate">
         {/* HERO */}
         <motion.div
           variants={sectionVariants}
@@ -52,12 +52,12 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
           className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8"
         >
           <div className="flex flex-col justify-center items-center text-center">
-            <h1 className="font-zenKakuGothicAntique whitespace-pre-wrap text-[clamp(2.25rem,6vw,4.5rem)]">
+            <h1 className="font-zenKakuGothicAntique whitespace-pre-wrap text-[clamp(2.25rem,6vw,4.5rem)] text-slate-900 drop-shadow-sm">
               {titleHighlight}
             </h1>
 
             <div className="flex flex-row items-center mt-4 sm:mt-6 gap-2 sm:gap-3">
-              <span className="text-xl lg:text-3xl font-zenKakuGothicAntique md:[writing-mode:vertical-rl] ">
+              <span className="text-xl lg:text-3xl font-zenKakuGothicAntique md:[writing-mode:vertical-rl] text-slate-900 font-bold">
                 それが
               </span>
               {hero?.mainLogo && (
@@ -69,7 +69,7 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
               )}
             </div>
 
-            <p className="mt-6 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto px-2 text-gray-800 whitespace-pre-wrap">
+            <p className="mt-6 text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto px-2 text-gray-900 font-medium whitespace-pre-wrap">
               {hero?.subtitle ??
                 '「組織の課題は、なんとなく分かっている。\nでも、どこから手をつければ…」\nSOSIKIOは、そんな漠然とした不安を「確信」に変えるプラットフォームです。'}
             </p>
@@ -88,13 +88,13 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
                     }
                   }
                 }}
-                className="p-3 sm:p-4 rounded-lg text-black border border-black hover:bg-black hover:text-white duration-300"
+                className="p-3 sm:p-4 rounded-lg text-black border border-black hover:bg-black hover:text-white duration-300 font-bold bg-white"
               >
                 {hero?.ctaPrimaryLabel || 'サービスを見る'}
               </Link>
               <Link
                 href={hero?.ctaSecondaryHref || '/philosophy'}
-                className="p-3 sm:p-4 rounded-lg text-white bg-black border border-black hover:text-black hover:bg-white/60 duration-300"
+                className="p-3 sm:p-4 rounded-lg text-white bg-black border border-black hover:text-black hover:bg-white/60 duration-300 font-bold"
               >
                 {hero?.ctaSecondaryLabel || 'SOSIKIOを知る'}
               </Link>
@@ -166,7 +166,7 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
         >
           {/* WHY SOSIKIO */}
           {strengths.length > 0 && (
-            <div className="mt-16 sm:mt-20 md:mt-28 text-center relative overflow-hidden p-6 sm:p-8 md:p-12 rounded-lg py-16 bg-white sm:py-20 md:py-24 border border-slate-200 shadow-2xl">
+            <div className="mt-2 sm:mt-4 md:mt-6 text-center relative overflow-hidden p-6 sm:p-8 md:p-10 rounded-lg py-12 bg-white sm:py-16 md:py-20 border border-slate-200 shadow-2xl">
               {/* 背景グラデーションは少し透明度を調整して馴染ませるか、そのまま維持 */}
               <div className="absolute inset-0 bg-cyan-100/30 -z-10" />
               <h2 className="text-4xl sm:text-5xl md:text-7xl font-semibold tracking-wide text-slate-900 ">
@@ -210,12 +210,15 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
                       </div>
 
                       {/* 説明文: 濃いグレー */}
-                      <p className="mt-4 text-base text-slate-600">{s.description}</p>
+                      <p className="mt-4 text-base text-slate-800 font-medium">{s.description}</p>
 
                       <ul className="mt-4 space-y-2.5">
                         {(s.points ?? []).map((p, idx) => (
                           // リストアイテム: 濃いグレー
-                          <li key={idx} className="flex gap-2 text-slate-700 text-sm lg:text-base">
+                          <li
+                            key={idx}
+                            className="flex gap-2 text-slate-800 font-medium text-sm lg:text-base"
+                          >
                             <ShieldCheck
                               className="mt-2 h-4 w-4 shrink-0 text-emerald-800 font-bold"
                               aria-hidden
