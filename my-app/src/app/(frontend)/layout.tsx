@@ -5,7 +5,7 @@ import { Header } from '@/components/header'
 import Clarity from '@microsoft/clarity'
 
 // "yourProjectId" の部分を実際のプロジェクトIDに置き換えてください
-const projectId = 'yourProjectId'
+const projectId = 'uoc6ifrhln'
 
 Clarity.init(projectId)
 
