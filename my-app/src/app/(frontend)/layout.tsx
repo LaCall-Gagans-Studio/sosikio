@@ -2,6 +2,12 @@ import React from 'react'
 import './styles.css'
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
+import Clarity from '@microsoft/clarity'
+
+// "yourProjectId" の部分を実際のプロジェクトIDに置き換えてください
+const projectId = 'yourProjectId'
+
+Clarity.init(projectId)
 
 import type { Metadata } from 'next'
 
