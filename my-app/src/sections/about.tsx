@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence, Variants } from 'framer-motion'
 import { ArrowRight, X } from 'lucide-react'
+import { createPortal } from 'react-dom'
 import type { Product as CmsProduct, Media } from '@/payload-types'
 
 // ===== 型 & ヘルパー =====
@@ -29,6 +30,52 @@ const sectionVariants: Variants = {
 }
 
 // ========================
+// ImageModal
+// ========================
+const ImageModal = ({ src, onClose }: { src: string; onClose: () => void }) => {
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', handleEsc)
+    return () => window.removeEventListener('keydown', handleEsc)
+  }, [onClose])
+
+  if (typeof document === 'undefined') return null
+
+  return createPortal(
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative max-w-full max-h-full flex flex-col items-center justify-center"
+      >
+        <img
+          src={src}
+          alt="Full size"
+          className="max-w-full max-h-[90vh] object-contain rounded-md"
+        />
+        <button
+          className="absolute -top-12 right-0 text-white p-2 rounded-full hover:bg-white/20 transition-colors"
+          onClick={onClose}
+        >
+          <X size={32} />
+        </button>
+      </motion.div>
+    </motion.div>,
+    document.body,
+  )
+}
+
+// ========================
 // ProductAboutPage
 // ========================
 const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
@@ -38,6 +85,8 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
   const process = about?.process
   const features = about?.features
   const cta = about?.cta
+
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
   return (
     <>
@@ -183,45 +232,51 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
             </div>
 
             <div className="mt-10 sm:mt-12 md:mt-16 space-y-10 sm:space-y-12 md:space-y-16">
-              {(features.items ?? []).map((feature, i) => (
-                <div
-                  key={i}
-                  className={`grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-center ${
-                    i % 2 !== 0 ? 'md:grid-flow-row-dense' : ''
-                  }`}
-                >
-                  <motion.div
-                    className={`w-full aspect-[16/10] md:aspect-video rounded-lg sm:rounded-lg shadow-lg overflow-hidden border border-gray-100 ${
-                      i % 2 !== 0 ? 'md:col-start-2' : ''
+              {(features.items ?? []).map((feature, i) => {
+                const imgUrl = getMediaUrl(feature.image as CmsMedia)
+                return (
+                  <div
+                    key={i}
+                    className={`grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-center ${
+                      i % 2 !== 0 ? 'md:grid-flow-row-dense' : ''
                     }`}
                   >
-                    {feature.image && (
-                      <img
-                        src={getMediaUrl(feature.image as CmsMedia)}
-                        alt={feature.title_jp ?? ''}
-                        className="w-full h-full object-cover"
-                      />
-                    )}
-                  </motion.div>
+                    <motion.div
+                      className={`w-full aspect-[16/10] md:aspect-video rounded-lg sm:rounded-lg shadow-lg overflow-hidden border border-gray-100 cursor-pointer ${
+                        i % 2 !== 0 ? 'md:col-start-2' : ''
+                      }`}
+                      whileHover={{ scale: 1.02 }}
+                      transition={{ type: 'spring', stiffness: 300 }}
+                      onClick={() => setSelectedImage(imgUrl)}
+                    >
+                      {feature.image && (
+                        <img
+                          src={imgUrl}
+                          alt={feature.title_jp ?? ''}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
+                    </motion.div>
 
-                  <div className="text-left">
-                    <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tighter leading-tight">
-                      <span
-                        className={` pr-2`}
-                        style={{ backgroundColor: product.mainColor ?? undefined }}
-                      >
-                        {feature.title_en}
-                      </span>
-                    </h3>
-                    <p className="text-xl sm:text-2xl font-bold text-gray-800 mt-3">
-                      {feature.title_jp}
-                    </p>
-                    <p className="mt-3 sm:mt-4 md:mt-5 text-gray-800 font-medium leading-relaxed text-lg sm:text-xl whitespace-pre-wrap">
-                      {feature.description}
-                    </p>
+                    <div className="text-left">
+                      <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tighter leading-tight">
+                        <span
+                          className={` pr-2`}
+                          style={{ backgroundColor: product.mainColor ?? undefined }}
+                        >
+                          {feature.title_en}
+                        </span>
+                      </h3>
+                      <p className="text-xl sm:text-2xl font-bold text-gray-800 mt-3">
+                        {feature.title_jp}
+                      </p>
+                      <p className="mt-3 sm:mt-4 md:mt-5 text-gray-800 font-medium leading-relaxed text-lg sm:text-xl whitespace-pre-wrap">
+                        {feature.description}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </motion.section>
         )}
@@ -267,6 +322,11 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
             </motion.button>
           </motion.section>
         )}
+        <AnimatePresence>
+          {selectedImage && (
+            <ImageModal src={selectedImage} onClose={() => setSelectedImage(null)} />
+          )}
+        </AnimatePresence>
       </div>
     </>
   )
