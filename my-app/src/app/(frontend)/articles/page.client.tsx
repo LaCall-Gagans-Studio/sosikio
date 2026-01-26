@@ -305,13 +305,9 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
                   }
                   target={a.linkType === 'external' ? '_blank' : undefined}
                   rel={a.linkType === 'external' ? 'noopener noreferrer' : undefined}
-                  className={`group block h-full rounded-2xl p-[1px] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_18px_60px_rgba(34,211,238,0.25)] ${
-                    a.isTopDisplay!
-                      ? 'bg-gradient-to-br from-red-400 via-orange-400 to-red-500 shadow-md'
-                      : 'bg-gradient-to-br from-cyan-500/5 via-slate-400 to-slate-500'
-                  }`}
+                  className={`group block h-full rounded-2xl p-[1px] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_18px_60px_rgba(34,211,238,0.25)] `}
                 >
-                  <div className="flex h-full flex-col overflow-hidden rounded-[1rem] bg-slate-900/90 border border-slate-800/80">
+                  <div className="flex h-full flex-col overflow-hidden rounded-[1rem] bg-ws-white border border-slate-800/80">
                     {a.image && (
                       <div className="relative w-full h-44 overflow-hidden">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -320,7 +316,6 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
                           alt={a.title}
                           className="w-full h-full object-cover transition duration-500 group-hover:scale-105 group-hover:opacity-90"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/0 to-transparent" />
                         {a.isTopDisplay && (
                           <div className="absolute top-2 right-2  text-white bg-red-500 text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
                             PICKUP
@@ -349,12 +344,10 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
                         </span>
                       </div>
 
-                      <h3 className="text-base sm:text-lg font-semibold leading-snug text-slate-50 line-clamp-2">
+                      <h3 className="text-base sm:text-lg font-semibold leading-snug text-black line-clamp-2">
                         {a.title}
                       </h3>
-                      <p className="mt-2 text-xs sm:text-sm text-slate-300 line-clamp-3">
-                        {a.excerpt}
-                      </p>
+                      <p className="mt-2 text-xs sm:text-sm text-black line-clamp-3">{a.excerpt}</p>
 
                       <div className="mt-4 flex flex-wrap gap-1.5">
                         {a.tags.map((t) => (
