@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState, useCallback } from 'react'
 import Matter from 'matter-js'
+import { FileText } from 'lucide-react'
 
 interface HeroSectionProps {
   keywords: string[]
@@ -621,6 +622,15 @@ export const HeroSection = ({
               SOSIKIO
             </span>
           </p>
+          <div className="mt-8 text-center lg:text-left pointer-events-auto">
+            <a
+              href="#contact"
+              className="inline-flex items-center justify-center bg-[#d81e5c] text-lg text-white font-zenKakuGothicNew font-bold py-3 px-8 rounded-lg shadow-lg hover:opacity-80 transition duration-300"
+            >
+              <FileText className="mr-2 w-5 h-5" />
+              今すぐ資料請求する
+            </a>
+          </div>
         </div>
       </div>
 

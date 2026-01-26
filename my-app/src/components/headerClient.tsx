@@ -95,10 +95,17 @@ export const HeaderClient = () => {
       }`}
       role="banner"
     >
-      <div className="container mx-auto px-6 py-4 font-zenKakuGothicNew flex justify-between items-center">
-        <Link href="/">
-          <Logo loading="eager" priority="high" />
-        </Link>
+      <div className="container mx-auto px-2 py-4 font-zenKakuGothicNew flex justify-between items-center">
+        <div className="flex items-center space-x-2">
+          <Link href="/">
+            <Logo loading="eager" priority="high" />
+          </Link>
+          <span className="text-xs md:hidden lg:block lg:text-sm font-bold">
+            日常に組織が変わる
+            <br />
+            組織開発プラットフォーム
+          </span>
+        </div>
 
         {/* デスクトップナビ */}
         <nav className="hidden md:flex items-center space-x-4">
@@ -106,7 +113,7 @@ export const HeaderClient = () => {
             <button
               key={k}
               onClick={() => handleClick(h.url)}
-              className={`px-5 py-2 text-sm font-semibold rounded-lg transition-colors ${
+              className={`px-2 lg:px-5 py-2 text-nowrap text-sm font-semibold rounded-lg transition-colors ${
                 h.special ? 'text-white bg-black hover:bg-black/80' : 'text-black hover:bg-gray-200'
               }`}
             >
