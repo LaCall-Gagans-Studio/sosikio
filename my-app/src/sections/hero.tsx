@@ -129,8 +129,8 @@ export const HeroSection = ({
     if (w < 430) {
       // 430px未満: モバイル（大きめ）
       targetVmin = HOLE_DIAMETER_VMIN_MOBILE
-    } else if (w < 895) {
-      // 🆕 430px〜895px未満: タブレット・大型スマホ（小さくする）
+    } else if (w < 1024) {
+      // 🆕 430px〜1024px未満: タブレット・大型スマホ（小さくする）
       targetVmin = HOLE_DIAMETER_VMIN_TABLET
     } else {
       // 895px以上: デスクトップ
@@ -312,8 +312,8 @@ export const HeroSection = ({
       const centerX = rect.width / 2
       const centerY = rect.height / 2
 
-      // Tailwindの 'lg' ブレークポイント (895px) に合わせて配置戦略を変更
-      const isDesktopLayout = window.innerWidth >= 895
+      // Tailwindの 'lg' ブレークポイント (1024px) に合わせて配置戦略を変更
+      const isDesktopLayout = window.innerWidth >= 1024
 
       let targetX = centerX
       let targetY = centerY
@@ -438,7 +438,7 @@ export const HeroSection = ({
         // モバイル
         currentDiamVmin = HOLE_DIAMETER_VMIN_MOBILE
         currentBorderPx = HOLE_BORDER_PX_MOBILE
-      } else if (w < 895) {
+      } else if (w < 1024) {
         // 🆕 中間サイズ
         currentDiamVmin = HOLE_DIAMETER_VMIN_TABLET
         currentBorderPx = HOLE_BORDER_PX_TABLET
@@ -569,7 +569,6 @@ export const HeroSection = ({
   const containerStyle: React.CSSProperties = {
     position: 'relative',
     width: '100%',
-    height: containerHeight,
     overflow: 'hidden',
     backgroundColor: '#f1f1f1',
     display: 'flex',
@@ -579,7 +578,18 @@ export const HeroSection = ({
   }
 
   return (
-    <div ref={heroRef} style={containerStyle} className="relative">
+    <div ref={heroRef} style={containerStyle} className="relative hero-container">
+      <style>{`
+        .hero-container {
+          min-height: ${containerHeight};
+        }
+        /* sm幅(640px)以降でテキストサイズが大きくなるため、デスクトップレイアウト切替前(1023px)まで高さを拡張 */
+        @media (min-width: 640px) and (max-width: 1023px) {
+          .hero-container {
+            min-height: 120dvh;
+          }
+        }
+      `}</style>
       {/* 下地 */}
       <div
         className="absolute inset-0"

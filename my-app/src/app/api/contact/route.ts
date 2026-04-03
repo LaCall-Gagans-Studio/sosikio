@@ -4,9 +4,8 @@ import nodemailer from 'nodemailer'
 // フォームからの送信は通常「POST」メソッドを使います
 export async function POST(request: Request) {
   try {
-    // フォームから送られてきたデータを受け取る
     const body = await request.json()
-    const { name, email, company, message, type, phone, products, size, preferred, note } = body
+    const { name, email, company, message, type, phone, products, size, preferred, note, companySize, role } = body
 
     // 1. お名前.comのメールサーバー設定
     const transporter = nodemailer.createTransport({
@@ -53,7 +52,23 @@ export async function POST(request: Request) {
         ■希望開始時期: ${preferred || '（未入力）'}
         
         ■補足:
+        ■補足:
         ${note || '（なし）'}
+      `
+    } else if (type === 'probe-cloud') {
+      subject = `【Probeクラウドお問い合わせ】${company || ''} ${name}様より`
+      text = `
+        Probeクラウドのお問い合わせフォームから送信がありました。
+
+        ■お名前: ${name}
+        ■メール: ${email}
+        ■会社・組織名: ${company || '（未入力）'}
+        ■会社規模: ${companySize || '（未入力）'}
+        ■役職: ${role || '（未入力）'}
+        ■電話番号: ${phone || '（未入力）'}
+        
+        ■ご相談内容:
+        ${message}
       `
     }
 

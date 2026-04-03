@@ -35,7 +35,7 @@ export default async function Page() {
     <main className="bg-[#f1f1f1] text-gray-800 font-zenKakuGothicNew tracking-wide">
       <HeroSection
         keywords={keywords}
-        containerHeight="calc(90vh)"
+        containerHeight="100dvh"
         wordFontWeight="100" // または 100
         title={
           <>
