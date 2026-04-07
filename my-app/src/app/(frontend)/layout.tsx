@@ -2,6 +2,7 @@ import React from 'react'
 import './styles.css'
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
+import { GlobalPopup } from '@/components/GlobalPopup'
 import type { Metadata } from 'next'
 import Script from 'next/script' // next/scriptをインポート
 
@@ -82,6 +83,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         </Script>
       </head>
       <body>
+        <GlobalPopup />
         <Header />
         <main>{children}</main>
         <Footer />
