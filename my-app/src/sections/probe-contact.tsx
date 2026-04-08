@@ -18,7 +18,7 @@ export function ProbeContactSection() {
           </h2>
           <div className="w-12 h-[2px] bg-[#d81e5c] mx-auto mb-8"></div>
           <p className="text-gray-700 leading-relaxed max-w-2xl mx-auto font-bold tracking-wide">
-            probeクラウド版のご利用コードのご購入や、
+            probeクラウド版のご利用コードのご購入やトラブル時のサポート、
             <br className="hidden sm:block" />
             その他ご不明点などお気軽にお問い合わせください。
           </p>

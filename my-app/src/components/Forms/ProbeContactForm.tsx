@@ -28,7 +28,8 @@ export function ProbeContactForm() {
   const [done, setDone] = React.useState<null | 'ok' | 'ng'>(null)
 
   const onChange =
-    (key: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    (key: keyof FormState) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
       const value =
         e.target.type === 'checkbox' ? (e.target as HTMLInputElement).checked : e.target.value
       setState((s) => ({ ...s, [key]: value }))
@@ -68,13 +69,16 @@ export function ProbeContactForm() {
     }
   }
 
-  const inputClass = "mt-2 w-full rounded-none border border-[#babec0] bg-[#ffffff] px-4 py-3 outline-none focus:border-[#d81e5c] focus:ring-1 focus:ring-[#d81e5c] transition-colors"
-  
+  const inputClass =
+    'mt-2 w-full rounded-none border border-[#babec0] bg-[#ffffff] px-4 py-3 outline-none focus:border-[#d81e5c] focus:ring-1 focus:ring-[#d81e5c] transition-colors'
+
   return (
     <form onSubmit={onSubmit} className="space-y-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
         <label className="block">
-          <span className="block text-sm font-bold text-gray-800 tracking-wide">お名前 <span className="text-[#d81e5c] font-normal">*</span></span>
+          <span className="block text-sm font-bold text-gray-800 tracking-wide">
+            お名前 <span className="text-[#d81e5c] font-normal">*</span>
+          </span>
           <input
             type="text"
             value={state.name}
@@ -86,7 +90,38 @@ export function ProbeContactForm() {
           />
         </label>
         <label className="block">
-          <span className="block text-sm font-bold text-gray-800 tracking-wide">メールアドレス <span className="text-[#d81e5c] font-normal">*</span></span>
+          <span className="block text-sm font-bold text-gray-800 tracking-wide">
+            会社・組織名（任意）
+          </span>
+          <input
+            type="text"
+            value={state.company}
+            onChange={onChange('company')}
+            className={inputClass}
+            placeholder="株式会社○○"
+            disabled={done === 'ok'}
+          />
+        </label>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+        <label className="block">
+          <span className="block text-sm font-bold text-gray-800 tracking-wide">
+            電話番号（任意）
+          </span>
+          <input
+            type="tel"
+            value={state.phone}
+            onChange={onChange('phone')}
+            className={inputClass}
+            placeholder="03-XXXX-XXXX"
+            disabled={done === 'ok'}
+          />
+        </label>
+        <label className="block">
+          <span className="block text-sm font-bold text-gray-800 tracking-wide">
+            メールアドレス <span className="text-[#d81e5c] font-normal">*</span>
+          </span>
           <input
             type="email"
             value={state.email}
@@ -99,69 +134,15 @@ export function ProbeContactForm() {
         </label>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-        <label className="block">
-          <span className="block text-sm font-bold text-gray-800 tracking-wide">会社・組織名（任意）</span>
-          <input
-            type="text"
-            value={state.company}
-            onChange={onChange('company')}
-            className={inputClass}
-            placeholder="株式会社○○"
-            disabled={done === 'ok'}
-          />
-        </label>
-        <label className="block">
-          <span className="block text-sm font-bold text-gray-800 tracking-wide">会社規模 <span className="text-[#d81e5c] font-normal">*</span></span>
-          <select
-            value={state.companySize}
-            onChange={onChange('companySize')}
-            className={inputClass}
-            required
-            disabled={done === 'ok'}
-          >
-            <option value="">選択してください</option>
-            <option value="1〜50名">1〜50名</option>
-            <option value="51〜100名">51〜100名</option>
-            <option value="101〜500名">101〜500名</option>
-            <option value="501〜1000名">501〜1000名</option>
-            <option value="1001名以上">1001名以上</option>
-          </select>
-        </label>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-        <label className="block">
-          <span className="block text-sm font-bold text-gray-800 tracking-wide">役職（任意）</span>
-          <input
-            type="text"
-            value={state.role}
-            onChange={onChange('role')}
-            className={inputClass}
-            placeholder="代表取締役、人事部長 など"
-            disabled={done === 'ok'}
-          />
-        </label>
-        <label className="block">
-          <span className="block text-sm font-bold text-gray-800 tracking-wide">電話番号（任意）</span>
-          <input
-            type="tel"
-            value={state.phone}
-            onChange={onChange('phone')}
-            className={inputClass}
-            placeholder="03-XXXX-XXXX"
-            disabled={done === 'ok'}
-          />
-        </label>
-      </div>
-
       <label className="block">
-        <span className="block text-sm font-bold text-gray-800 tracking-wide">ご相談内容 <span className="text-[#d81e5c] font-normal">*</span></span>
+        <span className="block text-sm font-bold text-gray-800 tracking-wide">
+          ご相談内容 <span className="text-[#d81e5c] font-normal">*</span>
+        </span>
         <textarea
           value={state.message}
           onChange={onChange('message')}
           className={`${inputClass} min-h-[160px] resize-y`}
-          placeholder="ご利用コードのご購入希望数や、その他気になっている点をご記入ください。"
+          placeholder="ご利用コードのご購入希望数やトラブルの状況、その他気になっている点をご記入ください。"
           required
           disabled={done === 'ok'}
         />
@@ -205,15 +186,22 @@ export function ProbeContactForm() {
 
         {done === 'ok' && (
           <div className="w-full p-8 bg-white border-2 border-[#d81e5c] text-center text-sm leading-relaxed">
-            <p className="font-bold mb-3 text-[#d81e5c] text-xl tracking-wider">お問い合わせを受け付けました</p>
+            <p className="font-bold mb-3 text-[#d81e5c] text-xl tracking-wider">
+              お問い合わせを受け付けました
+            </p>
             <p className="text-gray-700">
-              内容を確認のうえ、担当者よりご連絡させていただきます。<br />
+              内容を確認のうえ、担当者よりご連絡させていただきます。
+              <br />
               今しばらくお待ちいただけますようお願い申し上げます。
             </p>
           </div>
         )}
 
-        {done === 'ng' && <p className="text-[#d81e5c] mt-4 font-bold tracking-wide">未入力の必須項目があるか、通信エラーが発生しました。</p>}
+        {done === 'ng' && (
+          <p className="text-[#d81e5c] mt-4 font-bold tracking-wide">
+            未入力の必須項目があるか、通信エラーが発生しました。
+          </p>
+        )}
       </div>
     </form>
   )
