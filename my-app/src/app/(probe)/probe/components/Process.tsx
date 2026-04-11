@@ -9,7 +9,7 @@ export default function Process() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > window.innerHeight * 0.8) {
+      if (window.scrollY > window.innerHeight * 0.4) {
         setShowCTA(true)
       } else {
         setShowCTA(false)
@@ -43,6 +43,38 @@ export default function Process() {
 
   return (
     <>
+      {/* Floating CTA Circle Button (Fixed at Bottom Right) */}
+      <motion.div
+        className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[100] pointer-events-auto"
+        initial={{ opacity: 0, scale: 0.5, y: 50 }}
+        animate={{
+          opacity: showCTA ? 1 : 0,
+          scale: showCTA ? 1 : 0.5,
+          y: showCTA ? 0 : 50,
+          pointerEvents: showCTA ? 'auto' : 'none',
+        }}
+        transition={{ duration: 0.5, ease: 'backOut' }}
+      >
+        <button
+          onClick={() =>
+            window.open('https://main.dr5lrenz9l9vu.amplifyapp.com/trial/register', '_blank')
+          }
+          className="group relative w-[130px] h-[130px] md:w-[160px] md:h-[160px] bg-gradient-to-br from-[#ff5f6d] to-[#d7145b] text-white rounded-full flex flex-col items-center justify-center shadow-[0_15px_30px_-10px_rgba(215,20,91,0.6)] hover:shadow-[0_20px_40px_-5px_rgba(215,20,91,0.7)] transition-all hover:scale-105 active:scale-95 border-[3px] border-white/90 overflow-hidden"
+        >
+          {/* Button Shine Effect */}
+          <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent group-hover:animate-[shimmer_1.5s_infinite] skew-x-12"></div>
+
+          <span className="text-[10px] md:text-[11px] mb-1.5 opacity-90 font-bold tracking-wider relative z-10">
+            30秒で登録
+          </span>
+          <span className="text-base md:text-[1.3rem] font-black leading-[1.15] text-center relative z-10">
+            まずは簡単
+            <br />
+            トライアル
+          </span>
+        </button>
+      </motion.div>
+
       <section id="process" className="relative py-24 md:py-32 overflow-hidden">
         {/* Background Gradient & Texture */}
         <div className="absolute inset-0 z-0 bg-gradient-to-br from-[#d7145b] via-[#ff4b8b] to-[#ff8e53]"></div>
@@ -126,33 +158,6 @@ export default function Process() {
           </div>
         </div>
       </section>
-
-      {/* Floating CTA Circle Button (Fixed at Bottom Right) */}
-      <motion.div
-        className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[100] pointer-events-auto"
-        initial={{ opacity: 0, scale: 0.5, y: 50 }}
-        animate={{
-          opacity: showCTA ? 1 : 0,
-          scale: showCTA ? 1 : 0.5,
-          y: showCTA ? 0 : 50,
-          pointerEvents: showCTA ? 'auto' : 'none',
-        }}
-        transition={{ duration: 0.5, ease: 'backOut' }}
-      >
-        <button className="group relative w-[130px] h-[130px] md:w-[160px] md:h-[160px] bg-gradient-to-br from-[#ff5f6d] to-[#d7145b] text-white rounded-full flex flex-col items-center justify-center shadow-[0_15px_30px_-10px_rgba(215,20,91,0.6)] hover:shadow-[0_20px_40px_-5px_rgba(215,20,91,0.7)] transition-all hover:scale-105 active:scale-95 border-[3px] border-white/90 overflow-hidden">
-          {/* Button Shine Effect */}
-          <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent group-hover:animate-[shimmer_1.5s_infinite] skew-x-12"></div>
-
-          <span className="text-[10px] md:text-[11px] mb-1.5 opacity-90 font-bold tracking-wider relative z-10">
-            30秒で登録
-          </span>
-          <span className="text-base md:text-[1.3rem] font-black leading-[1.15] text-center relative z-10">
-            まずは簡単
-            <br />
-            トライアル
-          </span>
-        </button>
-      </motion.div>
     </>
   )
 }

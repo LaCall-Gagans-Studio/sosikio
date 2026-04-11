@@ -103,7 +103,7 @@ export default function Hero() {
               href="https://main.dr5lrenz9l9vu.amplifyapp.com/trial/register"
               className="w-full flex items-center justify-center gap-3 py-4 px-6 bg-[#d7145b] text-white rounded-xl font-bold text-[16px] shadow-[0_8px_16px_-4px_rgba(215,20,91,0.3)] transition-all duration-300 hover:bg-[#b00f49] hover:-translate-y-1 hover:shadow-[0_12px_24px_-4px_rgba(215,20,91,0.4)] active:scale-95"
             >
-              まずは無料で試してみる
+              まずは試しに使ってみる
               <svg
                 width="20"
                 height="20"

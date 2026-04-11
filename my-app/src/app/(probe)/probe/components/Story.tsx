@@ -84,7 +84,7 @@ export default function Story() {
         </motion.div>
 
         {/* Tab Navigation */}
-        <div className="font-zenKakuGothicNew flex flex-wrap border-2 border-black rounded-t-xl overflow-hidden bg-white relative z-10 w-fit">
+        <div className="font-zenKakuGothicNew flex overflow-x-scroll border-2 border-black rounded-t-xl bg-white relative z-10  w-auto">
           {stories.map((s) => (
             <button
               key={s.id}

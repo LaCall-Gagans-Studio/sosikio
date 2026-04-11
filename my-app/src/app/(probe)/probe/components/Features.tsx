@@ -51,10 +51,14 @@ export default function Features() {
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 leading-tight">
-            音声だけでチームがわかる。
+            音声だけで
+            <br className="lg:hidden" />
+            チームがわかる。
           </h2>
           <p className="text-lg md:text-xl text-slate-600 font-medium">
-            対話の音声をクラウドにアップロードするだけ
+            対話の音声をクラウドに
+            <br className="lg:hidden" />
+            アップロードするだけ
           </p>
         </motion.div>
 
