@@ -26,6 +26,7 @@
     "@payloadcms/storage-s3": "3.60.0",
     "@payloadcms/ui": "3.60.0",
     "@tailwindcss/postcss": "^4.1.17",
+    "@types/three": "^0.183.1",
     "cross-env": "^7.0.3",
     "dotenv": "16.4.7",
     "framer-motion": "^12.23.24",
@@ -39,7 +40,8 @@
     "react-countup": "^6.5.3",
     "react-dom": "19.1.0",
     "sharp": "0.34.2",
-    "tailwindcss": "^4.1.17"
+    "tailwindcss": "^4.1.17",
+    "three": "^0.183.2"
   },
   "devDependencies": {
     "@playwright/test": "1.56.1",

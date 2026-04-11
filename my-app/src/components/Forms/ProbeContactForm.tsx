@@ -90,15 +90,14 @@ export function ProbeContactForm() {
           />
         </label>
         <label className="block">
-          <span className="block text-sm font-bold text-gray-800 tracking-wide">
-            会社・組織名（任意）
-          </span>
+          <span className="block text-sm font-bold text-gray-800 tracking-wide">会社・団体名</span>
           <input
             type="text"
             value={state.company}
             onChange={onChange('company')}
             className={inputClass}
             placeholder="株式会社○○"
+            required
             disabled={done === 'ok'}
           />
         </label>
