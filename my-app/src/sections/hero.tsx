@@ -580,13 +580,19 @@ export const HeroSection = ({
   return (
     <div ref={heroRef} style={containerStyle} className="relative hero-container">
       <style>{`
+        /* 高さの変動によって円とテキストが被る問題を防ぐため、物理的な最小高さを保証する */
         .hero-container {
-          min-height: ${containerHeight};
+          min-height: max(100svh, 800px);
         }
         /* sm幅(640px)以降でテキストサイズが大きくなるため、デスクトップレイアウト切替前(1023px)まで高さを拡張 */
         @media (min-width: 640px) and (max-width: 1023px) {
           .hero-container {
-            min-height: 120dvh;
+            min-height: max(120svh, 1000px);
+          }
+        }
+        @media (min-width: 1024px) {
+          .hero-container {
+            min-height: max(95svh, 750px);
           }
         }
       `}</style>
