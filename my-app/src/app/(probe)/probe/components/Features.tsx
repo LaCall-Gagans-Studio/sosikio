@@ -44,7 +44,7 @@ export default function Features() {
       <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
         {/* Section 1: Introduction (Slide 1) */}
         <motion.div
-          className="text-center mb-32"
+          className="text-center mb-12"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
