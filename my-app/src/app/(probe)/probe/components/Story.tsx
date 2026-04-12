@@ -103,7 +103,16 @@ const stories = [
 
 export default function Story() {
   const [activeTab, setActiveTab] = useState(stories[0].id)
+  const [revealedPanels, setRevealedPanels] = useState<string[]>([])
+
   const currentStory = stories.find((s) => s.id === activeTab) || stories[0]
+
+  const toggleReveal = (idx: number) => {
+    const key = `${activeTab}-${idx}`
+    if (!revealedPanels.includes(key)) {
+      setRevealedPanels((prev) => [...prev, key])
+    }
+  }
 
   return (
     <section id="story" className={`py-24 bg-white overflow-hidden ${notoSerifJP.className}`}>
@@ -174,14 +183,22 @@ export default function Story() {
               {currentStory.panels.map((panel, idx) => (
                 <div
                   key={idx}
-                  className="border-2 border-black bg-white relative group aspect-video flex items-center justify-center overflow-hidden"
+                  onClick={() => toggleReveal(idx)}
+                  className="border-2 border-black bg-white relative group aspect-video flex items-center justify-center overflow-hidden cursor-pointer select-none"
+                  style={{ WebkitTouchCallout: 'none' }}
                 >
                   {/* Manga Panel Content */}
-                  <div className="w-full aspect-video h-full flex items-center justify-center ">
+                  <div className="w-full aspect-video h-full flex items-center justify-center pointer-events-none">
                     <img
                       src={panel.img}
                       alt="Story panel"
-                      className="max-w-full aspect-video max-h-full object-contain grayscale-75 group-hover:grayscale-0 group-active:grayscale-0 group-focus:grayscale-0 transition-all duration-500 scale-[0.9]"
+                      draggable={false}
+                      onContextMenu={(e) => e.preventDefault()}
+                      className={`max-w-full aspect-video max-h-full object-contain transition-all duration-500 scale-[0.9] ${
+                        revealedPanels.includes(`${activeTab}-${idx}`)
+                          ? 'grayscale-0'
+                          : 'grayscale-75 group-hover:grayscale-0 group-active:grayscale-0'
+                      }`}
                     />
                   </div>
 
