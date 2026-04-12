@@ -72,7 +72,7 @@ export function NewsSection({ articles, testimonials }: Props) {
                   </div>
 
                   {/* タイトル */}
-                  <h3 className="flex-1 text-lg font-bold text-gray-900 group-hover:text-cyan-800 transition-colors line-clamp-2 sm:line-clamp-1 mt-2 sm:mt-0">
+                  <h3 className="flex-1 text-base font-bold text-gray-900 group-hover:text-cyan-800 transition-colors line-clamp-2 sm:line-clamp-1 mt-2 sm:mt-0">
                     {item.title}
                   </h3>
 

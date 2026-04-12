@@ -116,11 +116,11 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
               {product.tagline}
             </p>
 
-            <h3 className="mt-6 sm:mt-10 md:mt-16 text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 tracking-tight pl-2 sm:pl-4">
+            <h3 className="mt-6 sm:mt-10 md:mt-16 text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 tracking-tight pl-2 sm:pl-4">
               {product.catchphrase}
             </h3>
 
-            <p className="mt-4 sm:mt-6 text-gray-800 leading-relaxed sm:leading-loose text-lg sm:text-xl font-medium pl-2 sm:pl-4">
+            <p className="mt-4 sm:mt-6 text-gray-800 leading-relaxed sm:leading-loose text-sm sm:text-base font-medium pl-2 sm:pl-4">
               {product.description}
             </p>
           </div>
@@ -150,15 +150,15 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
             className="mt-12 sm:mt-16 md:mt-20 lg:mt-24 mx-auto text-center"
           >
             <h2
-              className={`text-3xl sm:text-4xl md:text-5xl font-black rounded-lg tracking-tighter text-white  text-center leading-tight px-3 py-2 inline-block`}
+              className={`text-2xl sm:text-3xl md:text-4xl font-black rounded-lg tracking-tighter text-white  text-center leading-tight px-3 py-2 inline-block`}
               style={{ backgroundColor: product.mainColor ?? undefined }}
             >
               {main.heading_en}
             </h2>
-            <h3 className="text-xl sm:text-2xl md:text-4xl font-bold tracking-tight text-gray-800 text-center mt-3 sm:mt-4">
+            <h3 className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight text-gray-800 text-center mt-3 sm:mt-4">
               {main.heading_jp}
             </h3>
-            <p className="mt-5 sm:mt-6 text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto text-gray-800 font-medium leading-relaxed sm:leading-loose whitespace-pre-wrap px-1">
+            <p className="mt-5 sm:mt-6 text-sm sm:text-base md:text-lg max-w-3xl mx-auto text-gray-800 font-medium leading-relaxed sm:leading-loose whitespace-pre-wrap px-1">
               {main.text}
             </p>
           </motion.section>
@@ -178,7 +178,7 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
                 {process.title_en}
               </h2>
               <p
-                className={`text-base sm:text-xl md:text-2xl font-semibold rounded-lg w-11/12 sm:w-4/5 md:w-1/2 mx-auto text-white mt-2 sm:mt-3 px-3 py-1.5`}
+                className={`text-sm sm:text-base md:text-lg font-semibold rounded-lg w-11/12 sm:w-4/5 md:w-1/2 mx-auto text-white mt-2 sm:mt-3 px-3 py-1.5`}
                 style={{ backgroundColor: product.mainColor ?? undefined }}
               >
                 {process.title_jp}
@@ -224,7 +224,7 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
                 {features.title_en}
               </h2>
               <p
-                className={`text-base sm:text-xl md:text-2xl font-semibold rounded-lg w-11/12 sm:w-4/5 md:w-1/2 mx-auto text-white mt-2 sm:mt-3  px-3 py-1.5`}
+                className={`text-sm sm:text-base md:text-lg font-semibold rounded-lg w-11/12 sm:w-4/5 md:w-1/2 mx-auto text-white mt-2 sm:mt-3  px-3 py-1.5`}
                 style={{ backgroundColor: product.mainColor ?? undefined }}
               >
                 {features.title_jp}
@@ -259,7 +259,7 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
                     </motion.div>
 
                     <div className="text-left">
-                      <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tighter leading-tight">
+                      <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tighter leading-tight">
                         <span
                           className={` pr-2`}
                           style={{ backgroundColor: product.mainColor ?? undefined }}
@@ -267,10 +267,10 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
                           {feature.title_en}
                         </span>
                       </h3>
-                      <p className="text-xl sm:text-2xl font-bold text-gray-800 mt-3">
+                      <p className="text-lg sm:text-xl font-bold text-gray-800 mt-3">
                         {feature.title_jp}
                       </p>
-                      <p className="mt-3 sm:mt-4 md:mt-5 text-gray-800 font-medium leading-relaxed text-lg sm:text-xl whitespace-pre-wrap">
+                      <p className="mt-3 sm:mt-4 md:mt-5 text-gray-800 font-medium leading-relaxed text-sm sm:text-base whitespace-pre-wrap">
                         {feature.description}
                       </p>
                     </div>
@@ -292,11 +292,11 @@ const ProductAboutPage: React.FC<{ product: CmsProduct }> = ({ product }) => {
             style={{ backgroundColor: product.mainColor ?? undefined }}
           >
             <div className="absolute inset-0 -z-10" />
-            <h2 className="text-4xl md:text-7xl lg:text-8xl font-black tracking-tighter">
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-black tracking-tighter">
               {cta.title_en}
             </h2>
-            <h3 className="text-base md:text-4xl font-bold mt-2">{cta.title_jp}</h3>
-            <p className="mt-4 sm:mt-6 max-w-3xl mx-auto text-lg sm:text-xl text-white font-medium leading-relaxed px-2">
+            <h3 className="text-base md:text-xl font-bold mt-2">{cta.title_jp}</h3>
+            <p className="mt-4 sm:mt-6 max-w-3xl mx-auto text-sm sm:text-base text-white font-medium leading-relaxed px-2">
               {cta.description}
             </p>
             <motion.button

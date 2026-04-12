@@ -69,7 +69,7 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
               )}
             </div>
 
-            <p className="mt-6 text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto px-2 text-gray-900 font-medium whitespace-pre-wrap">
+            <p className="mt-6 text-sm lg:text-base leading-relaxed max-w-3xl mx-auto px-2 text-gray-900 font-medium whitespace-pre-wrap">
               {hero?.subtitle ??
                 '「組織の課題は、なんとなく分かっている。\nでも、どこから手をつければ…」\nSOSIKIOは、そんな漠然とした不安を「確信」に変えるプラットフォームです。'}
             </p>
@@ -200,7 +200,7 @@ export const OverviewSection: React.FC<Props> = ({ products, overview }) => {
                           <span className="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-slate-900">
                             <Icon className="h-6 w-6 text-slate-100" aria-hidden />
                           </span>
-                          <h3 className="text-lg sm:text-lg lg:text-xl font-semibold text-slate-900 leading-snug">
+                          <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-slate-900 leading-snug">
                             {/* タイトル強調: 反転して黒背景に白文字 */}
                             <span className="text-white bg-slate-900 px-1 py-1 text-nowrap md:text-wrap xl:text-nowrap whitespace-pre-wrap">
                               {s.title}

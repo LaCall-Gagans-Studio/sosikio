@@ -27,12 +27,14 @@ export function ContactTrialSection({ products }: Props) {
         <div className="mb-8 sm:mb-12 text-center">
           <h2
             id="contact-trial-heading"
-            className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight"
+            className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight"
           >
             お問い合わせ & 資料請求
           </h2>
           <p className="mt-3 text-gray-600">
-            ご相談はカジュアルにどうぞ。まずは軽く話してみる、でもOKです。
+            ご相談はカジュアルにどうぞ。
+            <br />
+            まずはお悩みを聞かせてください。
           </p>
         </div>
 
