@@ -5,7 +5,46 @@ import Link from 'next/link'
 import Header from './probe/components/Header'
 
 export const metadata: Metadata = {
-  title: 'probe クラウド版 | お問い合わせ',
+  title: 'Probe クラウド| 組織開発に特化した音声解析プラットフォーム',
+  description:
+    '「音声だけでチームがわかる」組織開発に特化した音声解析プラットフォーム Probe（プローブ）クラウド版。1on1や会議の対話を可視化し、組織の課題を確信に変え、データに基づいた最高なチームづくりと組織改善を支援します。',
+  keywords: [
+    'Probe',
+    'プローブ',
+    'SOSIKIO',
+    '組織開発',
+    '音声解析',
+    'チームビルディング',
+    'ハラスメント対策',
+    '1on1',
+    '対話の可視化',
+    'HRテック',
+    '組織改善',
+  ],
+  openGraph: {
+    title: 'Probe クラウド| 組織開発に特化した音声解析プラットフォーム',
+    description:
+      '音声データからチームの状態を可視化。組織の課題を解決し、対話の質を高める組織開発プラットフォーム Probe。',
+    url: 'https://sosikio.jp/probe',
+    siteName: 'SOSIKIO Probe',
+    locale: 'ja_JP',
+    type: 'website',
+    images: [
+      {
+        url: '/probe/probe.png',
+        width: 1200,
+        height: 630,
+        alt: 'Probe',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Probe クラウド| 組織開発に特化した音声解析プラットフォーム',
+    description:
+      '音声データからチームの状態を可視化。組織の課題を解決し、対話の質を高める組織開発プラットフォーム Probe。',
+    images: ['/probe/probe.png'],
+  },
 }
 
 function ProbeHeader() {
