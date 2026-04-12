@@ -13,52 +13,91 @@ const notoSerifJP = Noto_Serif_JP({
 
 const stories = [
   {
-    id: '1on1-morahara',
-    tab: '1on1モラハラ',
-    title: '1on1モラハラ事例',
+    id: 'motivation-loss',
+    tab: '未来のリーダーの離職',
+    title: '未来のリーダーの離職',
     panels: [
-      { text: 'あああああああああ', img: '/probe/1-1.png' },
-      { text: 'あああああああああああ', img: '/probe/1-2.png' },
-      { text: 'あああああああああああ', img: '/probe/1-3.png' },
-      { text: 'あああああああああああ', img: '/probe/1-4.png' },
+      { text: 'やる気が出ない...', img: '/probe/2-1.png' },
+      { text: '何のために働いてるんだろう', img: '/probe/2-2.png' },
+      { text: 'Probeで可視化...', img: '/probe/2-3.png' },
+      { text: '自分の課題に気づけた！', img: '/probe/2-4.png' },
+    ],
+    footer: '',
+    url: '',
+  },
+  {
+    id: '1on1-morahara',
+    tab: '1on1がストレスに',
+    title: '1on1がストレスに',
+    panels: [
+      {
+        text: 'もっと熱くなれよ！',
+        img: '/probe/1-1.png',
+      },
+      {
+        text: '圧の1on1。',
+        img: '/probe/1-2.png',
+      },
+      {
+        text: '圧と疲弊が発覚。',
+        img: '/probe/1-3.png',
+      },
+      {
+        text: '適温の1on1',
+        img: '/probe/1-4.png',
+      },
     ],
     footer: '株式会社AAA「Probeを導入して上司との1on1が楽しくなりました。」',
+    url: 'https://example.com/case/aaa',
   },
   {
-    id: 'motivation-loss',
-    tab: 'やる気を失う',
-    title: 'やる気を失う事例',
+    id: 'online-anxiety',
+    tab: '「から回ってる？」',
+    title: 'オンライン会議の空回り不安',
     panels: [
-      { text: 'やる気が出ない...', img: '/probe.png' },
-      { text: '何のために働いてるんだろう', img: '/probe.png' },
-      { text: 'Probeで可視化...', img: '/probe.png' },
-      { text: '自分の課題に気づけた！', img: '/probe.png' },
+      {
+        text: '画面の向こうの反応が薄い…。',
+        img: '/probe/3-1.png',
+      },
+      {
+        text: 'もしかして、一人でから回ってる…？',
+        img: '/probe/3-2.png',
+      },
+      {
+        text: '真剣に聞いていたことが判明！',
+        img: '/probe/3-3.png',
+      },
+      {
+        text: 'よかったー！伝わってたんだ！',
+        img: '/probe/3-4.png',
+      },
     ],
-    footer: '個人開発者BBB「自分のモチベーションの波を客観視できました。」',
-  },
-  {
-    id: 'not-possible',
-    tab: '「できない...」',
-    title: '「できない...」事例',
-    panels: [
-      { text: 'こんなの無理だよ', img: '/probe.png' },
-      { text: 'あきらめようかな', img: '/probe.png' },
-      { text: 'チームで話し合おう', img: '/probe.png' },
-      { text: 'みんなで解決！', img: '/probe.png' },
-    ],
-    footer: 'スタートアップCCC「チーム内での本音の共有が加速しました。」',
+    footer:
+      '中堅IT企業EEE「オンライン特有の不安が解消され、若手が自信を持って発言できるようになりました。」',
   },
   {
     id: 'waste',
     tab: 'これ無駄！',
     title: 'これ無駄！事例',
     panels: [
-      { text: 'この会議、無駄...', img: '/probe.png' },
-      { text: '誰も話してないし', img: '/probe.png' },
-      { text: 'Probeで無駄を発見', img: '/probe.png' },
-      { text: '有意義な時間に！', img: '/probe.png' },
+      {
+        text: '全員が冷めていく無駄な時間',
+        img: '/probe/4-1.png',
+      },
+      {
+        text: '誰も聞いてない',
+        img: '/probe/4-2.png',
+      },
+      {
+        text: '課長の独演会90％',
+        img: '/probe/4-3.png',
+      },
+      {
+        text: 'よし、報告はチャット！',
+        img: '/probe/4-4.png',
+      },
     ],
-    footer: '大手企業DDD「会議のROIが劇的に改善されました。」',
+    footer: '大手企業DDD「会議のROIが可視化され、本当の対話の場へと劇的に改善されました。」',
   },
 ]
 
@@ -84,12 +123,29 @@ export default function Story() {
         </motion.div>
 
         {/* Tab Navigation */}
-        <div className="font-zenKakuGothicNew flex overflow-x-scroll border-2 border-black rounded-t-xl bg-white relative z-10  w-auto">
+        <div className="font-zenKakuGothicNew flex overflow-x-auto border-2 border-black rounded-t-xl bg-white relative z-10 w-full custom-scrollbar">
+          <style>{`
+            .custom-scrollbar::-webkit-scrollbar {
+              height: 6px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-track {
+              background: #fdf2f4;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb {
+              background: #d7145b;
+              border-radius: 10px;
+            }
+            /* Firefox */
+            .custom-scrollbar {
+              scrollbar-width: thin;
+              scrollbar-color: #d7145b #fdf2f4;
+            }
+          `}</style>
           {stories.map((s) => (
             <button
               key={s.id}
               onClick={() => setActiveTab(s.id)}
-              className={`px-4 py-3 md:px-8 md:py-4 text-xs md:text-sm font-bold border-r-2 last:border-r-0 border-black transition-all ${
+              className={`px-4 py-3 md:px-8 md:py-4 text-xs md:text-sm font-bold border-r-2 last:border-r-0 border-black transition-all whitespace-nowrap shrink-0 ${
                 activeTab === s.id
                   ? 'bg-[#d7145b] text-white'
                   : 'bg-white text-black hover:bg-slate-50'
@@ -125,7 +181,7 @@ export default function Story() {
                     <img
                       src={panel.img}
                       alt="Story panel"
-                      className="max-w-full aspect-video max-h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105"
+                      className="max-w-full aspect-video max-h-full object-contain grayscale-75 group-hover:grayscale-0 transition-all duration-500 scale-[0.8]"
                     />
                   </div>
 
@@ -141,7 +197,7 @@ export default function Story() {
                             : 'md:bottom-auto md:top-2'
                     }`}
                   >
-                    <div className=" opacity-15 text-gray-950 w-8 h-8 flex items-center justify-center text-xs font-black shadow-lg border-2">
+                    <div className=" opacity-15 text-gray-950 w-6 h-6 flex items-center justify-center text-xs font-black shadow-lg border-2">
                       {idx + 1}
                     </div>
                   </div>
@@ -151,24 +207,43 @@ export default function Story() {
           </AnimatePresence>
 
           {/* Footer Info (With Hover Animation) */}
-          <motion.div
-            className="mt-8 md:mt-12 flex flex-col md:flex-row items-center justify-between border-2 border-black rounded-full px-6 py-3 md:px-10 md:py-4 bg-white gap-4 relative z-10 cursor-default shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:-translate-x-1 transition-all duration-300"
-            whileHover={{ scale: 1.01 }}
-          >
-            <p className="text-xs md:text-sm font-bold text-slate-800 text-center md:text-left">
-              {currentStory.footer}
-            </p>
-            <button
-              onClick={() => {
-                const currentIndex = stories.findIndex((s) => s.id === activeTab)
-                const nextIndex = (currentIndex + 1) % stories.length
-                setActiveTab(stories[nextIndex].id)
-              }}
-              className="w-10 h-10 md:w-12 md:h-12 bg-black text-white rounded-full flex items-center justify-center group hover:bg-[#d7145b] transition-all shrink-0"
+          {currentStory.footer && (
+            <motion.div
+              className="mt-8 md:mt-12 flex flex-row items-center justify-between border-2 border-black rounded-full px-6 py-3 md:px-10 md:py-4 bg-white gap-4 relative z-10 cursor-default shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:-translate-x-1 transition-all duration-300"
+              whileHover={{ scale: 1.01 }}
             >
-              <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-            </button>
-          </motion.div>
+              {currentStory.url ? (
+                <a
+                  href={currentStory.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="grow hover:underline decoration-[#d7145b] decoration-2 underline-offset-4"
+                >
+                  <p className="text-xs md:text-sm font-bold text-slate-800 text-center md:text-left">
+                    {currentStory.footer}
+                  </p>
+                </a>
+              ) : (
+                <div className="grow">
+                  <p className="text-xs md:text-sm font-bold text-slate-800 text-center md:text-left">
+                    {currentStory.footer}
+                  </p>
+                </div>
+              )}
+
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  const currentIndex = stories.findIndex((s) => s.id === activeTab)
+                  const nextIndex = (currentIndex + 1) % stories.length
+                  setActiveTab(stories[nextIndex].id)
+                }}
+                className="w-10 h-10 md:w-12 md:h-12 bg-black text-white rounded-full flex items-center justify-center group hover:bg-[#d7145b] transition-all shrink-0"
+              >
+                <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </motion.div>
+          )}
         </div>
       </div>
     </section>

@@ -57,8 +57,8 @@ export default function Hero() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.5rem] font-bold tracking-tight text-slate-900 leading-[1.15] mb-8"
           >
-            組織開発に特化した
-            <br />
+            <span className="bg-[#d7145b] text-white">組織開発に特化した</span>
+            <br className="mb-1" />
             音声解析
             <img src="/probe/probe.png" alt="" />
           </motion.h1>
@@ -69,9 +69,9 @@ export default function Hero() {
             className="text-lg md:text-xl text-slate-600 leading-relaxed font-medium mb-10 max-w-[540px]"
           >
             「組織の課題はなんとなく分かっている。でもどこから手をつければ...」
-            <br className="hidden md:block" />
+            <br />
             そんな漠然とした不安を「確信」に変える。
-            <br className="hidden md:block" />
+            <br />
             データに基づいたアプローチで、確実なチームビルディングを実現します。
           </motion.p>
         </motion.div>
