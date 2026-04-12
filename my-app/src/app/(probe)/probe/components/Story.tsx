@@ -47,8 +47,8 @@ const stories = [
         img: '/probe/1-4.png',
       },
     ],
-    footer: '株式会社AAA「Probeを導入して上司との1on1が楽しくなりました。」',
-    url: 'https://example.com/case/aaa',
+    footer: '',
+    url: '',
   },
   {
     id: 'online-anxiety',
@@ -72,8 +72,8 @@ const stories = [
         img: '/probe/3-4.png',
       },
     ],
-    footer:
-      '中堅IT企業EEE「オンライン特有の不安が解消され、若手が自信を持って発言できるようになりました。」',
+    footer: '',
+    url: '',
   },
   {
     id: 'waste',
@@ -97,7 +97,8 @@ const stories = [
         img: '/probe/4-4.png',
       },
     ],
-    footer: '大手企業DDD「会議のROIが可視化され、本当の対話の場へと劇的に改善されました。」',
+    footer: '',
+    url: '',
   },
 ]
 
