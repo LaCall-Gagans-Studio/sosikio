@@ -48,7 +48,7 @@ export default function Hero() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             <span className="inline-block px-4 py-1.5 rounded-full bg-white border border-slate-200 text-[#d7145b] text-sm font-bold tracking-wider mb-8 shadow-sm">
-              チームの不和を未然に防ぐ
+              音声だけでチームがわかる
             </span>
           </motion.div>
 
@@ -58,7 +58,7 @@ export default function Hero() {
             className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.5rem] font-bold tracking-tight text-slate-900 leading-[1.15] mb-8"
           >
             <span className="bg-[#d7145b] text-white">組織開発に特化した</span>
-            <br className="mb-1" />
+            <br className="mb-2" />
             音声解析
             <img src="/probe/probe.png" alt="" />
           </motion.h1>

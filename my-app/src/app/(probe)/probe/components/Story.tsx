@@ -161,7 +161,7 @@ export default function Story() {
         </div>
 
         {/* Story Container (Manga Style) */}
-        <div className="font-zenKakuGothicNew border-4 border-black p-8 md:p-12 bg-white shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] relative min-h-[600px]">
+        <div className="font-zenKakuGothicNew border-4 border-black p-4 md:p-12 bg-white shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] relative min-h-[600px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -181,7 +181,7 @@ export default function Story() {
                     <img
                       src={panel.img}
                       alt="Story panel"
-                      className="max-w-full aspect-video max-h-full object-contain grayscale-75 group-hover:grayscale-0 transition-all duration-500 scale-[0.8]"
+                      className="max-w-full aspect-video max-h-full object-contain grayscale-75 group-hover:grayscale-0 group-active:grayscale-0 group-focus:grayscale-0 transition-all duration-500 scale-[0.9]"
                     />
                   </div>
 
