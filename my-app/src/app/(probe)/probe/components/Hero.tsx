@@ -67,11 +67,15 @@ export default function Hero() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-lg md:text-xl text-slate-600 leading-relaxed font-medium mb-10 max-w-[540px]"
           >
-            「組織の課題はなんとなく分かっている。でもどこから手をつければ...」
+            「組織の課題はなんとなく分かっている。
+            <br />
+            　でもどこから手をつければ...」
             <br />
             そんな漠然とした不安を「確信」に変える。
             <br />
-            データに基づいたアプローチで、確実なチームビルディングを実現します。
+            データに基づいたアプローチで、
+            <br />
+            確実なチームビルディングを実現します。
           </motion.p>
         </motion.div>
 
