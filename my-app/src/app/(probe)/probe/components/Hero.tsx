@@ -57,7 +57,7 @@ export default function Hero() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.5rem] font-bold tracking-tight text-slate-900 leading-[1.15] mb-8"
           >
-            <span className="bg-[#d7145b] text-white">組織開発に特化した</span>
+            <span className="bg-[#d7145b] text-white text-nowrap">組織開発に特化した</span>
             <p className="mt-3">音声解析</p>
             <img src="/probe/probe.png" alt="" />
           </motion.h1>
