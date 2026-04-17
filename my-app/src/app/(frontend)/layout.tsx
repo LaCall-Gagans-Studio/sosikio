@@ -83,7 +83,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         </Script>
       </head>
       <body>
-        <GlobalPopup />
+        {/* <GlobalPopup /> */}
         <Header />
         <main>{children}</main>
         <Footer />
