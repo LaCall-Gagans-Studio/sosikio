@@ -11,19 +11,22 @@ export function GlobalPopup() {
   const pathname = usePathname()
 
   useEffect(() => {
-    // ページ遷移時や初回ロード時にポップアップを表示
+    // /probe ページでは表示しない
+    if (pathname.startsWith('/probe')) return
+
     setIsOpen(false)
     const timer = setTimeout(() => {
       setIsOpen(true)
-    }, 600) // 画面切り替え後にリッチなアニメーションで表示
-    
+    }, 600)
+
     return () => clearTimeout(timer)
   }, [pathname])
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-9999 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+          {/* 背景オーバーレイ */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -32,51 +35,79 @@ export function GlobalPopup() {
             className="absolute inset-0 bg-black/40 backdrop-blur-md"
             onClick={() => setIsOpen(false)}
           />
-          
+
+          {/* カード */}
           <motion.div
             initial={{ opacity: 0, scale: 0.85, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{ type: "spring", damping: 25, stiffness: 350 }}
-            className="relative w-[90vw] max-w-[500px] flex flex-col bg-[#1a1a1a] rounded-4xl shadow-2xl overflow-hidden ring-1 ring-white/10"
+            transition={{ type: 'spring', damping: 25, stiffness: 350 }}
+            className="relative w-[90vw] max-w-[460px] flex flex-col bg-white rounded-3xl shadow-2xl overflow-hidden ring-1 ring-slate-200"
           >
-            <motion.button
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(0,0,0,0.6)" }}
-              whileTap={{ scale: 0.95 }}
+            {/* 閉じるボタン */}
+            <button
               onClick={() => setIsOpen(false)}
-              className="absolute top-5 right-5 z-20 flex items-center justify-center w-11 h-11 bg-black/40 backdrop-blur-xl rounded-full text-white/90 hover:text-white transition-all duration-300 border border-white/20"
+              className="absolute top-3 right-3 z-20 flex items-center justify-center w-9 h-9 bg-black/30 hover:bg-black/50 backdrop-blur-sm rounded-full text-white transition-all duration-200"
               aria-label="閉じる"
             >
-              <X size={22} strokeWidth={2.5} />
-            </motion.button>
-            
-            <div className="relative w-full aspect-square shrink-0">
-              <Image
-                src="/popup_1.jpg"
-                alt="Popup"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 90vw, 500px"
-                priority
+              <X size={18} strokeWidth={2.5} />
+            </button>
+
+            {/* 画像エリア */}
+            <div className="relative w-full h-full object-contain aspect-[16/9] shrink-0 overflow-hidden bg-slate-100">
+              <img
+                src="/probe/popup_2.png"
+                alt="Probe Cloud — 音声だけでチームがわかる"
+                className="mt-16"
               />
-              <div className="absolute inset-0 bg-linear-to-tr from-black/10 via-transparent to-black/30 pointer-events-none mix-blend-overlay" />
+
+              {/* NEW RELEASE バッジ */}
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.5 }}
+                className="absolute top-4 left-3 z-10"
+              >
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#d7145b] text-white text-[11px] font-bold tracking-widest uppercase shadow-md">
+                  <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                  New Release
+                </span>
+              </motion.div>
             </div>
 
-            <div className="p-5 md:p-6 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] flex justify-center items-center">
+            {/* CTAエリア — Probeブランドカラー（白背景 + #d7145b） */}
+            <div className="px-5 pt-4 pb-5 bg-white flex flex-col gap-3">
+              {/* アクセントライン */}
+              <div className="w-10 h-1 bg-[#d7145b] rounded-full mx-auto" />
+
+              <p className="text-slate-500 text-xs text-center leading-relaxed">
+                組織診断クラウド Probe が正式リリース。
+                <br />
+                チームの状態をデータで把握し、的確な打ち手を。
+              </p>
+
               <motion.a
-                href="https://eight-event.8card.net/lp/startup-japan/2026/"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/probe"
+                onClick={() => setIsOpen(false)}
                 whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="relative w-full overflow-hidden group flex items-center justify-center py-4 px-6 rounded-2xl bg-white text-black font-bold text-lg shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]"
+                whileTap={{ scale: 0.97 }}
+                className="relative w-full overflow-hidden group flex items-center justify-center py-3.5 px-6 rounded-xl bg-[#d7145b] hover:bg-[#b00f49] text-white font-bold text-base shadow-[0_8px_20px_-6px_rgba(215,20,91,0.4)] hover:shadow-[0_12px_28px_-6px_rgba(215,20,91,0.55)] transition-all duration-300"
               >
-                {/* ボタンのキラッと光るエフェクト */}
-                <div className="absolute inset-0 translate-x-[-100%] group-hover:animate-[shine_1.5s_ease-in-out_infinite] bg-linear-to-r from-transparent via-white/40 to-transparent skew-x-[-20deg]" />
+                <div className="absolute inset-0 translate-x-[-100%] group-hover:animate-[shine_1.5s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[-20deg]" />
                 <span className="relative z-10 flex items-center gap-2">
-                  参加申し込みはこちら
-                  <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  詳しくはこちら
+                  <svg
+                    className="w-5 h-5 transition-transform group-hover:translate-x-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2.5}
+                      d="M13 7l5 5m0 0l-5 5m5-5H6"
+                    />
                   </svg>
                 </span>
               </motion.a>

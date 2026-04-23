@@ -67,15 +67,6 @@ export const HeroSection = ({
     elements: { [id: number]: HTMLDivElement | null }
   }>({ engine: null, runner: null, ground: null, bodies: {}, elements: {} })
 
-  // 外側発光スタイル
-  const [holeBoxShadow, setHoleBoxShadow] = useState<string>(`
-    inset 0 0 0 ${HOLE_BORDER_PX}px #000,
-    10px 10px 20px rgba(0, 0, 0, 0.3),
-    -25px -25px 35px rgba(0, 220, 255, 0.85),
-    25px -25px 35px rgba(255, 0, 150, 0.8),
-    -20px 25px 35px rgba(255, 180, 0, 0.8)
-  `)
-
   // フェーズ管理
   const [phase, setPhase] = useState<'idle' | 'burst' | 'after'>('idle')
   const phaseRef = useRef<'idle' | 'burst' | 'after'>('idle')
@@ -487,8 +478,8 @@ export const HeroSection = ({
           ${pinkX}px ${pinkY}px ${blur}px rgba(255,0,150,0.8),
           ${orangeX}px ${orangeY}px ${blur}px rgba(255,180,0,0.8)
         `
-        if (holeBoxShadow !== newBoxShadow) setHoleBoxShadow(newBoxShadow)
-        ring.style.boxShadow = holeBoxShadow
+        // ✅ INP修正: setStateを使わず直接DOMに書き込む（毎フレームの再レンダリングを防ぐ）
+        ring.style.boxShadow = newBoxShadow
       }
 
       // スコープ画像の穴更新
@@ -675,7 +666,8 @@ export const HeroSection = ({
             background: 'transparent',
             pointerEvents: 'none',
             willChange: 'transform, box-shadow',
-            boxShadow: holeBoxShadow,
+            // ✅ INP修正: boxShadowはrAFで直接DOMに適用するため初期値のみ設定
+            boxShadow: `inset 0 0 0 ${HOLE_BORDER_PX}px #000`,
           }}
         />
       </div>

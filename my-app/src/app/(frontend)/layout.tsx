@@ -5,6 +5,7 @@ import { Header } from '@/components/header'
 import { GlobalPopup } from '@/components/GlobalPopup'
 import type { Metadata } from 'next'
 import Script from 'next/script' // next/scriptをインポート
+import { Kosugi, Zen_Kaku_Gothic_New } from 'next/font/google'
 
 // TypeScriptに window.dataLayer が存在することを教える
 declare global {
@@ -46,14 +47,41 @@ export const metadata: Metadata = {
   },
 }
 
+// next/font: サーバーサイドで最適化されたフォントローダー（レンダリングブロッキングなし）
+const kosugi = Kosugi({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-kosugi',
+  preload: false, // 日本語フォントは容量が大きいため、遅延ロードに切り替え
+})
+
+const zenKakuGothicNew = Zen_Kaku_Gothic_New({
+  weight: ['300', '400', '500', '700', '900'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-zenKakuGothicNew',
+  preload: false, // 日本語フォントは容量が大きいため、遅延ロードに切り替え
+})
+
 export default function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
   // "yourProjectId" の部分を実際のプロジェクトIDに置き換えてください
   const clarityProjectId = 'uoc6ifrhln'
 
   return (
-    <html lang="ja">
+    <html lang="ja" className={`${kosugi.variable} ${zenKakuGothicNew.variable}`}>
       <head>
+        {/* LCP最適化: Heroセクションのメイン背景画像をプリロード */}
+        <link
+          rel="preload"
+          as="image"
+          href="/mats/hero_bg.webp"
+          type="image/webp"
+        />
+        {/* 外部フォントへのプリコネクト（フォールバック用） */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         {/* Juicerタグ */}
         <Script src="//kitchen.juicer.cc/?color=s110owz4x8Y=" strategy="afterInteractive" />
 
@@ -83,7 +111,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         </Script>
       </head>
       <body>
-        {/* <GlobalPopup /> */}
+        <GlobalPopup />
         <Header />
         <main>{children}</main>
         <Footer />

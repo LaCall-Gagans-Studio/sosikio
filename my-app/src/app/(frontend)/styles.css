@@ -1,7 +1,5 @@
-/* 1. フォントのインポートは一番上 */
-@import url('https://fonts.googleapis.com/css2?family=Kosugi&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap');
+/* 1. Google Fonts @importは next/font に移行済みのため削除
+   (レンダリングブロッキングなしでフォントを最適化配信するため） */
 
 /* 2. Tailwind 本体とプラグインの読み込み */
 @import 'tailwindcss';
