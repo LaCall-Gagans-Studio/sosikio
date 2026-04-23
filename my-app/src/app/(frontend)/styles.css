@@ -74,3 +74,20 @@
 .animate-infinite-scroll:hover {
   animation-play-state: paused;
 }
+
+/* 6. HeroSection: kazahole コンテナの最小高さ保証
+   ※ スマホ(< 640px)は hero.tsx の containerStyle.minHeight (inline style) で対応。
+      ここではタブレット〜デスクトップの上書きのみ管理 */
+
+/* sm幅(640px)以降でテキストサイズが大きくなるため、デスクトップレイアウト切替前まで高さを拡張 */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .hero-container {
+    min-height: max(120svh, 1000px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-container {
+    min-height: max(95svh, 750px);
+  }
+}

@@ -54,7 +54,7 @@ export function GlobalPopup() {
             </button>
 
             {/* 画像エリア */}
-            <div className="relative w-full h-full object-contain aspect-[16/9] shrink-0 overflow-hidden bg-slate-100">
+            <div className="relative w-full h-full object-contain shrink-0 overflow-hidden bg-slate-100">
               <img
                 src="/probe/popup_2.png"
                 alt="Probe Cloud — 音声だけでチームがわかる"
