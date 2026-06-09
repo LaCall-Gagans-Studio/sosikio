@@ -53,24 +53,28 @@ export function GlobalPopup() {
             <button
               type="button"
               onClick={() => setIsOpen(false)}
-              className="absolute top-4 right-4 z-20 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition-colors hover:bg-slate-100/80 hover:text-slate-600"
+              className="absolute top-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full text-slate-400 transition-colors hover:bg-slate-100/80 hover:text-slate-600"
               aria-label="閉じる"
             >
-              <X size={18} strokeWidth={1.75} />
+              <X size={22} strokeWidth={1.75} />
             </button>
 
             <header className="px-8 pt-9 pb-5 text-center">
-              <p className="text-[10px] font-medium tracking-[0.28em] text-[#d7145b]/70 uppercase">
+              <p className="text-xs sm:text-sm font-medium tracking-[0.28em] text-[#d7145b]/70 uppercase">
                 Event
               </p>
               <h2
                 id="global-popup-title"
-                className="mt-3 text-[17px] sm:text-lg font-bold text-black tracking-[0.04em] leading-snug"
+                className="mt-3 text-xl sm:text-2xl font-bold text-black tracking-[0.04em] leading-snug"
               >
                 イベント出展のお知らせ
               </h2>
-              <p className="mt-2 text-[13px] sm:text-sm text-[#d7145b] tracking-[0.12em]">
+              <p className="mt-2 text-base sm:text-lg text-[#d7145b] tracking-[0.12em]">
                 会場でお待ちしています！
+              </p>
+              <p className="mt-4 inline-flex items-baseline gap-1.5 rounded-full border border-[#d7145b]/12 bg-white/90 px-5 py-2 text-base sm:text-lg shadow-sm">
+                <span className="text-slate-500 tracking-[0.06em]">ブース番号：</span>
+                <span className="font-semibold text-slate-900 tracking-[0.08em]">E10-12</span>
               </p>
             </header>
 
