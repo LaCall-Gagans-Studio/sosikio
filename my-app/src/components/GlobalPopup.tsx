@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
+import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
 import Image from 'next/image'
@@ -17,7 +18,7 @@ export function GlobalPopup() {
   const pathname = usePathname()
 
   useEffect(() => {
-    if (pathname.startsWith('/probe')) return
+    if (pathname.startsWith('/probe') || pathname.startsWith('/hr')) return
 
     setIsOpen(false)
     const timer = setTimeout(() => {
@@ -90,6 +91,13 @@ export function GlobalPopup() {
                   priority
                 />
               </div>
+              <Link
+                href="/hr"
+                onClick={() => setIsOpen(false)}
+                className="mt-5 flex w-full items-center justify-center rounded-xl bg-[#d7145b] px-6 py-3.5 text-base font-bold text-white shadow-[0_8px_20px_-6px_rgba(215,20,91,0.4)] transition-all duration-200 hover:bg-[#b00f49] hover:-translate-y-0.5 active:translate-y-0 sm:text-lg"
+              >
+                イベント特設ページを見る
+              </Link>
             </div>
           </motion.div>
         </div>
