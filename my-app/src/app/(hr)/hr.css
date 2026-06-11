@@ -1,0 +1,80 @@
+/* =========================================================
+   SOSIKIO /hr — Design Tokens & Utilities
+   印刷物（HR EXPO ブース）のトンマナを Web に移植
+   ========================================================= */
+:root {
+  /* Brand core */
+  --hr-yellow: #fff200;
+  --hr-yellow-deep: #f2d600;
+  --hr-magenta: #ed008c;
+  --hr-ink: #141210;
+  --hr-ink-2: #1c1c1e;
+  --hr-ink-3: #2a2a2e;
+  --hr-white: #ffffff;
+  --hr-paper: #f4f4f2;
+
+  /* グラフ */
+  --hr-line-subjective: var(--hr-yellow-deep);
+  --hr-line-emotion: var(--hr-magenta);
+  --hr-alert: var(--hr-magenta);
+
+  /* レイアウト */
+  --hr-radius: 14px;
+  --hr-maxw: 1160px;
+}
+
+/* ---- フォントヘルパー（next/font の CSS 変数を参照） ---- */
+.hr-impact {
+  font-family: var(--font-hr-impact), 'Noto Sans JP', sans-serif;
+}
+.hr-body {
+  font-family: var(--font-hr-body), system-ui, sans-serif;
+}
+.hr-latin {
+  font-family: var(--font-hr-latin), 'Arial Black', sans-serif;
+}
+.hr-brush {
+  font-family: var(--font-hr-brush), serif;
+}
+
+/* ---- ハザード（虎目）ストライプ ---- */
+.hr-hazard {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--hr-ink) 0 22px,
+    var(--hr-yellow) 22px 44px
+  );
+}
+
+/* ---- SOSIKIO "O" のグリッチ・リング（CMYK風） ---- */
+.hr-glitch-ring {
+  background: conic-gradient(from 0deg, #00aeef, #ec008c, #fff200, #00a651, #00aeef);
+}
+
+/* ---- コンテナ ---- */
+.hr-container {
+  width: 100%;
+  max-width: var(--hr-maxw);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 640px) {
+  .hr-container {
+    padding-inline: 2rem;
+  }
+}
+
+/* ---- フォーム ---- */
+.hr-page input:focus-visible,
+.hr-page textarea:focus-visible,
+.hr-page select:focus-visible,
+.hr-page button:focus-visible,
+.hr-page a:focus-visible {
+  outline: 3px solid var(--hr-yellow);
+  outline-offset: 2px;
+}
+
+.hr-page ::selection {
+  background: var(--hr-magenta);
+  color: #fff;
+}

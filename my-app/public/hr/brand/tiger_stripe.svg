@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="48" viewBox="0 0 160 48">
+  <defs>
+    <pattern id="hazard" width="56" height="48" patternUnits="userSpaceOnUse"
+             patternTransform="rotate(0)">
+      <rect width="56" height="48" fill="#FFF200"/>
+      <!-- diagonal black bars, seamless across the 56px tile -->
+      <polygon points="0,48 28,0 56,0 28,48" fill="#141210"/>
+      <polygon points="-28,48 0,0 0,48"   fill="#141210"/>
+    </pattern>
+  </defs>
+  <rect width="160" height="48" fill="url(#hazard)"/>
+</svg>

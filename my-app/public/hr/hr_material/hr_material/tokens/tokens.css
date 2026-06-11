@@ -1,0 +1,50 @@
+/* =========================================================
+   SOSIKIO /hr  Design Tokens
+   印刷物（HR EXPO ブース）から抽出したブランド値
+   Tailwind v4 を使う場合は @theme 側にも同じ値を流し込めます。
+   ========================================================= */
+:root {
+  /* --- Brand core --- */
+  --hr-yellow:      #FFF200; /* 蛍光イエロー / ハザード・警告 */
+  --hr-yellow-deep: #F2D600; /* 主観のコエ ライン / 影色 */
+  --hr-magenta:     #ED008C; /* STOP! 離職 / 感情のコエ ライン */
+  --hr-ink:         #141210; /* リッチブラック（やや暖色） 背景主役 */
+  --hr-ink-2:       #1C1C1E; /* パネル面 */
+  --hr-ink-3:       #2A2A2E; /* グラフ面・境界 */
+  --hr-white:       #FFFFFF;
+  --hr-paper:       #F4F4F2; /* 明るいセクションの地 */
+
+  /* --- グラフ用 --- */
+  --hr-line-subjective: var(--hr-yellow-deep); /* 主観のコエ */
+  --hr-line-emotion:    var(--hr-magenta);     /* 感情のコエ */
+  --hr-alert:           var(--hr-magenta);     /* 退職連絡ライン */
+
+  /* --- タイポ --- */
+  /* 日本語見出し：極太ゴシック / 本文：Noto Sans JP */
+  --font-jp:        "Noto Sans JP", system-ui, sans-serif;
+  --font-jp-impact: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif; /* 太見出し */
+  --font-jp-brush:  "Yuji Syuku", "Noto Serif JP", serif;  /* 「辞めた！」筆文字代替 */
+  --font-latin-impact: "Anton", "Archivo Black", sans-serif; /* STOP! 等の英字 */
+
+  /* --- レイアウト --- */
+  --hr-radius: 14px;
+  --hr-maxw: 1160px;
+  --hr-stripe-angle: -18deg;
+}
+
+/* ハザード（虎目）ストライプ：CSS だけで再現する場合のユーティリティ */
+.hr-hazard {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--hr-ink) 0 22px,
+    var(--hr-yellow) 22px 44px
+  );
+}
+
+/* SOSIKIO の "O" のグリッチ・リング（CMYK風） */
+.hr-glitch-ring {
+  background: conic-gradient(
+    from 0deg,
+    #00aeef, #ec008c, #fff200, #00a651, #00aeef
+  );
+}

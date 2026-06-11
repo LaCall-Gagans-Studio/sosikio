@@ -5,7 +5,7 @@ import nodemailer from 'nodemailer'
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { name, email, company, message, type, phone, products, size, preferred, note, companySize, role } = body
+    const { name, email, company, message, type, phone, products, size, preferred, note, companySize, role, interests, source } = body
 
     // 1. お名前.comのメールサーバー設定
     const transporter = nodemailer.createTransport({
@@ -54,6 +54,24 @@ export async function POST(request: Request) {
         ■補足:
         ■補足:
         ${note || '（なし）'}
+      `
+    } else if (type === 'hr') {
+      subject = `【HR LP 資料請求】${company || ''} ${name}様より`
+      const interestList = Array.isArray(interests) && interests.length > 0 ? interests.join(', ') : '（未選択）'
+      text = `
+        HR EXPO LP（/hr）から資料請求のお申し込みがありました。
+
+        ■会社名: ${company}
+        ■お名前: ${name}
+        ■メール: ${email}
+        ■電話番号: ${phone || '（未入力）'}
+
+        ■ご興味のあるサービス: ${interestList}
+
+        ■備考:
+        ${note || '（なし）'}
+
+        ■流入元: ${source || 'hr-lp'}
       `
     } else if (type === 'probe-cloud') {
       subject = `【Probeクラウドお問い合わせ】${company || ''} ${name}様より`
