@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { HeroAlert } from './_components/HeroAlert'
 import { CaseIntro } from './_components/CaseIntro'
 import { TwoVoices } from './_components/TwoVoices'
@@ -66,9 +67,25 @@ export default function HrPage() {
               className="h-6 w-auto"
             />
           </span>
-          <p className="max-w-[640px] text-[11px] leading-relaxed text-white/45">
-            本図表は、想定例に基づく概念図です。実際の効果や個社の性能を保証するものではございません。
-          </p>
+
+          <nav
+            aria-label="サイト内リンク"
+            className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
+          >
+            <Link
+              href="/"
+              className="text-sm font-medium text-white/75 underline-offset-4 transition-colors hover:text-[#fff200] hover:underline"
+            >
+              SOSIKIOとは
+            </Link>
+            <Link
+              href="/philosophy"
+              className="text-sm font-medium text-white/75 underline-offset-4 transition-colors hover:text-[#fff200] hover:underline"
+            >
+              理念・会社情報
+            </Link>
+          </nav>
+
           <p className="text-xs tracking-widest text-white/60">
             &copy; {new Date().getFullYear()} HOKURYO DENKO Co.,Ltd. ALL RIGHTS RESERVED.
           </p>

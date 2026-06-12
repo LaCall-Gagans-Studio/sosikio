@@ -1,7 +1,7 @@
 'use client'
 
-import React from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import React, { useEffect, useRef, useState } from 'react'
+import { motion, useInView, useReducedMotion } from 'framer-motion'
 import { Reveal } from './Reveal'
 
 /* ---- 概念図用ダミーデータ（0=低, 100=高） ---- */
@@ -40,9 +40,17 @@ const CASES: CaseDef[] = [
 /* ---- 描画領域 ---- */
 const W = 600
 const H = 300
-const PAD = { top: 28, right: 64, bottom: 34, left: 40 }
+const PAD = { top: 28, right: 64, bottom: 34, left: 52 }
 const PLOT_W = W - PAD.left - PAD.right
 const PLOT_H = H - PAD.top - PAD.bottom
+const Y_AXIS_LABEL_X = 16
+const Y_AXIS_LABEL_Y = PAD.top + PLOT_H / 2
+
+/** iOS Safari 向け: 要素が既に画面内かどうかを判定 */
+function isElementInViewport(el: HTMLElement): boolean {
+  const rect = el.getBoundingClientRect()
+  return rect.top < window.innerHeight && rect.bottom > 0
+}
 
 function toPoints(values: number[]): Array<[number, number]> {
   return values.map((v, i) => [
@@ -52,188 +60,226 @@ function toPoints(values: number[]): Array<[number, number]> {
 }
 
 function toPath(points: Array<[number, number]>): string {
-  return points.map(([x, y], i) => `${i === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`).join(' ')
+  return points
+    .map(([x, y], i) => `${i === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`)
+    .join(' ')
 }
 
 function CaseGraph({ def, index }: { def: CaseDef; index: number }) {
   const reduced = useReducedMotion()
+  const figureRef = useRef<HTMLElement>(null)
+  const isInView = useInView(figureRef, {
+    once: true,
+    amount: 0.15,
+    margin: '0px 0px -40px 0px',
+  })
+  const [visible, setVisible] = useState(Boolean(reduced))
 
   const subjPts = toPoints(def.subjective)
   const emoPts = toPoints(def.emotion)
-  // 退職連絡ライン＝最終測定点の位置
   const alertX = subjPts[subjPts.length - 1][0]
 
-  const lineAnim = (delay: number) =>
-    reduced
-      ? {}
-      : {
-          initial: { pathLength: 0 },
-          whileInView: { pathLength: 1 },
-          viewport: { once: true, margin: '-10%' },
-          transition: { duration: 1.6, delay, ease: 'easeInOut' as const },
-        }
+  // 表示トリガーを1箇所に集約（iOS Safari の whileInView 多重発火問題を回避）
+  useEffect(() => {
+    if (reduced) {
+      setVisible(true)
+      return
+    }
+    if (isInView) {
+      setVisible(true)
+      return
+    }
+
+    const el = figureRef.current
+    if (el && isElementInViewport(el)) {
+      setVisible(true)
+      return
+    }
+
+    // Intersection Observer が発火しない端末向けフォールバック
+    const timer = window.setTimeout(() => setVisible(true), 1200)
+    return () => window.clearTimeout(timer)
+  }, [isInView, reduced])
+
+  const show = visible || reduced
 
   return (
-    <Reveal delay={index * 0.1}>
-      <figure className="rounded-[14px] bg-[#1c1c1e] p-5 ring-1 ring-white/5 sm:p-7">
-        <figcaption className="flex flex-wrap items-center gap-3">
-          <span className="hr-latin rounded-sm bg-[#ed008c] px-2.5 py-1 text-xs font-bold tracking-widest text-white">
-            CASE {def.no}
-          </span>
-          <span className="hr-impact text-lg font-black text-white">{def.name}</span>
-        </figcaption>
+    <motion.figure
+      ref={figureRef}
+      initial={reduced ? false : { opacity: 0, y: 20 }}
+      animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{ duration: 0.5, delay: reduced ? 0 : index * 0.08, ease: [0.22, 0.61, 0.36, 1] }}
+      className="rounded-[14px] bg-[#1c1c1e] p-5 ring-1 ring-white/5 sm:p-7"
+    >
+      <figcaption className="flex flex-wrap items-center gap-3">
+        <span className="hr-latin rounded-sm bg-[#ed008c] px-2.5 py-1 text-xs font-bold tracking-widest text-white">
+          CASE {def.no}
+        </span>
+        <span className="hr-impact text-lg font-black text-white">{def.name}</span>
+      </figcaption>
 
-        <svg
-          viewBox={`0 0 ${W} ${H}`}
-          role="img"
-          aria-label={`${def.name}のコエの健康値の推移（概念図）。${def.sign}`}
-          className="mt-4 w-full"
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        role="img"
+        aria-label={`${def.name}のコエの健康値の推移（概念図）。${def.sign}`}
+        className="mt-4 w-full"
+      >
+        <rect x={PAD.left} y={PAD.top} width={PLOT_W} height={PLOT_H} fill="#2A2A2E" rx="4" />
+        {[0.25, 0.5, 0.75].map((r) => (
+          <line
+            key={r}
+            x1={PAD.left}
+            x2={PAD.left + PLOT_W}
+            y1={PAD.top + PLOT_H * r}
+            y2={PAD.top + PLOT_H * r}
+            stroke="#ffffff"
+            strokeOpacity="0.12"
+            strokeWidth="1"
+          />
+        ))}
+
+        <text
+          x={Y_AXIS_LABEL_X}
+          y={Y_AXIS_LABEL_Y}
+          transform={`rotate(-90, ${Y_AXIS_LABEL_X}, ${Y_AXIS_LABEL_Y})`}
+          textAnchor="middle"
+          fontSize="13"
+          fontWeight="600"
+          fill="#fff"
+          fillOpacity="0.9"
         >
-          {/* グラフ面 */}
-          <rect
-            x={PAD.left}
-            y={PAD.top}
-            width={PLOT_W}
-            height={PLOT_H}
-            fill="#2A2A2E"
-            rx="4"
-          />
-          {/* 水平グリッド */}
-          {[0.25, 0.5, 0.75].map((r) => (
-            <line
-              key={r}
-              x1={PAD.left}
-              x2={PAD.left + PLOT_W}
-              y1={PAD.top + PLOT_H * r}
-              y2={PAD.top + PLOT_H * r}
-              stroke="#ffffff"
-              strokeOpacity="0.12"
-              strokeWidth="1"
-            />
-          ))}
+          コエの健康値
+        </text>
 
-          {/* 軸ラベル */}
-          <text x={PAD.left - 8} y={PAD.top + 10} textAnchor="end" fontSize="13" fill="#fff">
-            高
-          </text>
-          <text
-            x={PAD.left - 8}
-            y={PAD.top + PLOT_H}
-            textAnchor="end"
-            fontSize="13"
-            fill="#fff"
-            fillOpacity="0.7"
-          >
-            低
-          </text>
-          <text
-            x={PAD.left + PLOT_W / 2}
-            y={H - 10}
-            textAnchor="middle"
-            fontSize="12"
-            fill="#fff"
-            fillOpacity="0.55"
-          >
-            時間 →
-          </text>
+        <text x={PAD.left - 10} y={PAD.top + 10} textAnchor="end" fontSize="13" fill="#fff">
+          高
+        </text>
+        <text
+          x={PAD.left - 10}
+          y={PAD.top + PLOT_H}
+          textAnchor="end"
+          fontSize="13"
+          fill="#fff"
+          fillOpacity="0.7"
+        >
+          低
+        </text>
+        <text
+          x={PAD.left + PLOT_W / 2}
+          y={H - 10}
+          textAnchor="middle"
+          fontSize="12"
+          fill="#fff"
+          fillOpacity="0.55"
+        >
+          時間 →
+        </text>
 
-          {/* 主観のコエ（黄） */}
-          <motion.path
-            d={toPath(subjPts)}
-            fill="none"
-            stroke="#F2D600"
-            strokeWidth="3"
-            strokeLinejoin="round"
-            strokeLinecap="round"
-            {...lineAnim(0.1)}
+        {/* pathLength=1 を SVG 属性で明示（Safari フォールバック） */}
+        <motion.path
+          d={toPath(subjPts)}
+          pathLength={1}
+          fill="none"
+          stroke="#F2D600"
+          strokeWidth="3"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          initial={false}
+          animate={{ pathLength: show ? 1 : 0 }}
+          transition={{ duration: reduced ? 0 : 1.6, delay: reduced ? 0 : 0.1, ease: 'easeInOut' }}
+        />
+        <motion.path
+          d={toPath(emoPts)}
+          pathLength={1}
+          fill="none"
+          stroke="#ED008C"
+          strokeWidth="3"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          initial={false}
+          animate={{ pathLength: show ? 1 : 0 }}
+          transition={{ duration: reduced ? 0 : 1.6, delay: reduced ? 0 : 0.45, ease: 'easeInOut' }}
+        />
+
+        {subjPts.map(([x, y], i) => (
+          <motion.circle
+            key={`s${i}`}
+            cx={x}
+            cy={y}
+            r="3.2"
+            fill="#F2D600"
+            initial={false}
+            animate={{ opacity: show ? 1 : 0 }}
+            transition={{
+              duration: reduced ? 0 : 0.2,
+              delay: reduced ? 0 : 0.1 + (i / subjPts.length) * 1.6,
+            }}
           />
-          {/* 感情のコエ（マゼンタ） */}
-          <motion.path
-            d={toPath(emoPts)}
-            fill="none"
+        ))}
+        {emoPts.map(([x, y], i) => (
+          <motion.circle
+            key={`e${i}`}
+            cx={x}
+            cy={y}
+            r="3.2"
+            fill="#ED008C"
+            initial={false}
+            animate={{ opacity: show ? 1 : 0 }}
+            transition={{
+              duration: reduced ? 0 : 0.2,
+              delay: reduced ? 0 : 0.45 + (i / emoPts.length) * 1.6,
+            }}
+          />
+        ))}
+
+        <motion.g
+          initial={false}
+          animate={{ opacity: show ? 1 : 0, y: show ? 0 : -8 }}
+          transition={{
+            duration: reduced ? 0 : 0.25,
+            delay: reduced ? 0 : show ? 2.15 : 0,
+            ease: 'easeOut',
+          }}
+        >
+          <line
+            x1={alertX}
+            x2={alertX}
+            y1={PAD.top - 6}
+            y2={PAD.top + PLOT_H}
             stroke="#ED008C"
-            strokeWidth="3"
-            strokeLinejoin="round"
-            strokeLinecap="round"
-            {...lineAnim(0.45)}
+            strokeWidth="2"
+            strokeDasharray="6 5"
           />
-
-          {/* 測定点 */}
-          {subjPts.map(([x, y], i) => (
-            <motion.circle
-              key={`s${i}`}
-              cx={x}
-              cy={y}
-              r="3.2"
-              fill="#F2D600"
-              initial={reduced ? false : { opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: '-10%' }}
-              transition={{ delay: reduced ? 0 : 0.1 + (i / subjPts.length) * 1.6 }}
-            />
-          ))}
-          {emoPts.map(([x, y], i) => (
-            <motion.circle
-              key={`e${i}`}
-              cx={x}
-              cy={y}
-              r="3.2"
-              fill="#ED008C"
-              initial={reduced ? false : { opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: '-10%' }}
-              transition={{ delay: reduced ? 0 : 0.45 + (i / emoPts.length) * 1.6 }}
-            />
-          ))}
-
-          {/* 退職連絡ライン（最後にスナップ） */}
-          <motion.g
-            initial={reduced ? false : { opacity: 0, y: -8 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-10%' }}
-            transition={{ delay: reduced ? 0 : 2.15, duration: 0.25, ease: 'easeOut' }}
+          <rect x={alertX - 34} y={PAD.top - 24} width="68" height="20" rx="3" fill="#ED008C" />
+          <text
+            x={alertX}
+            y={PAD.top - 10}
+            textAnchor="middle"
+            fontSize="11"
+            fontWeight="bold"
+            fill="#fff"
           >
-            <line
-              x1={alertX}
-              x2={alertX}
-              y1={PAD.top - 6}
-              y2={PAD.top + PLOT_H}
-              stroke="#ED008C"
-              strokeWidth="2"
-              strokeDasharray="6 5"
-            />
-            <rect x={alertX - 34} y={PAD.top - 24} width="68" height="20" rx="3" fill="#ED008C" />
-            <text
-              x={alertX}
-              y={PAD.top - 10}
-              textAnchor="middle"
-              fontSize="11"
-              fontWeight="bold"
-              fill="#fff"
-            >
-              退職連絡
-            </text>
-          </motion.g>
-        </svg>
+            退職連絡
+          </text>
+        </motion.g>
+      </svg>
 
-        {/* 凡例 */}
-        <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1 text-xs text-white/75">
-          <span className="inline-flex items-center gap-1.5">
-            <span aria-hidden="true" className="h-[3px] w-5 rounded bg-[#F2D600]" />
-            主観のコエ
-          </span>
-          <span className="inline-flex items-center gap-1.5">
-            <span aria-hidden="true" className="h-[3px] w-5 rounded bg-[#ED008C]" />
-            感情のコエ
-          </span>
-        </div>
+      <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1 text-xs text-white/75">
+        <span className="inline-flex items-center gap-1.5">
+          <span aria-hidden="true" className="h-[3px] w-5 rounded bg-[#F2D600]" />
+          主観のコエ
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span aria-hidden="true" className="h-[3px] w-5 rounded bg-[#ED008C]" />
+          感情のコエ
+        </span>
+      </div>
 
-        <p className="mt-4 text-sm font-bold leading-relaxed text-white">
-          <span className="mr-1.5 text-[#fff200]">合図：</span>
-          {def.sign}
-        </p>
-      </figure>
-    </Reveal>
+      <p className="mt-4 text-sm font-bold leading-relaxed text-white">
+        <span className="mr-1.5 text-[#fff200]">合図：</span>
+        {def.sign}
+      </p>
+    </motion.figure>
   )
 }
 

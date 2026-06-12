@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { CheckCircle2, Loader2 } from 'lucide-react'
 import { Reveal } from './Reveal'
 
-const INTERESTS = ['SOSIKIO（コエの健康診断）', 'コエカラ研修'] as const
+const INTERESTS = ['コエの健康診断', 'コエカラ研修', 'SOSIKIO（一気伴走パッケージ）'] as const
 
 type Status = 'idle' | 'sending' | 'done' | 'error'
 
@@ -152,7 +152,10 @@ export function LeadForm() {
         <legend className="mb-2 text-sm font-bold text-white">ご興味のあるサービス</legend>
         <div className="flex flex-col gap-2.5 sm:flex-row sm:gap-6">
           {INTERESTS.map((i) => (
-            <label key={i} className="inline-flex cursor-pointer items-center gap-2.5 text-[15px] text-white/90">
+            <label
+              key={i}
+              className="inline-flex cursor-pointer items-center gap-2.5 text-[15px] text-white/90"
+            >
               <input
                 type="checkbox"
                 name={`interest-${i}`}
@@ -184,7 +187,10 @@ export function LeadForm() {
       </div>
 
       {status === 'error' && (
-        <p role="alert" className="mt-5 rounded-md bg-[#ed008c]/15 px-4 py-3 text-sm font-bold text-[#ff7ec4]">
+        <p
+          role="alert"
+          className="mt-5 rounded-md bg-[#ed008c]/15 px-4 py-3 text-sm font-bold text-[#ff7ec4]"
+        >
           {errorMsg}
         </p>
       )}
@@ -195,9 +201,7 @@ export function LeadForm() {
         data-clarity-event="hr-lead-submit"
         className="hr-impact mt-8 inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#fff200] px-8 py-4 text-lg font-black text-[#141210] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
       >
-        {status === 'sending' && (
-          <Loader2 size={20} className="animate-spin" aria-hidden="true" />
-        )}
+        {status === 'sending' && <Loader2 size={20} className="animate-spin" aria-hidden="true" />}
         {status === 'sending' ? '送信中…' : '資料を請求する'}
       </button>
     </form>
