@@ -8,7 +8,7 @@ import { X } from 'lucide-react'
 import Image from 'next/image'
 
 const POPUP_IMAGE = {
-  src: '/probe/popup_3.webp',
+  src: '/probe/popup_4.webp',
   width: 1280,
   height: 670,
 } as const
@@ -60,26 +60,7 @@ export function GlobalPopup() {
               <X size={22} strokeWidth={1.75} />
             </button>
 
-            <header className="px-8 pt-9 pb-5 text-center">
-              <p className="text-xs sm:text-sm font-medium tracking-[0.28em] text-[#d7145b]/70 uppercase">
-                Event
-              </p>
-              <h2
-                id="global-popup-title"
-                className="mt-3 text-xl sm:text-2xl font-bold text-black tracking-[0.04em] leading-snug"
-              >
-                イベント出展のお知らせ
-              </h2>
-              <p className="mt-2 text-base sm:text-lg text-[#d7145b] tracking-[0.12em]">
-                会場でお待ちしています！
-              </p>
-              <p className="mt-4 inline-flex items-baseline gap-1.5 rounded-full border border-[#d7145b]/12 bg-white/90 px-5 py-2 text-base sm:text-lg shadow-sm">
-                <span className="text-slate-500 tracking-[0.06em]">ブース番号：</span>
-                <span className="font-semibold text-slate-900 tracking-[0.08em]">E10-12</span>
-              </p>
-            </header>
-
-            <div className="px-5 sm:px-6 pb-6 sm:pb-7">
+            <div className="px-5 sm:px-6 py-6 sm:py-7">
               <div className="font-bold rounded-xl shadow-[0_8px_32px_-8px_rgba(215,20,91,0.12)] ring-1 ring-slate-900/5">
                 <Image
                   src={POPUP_IMAGE.src}
@@ -96,7 +77,7 @@ export function GlobalPopup() {
                 onClick={() => setIsOpen(false)}
                 className="mt-5 flex w-full items-center justify-center rounded-xl bg-[#d7145b] px-6 py-3.5 text-base font-bold text-white shadow-[0_8px_20px_-6px_rgba(215,20,91,0.4)] transition-all duration-200 hover:bg-[#b00f49] hover:-translate-y-0.5 active:translate-y-0 sm:text-lg"
               >
-                イベント特設ページを見る
+                詳しく知る
               </Link>
             </div>
           </motion.div>
