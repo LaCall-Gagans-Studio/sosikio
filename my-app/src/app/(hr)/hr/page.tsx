@@ -10,10 +10,12 @@ import { KanamaMethod } from './_components/KanamaMethod'
 import { ClosingCTA } from './_components/ClosingCTA'
 import { LeadForm } from './_components/LeadForm'
 import { HazardDivider } from './_components/HazardDivider'
+import { HashScrollToForm } from './_components/HashScrollToForm'
 
 export default function HrPage() {
   return (
     <>
+      <HashScrollToForm />
       <main>
         <HeroAlert />
         <HazardDivider />
