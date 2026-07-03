@@ -73,12 +73,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     <html lang="ja" className={`${kosugi.variable} ${zenKakuGothicNew.variable}`}>
       <head>
         {/* LCP最適化: Heroセクションのメイン背景画像をプリロード */}
-        <link
-          rel="preload"
-          as="image"
-          href="/mats/hero_bg.webp"
-          type="image/webp"
-        />
+        <link rel="preload" as="image" href="/mats/hero_bg.webp" type="image/webp" />
         {/* 外部フォントへのプリコネクト（フォールバック用） */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -111,7 +106,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         </Script>
       </head>
       <body>
-        <GlobalPopup />
+        {/* <GlobalPopup /> */}
         <Header />
         <main>{children}</main>
         <Footer />
