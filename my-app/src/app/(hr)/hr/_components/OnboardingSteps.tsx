@@ -33,7 +33,7 @@ const STEPS: Step[] = [
     number: 4,
     period: 'Day 30+',
     title: '本格運用',
-    description: 'レポートの見方・介入判断の基準を確認し、全社展開へ。',
+    description: 'レポートの項目・介入判断の基準を御社に合わせて調整し、全社展開へ。',
   },
 ]
 
@@ -81,12 +81,8 @@ export function OnboardingSteps() {
                     <span className="hr-latin text-xs font-bold tracking-widest text-[#fff200]/70">
                       {step.period}
                     </span>
-                    <h3 className="hr-impact mt-1.5 text-lg font-bold text-white">
-                      {step.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-white/65">
-                      {step.description}
-                    </p>
+                    <h3 className="hr-impact mt-1.5 text-lg font-bold text-white">{step.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-white/65">{step.description}</p>
                   </div>
                 </div>
               </Reveal>
