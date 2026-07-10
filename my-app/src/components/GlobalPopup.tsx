@@ -31,7 +31,7 @@ export function GlobalPopup() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2">
+        <div className="fixed inset-0 z-9999 flex items-center justify-center p-2">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -75,6 +75,7 @@ export function GlobalPopup() {
               <Link
                 href="/hr"
                 onClick={() => setIsOpen(false)}
+                data-track-cta="global_popup_hr_link"
                 className="mt-5 flex w-full items-center justify-center rounded-xl bg-[#d7145b] px-6 py-3.5 text-base font-bold text-white shadow-[0_8px_20px_-6px_rgba(215,20,91,0.4)] transition-all duration-200 hover:bg-[#b00f49] hover:-translate-y-0.5 active:translate-y-0 sm:text-lg"
               >
                 詳しく知る

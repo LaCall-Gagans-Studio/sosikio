@@ -87,6 +87,22 @@ export function FooterClient({ products }: Props) {
                   お客様の声・コラム
                 </button>
               </li>
+              <li>
+                <button
+                  onClick={() => handleClick('/probe')}
+                  className="text-gray-400 hover:text-white transition"
+                >
+                  Probe
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleClick('/hr')}
+                  className="text-gray-400 hover:text-white transition"
+                >
+                  コエの健康診断
+                </button>
+              </li>
             </ul>
           </div>
 

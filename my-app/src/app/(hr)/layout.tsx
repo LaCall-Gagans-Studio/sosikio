@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import '../(frontend)/styles.css'
 import './hr.css'
 import type { Metadata, Viewport } from 'next'
 import { Zen_Kaku_Gothic_New, Noto_Sans_JP, Anton, Yuji_Syuku } from 'next/font/google'
+import { AnalyticsScripts } from '@/components/AnalyticsScripts'
+import { AnalyticsTracker } from '@/components/AnalyticsTracker'
 
 const notoSansJp = Noto_Sans_JP({
   weight: ['400', '500', '700'],
@@ -70,7 +72,13 @@ export default function HrLayout({ children }: { children: React.ReactNode }) {
       lang="ja"
       className={`${notoSansJp.variable} ${zenKakuGothicNew.variable} ${anton.variable} ${yujiSyuku.variable}`}
     >
-      <body className="hr-page hr-body bg-[#141210] text-white antialiased">{children}</body>
+      <body className="hr-page hr-body bg-[#141210] text-white antialiased">
+        <AnalyticsScripts />
+        <Suspense fallback={null}>
+          <AnalyticsTracker />
+        </Suspense>
+        {children}
+      </body>
     </html>
   )
 }

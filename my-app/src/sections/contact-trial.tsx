@@ -32,9 +32,9 @@ export function ContactTrialSection({ products }: Props) {
             お問い合わせ & 資料請求
           </h2>
           <p className="mt-3 text-gray-600">
-            ご相談はカジュアルにどうぞ。
+            どんなご相談でも承っております。
             <br />
-            まずはお悩みを聞かせてください。
+            まずはお悩みをお聞かせください。
           </p>
         </div>
 

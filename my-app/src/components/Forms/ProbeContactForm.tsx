@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { trackEvent } from '@/lib/analytics'
 
 type FormState = {
   name: string
@@ -40,6 +41,7 @@ export function ProbeContactForm() {
     setDone(null)
 
     if (!state.name || !state.email || !state.companySize || !state.message || !state.agree) {
+      trackEvent('form_error', { form_id: 'probe_contact_form', error_type: 'required_missing' })
       setDone('ng')
       return
     }
@@ -56,12 +58,15 @@ export function ProbeContactForm() {
       })
 
       if (res.ok) {
+        trackEvent('form_success', { form_id: 'probe_contact_form' })
         setDone('ok')
       } else {
+        trackEvent('form_error', { form_id: 'probe_contact_form', error_type: 'request_failed' })
         setDone('ng')
         console.error('送信エラー')
       }
     } catch (err) {
+      trackEvent('form_error', { form_id: 'probe_contact_form', error_type: 'network_error' })
       console.error(err)
       setDone('ng')
     } finally {
@@ -73,7 +78,7 @@ export function ProbeContactForm() {
     'mt-2 w-full rounded-none border border-[#babec0] bg-[#ffffff] px-4 py-3 outline-none focus:border-[#d81e5c] focus:ring-1 focus:ring-[#d81e5c] transition-colors'
 
   return (
-    <form onSubmit={onSubmit} className="space-y-8">
+    <form data-track-form="probe_contact_form" onSubmit={onSubmit} className="space-y-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
         <label className="block">
           <span className="block text-sm font-bold text-gray-800 tracking-wide">
@@ -176,6 +181,7 @@ export function ProbeContactForm() {
         {done !== 'ok' && (
           <button
             type="submit"
+            data-track-cta="probe_contact_form_submit"
             disabled={submitting}
             className="w-full sm:w-auto min-w-[280px] inline-flex items-center justify-center rounded-none bg-[#d81e5c] px-8 py-4 text-[#ffffff] font-bold tracking-widest hover:bg-[#b0184a] focus:ring-2 focus:ring-offset-2 focus:ring-[#d81e5c] disabled:opacity-60 transition-all text-lg"
           >

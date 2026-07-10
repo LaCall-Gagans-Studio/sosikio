@@ -3,6 +3,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { motion, useReducedMotion } from 'framer-motion'
+import { EyeOff, Radar, HandHelping } from 'lucide-react'
 
 const CASES = [
   {
@@ -12,6 +13,9 @@ const CASES = [
     img: '/hr/characters/char_kitai.webp',
     w: 662,
     h: 1472,
+    missed: '面談でも「大丈夫です」と言い続けていた。数値は常に高く、異常に気づけなかった。',
+    sign: '主観のコエが高止まりし、感情のコエとの乖離が消失する直前。',
+    intervention: '高パフォーマーほど「本音を言えない」構造を認識し、1on1の問いかけを変える。',
   },
   {
     id: 'daijobu',
@@ -20,6 +24,9 @@ const CASES = [
     img: '/hr/characters/char_daijobu.webp',
     w: 390,
     h: 1483,
+    missed: '口頭では問題なし。年次サーベイでも平均的なスコアだった。',
+    sign: '主観のコエは安定しているのに、感情のコエが2週間連続で低下。',
+    intervention: '「大丈夫」の裏にある負荷を、行動ベースの質問で引き出す。',
   },
   {
     id: 'domino',
@@ -28,6 +35,9 @@ const CASES = [
     img: '/hr/characters/char_domino.webp',
     w: 566,
     h: 1427,
+    missed: '業績も出勤も通常通り。転職サイトの登録は把握できなかった。',
+    sign: '主観・感情の両方が緩やかに右肩下がり。変化率が一定を超えた時点。',
+    intervention: 'キャリア面談の頻度を上げ、社内でのキャリアパスを具体的に提示する。',
   },
 ] as const
 
@@ -77,6 +87,22 @@ export function CaseIntro() {
               <p className="mt-4 text-center text-sm leading-relaxed text-white/85 sm:text-[15px]">
                 {c.copy}
               </p>
+
+              <div className="mt-6 flex w-full flex-col gap-3">
+                {[
+                  { label: '見逃した理由', value: c.missed, color: 'text-white/60', icon: <EyeOff size={14} className="shrink-0" /> },
+                  { label: '検知できるサイン', value: c.sign, color: 'text-[#fff200]', icon: <Radar size={14} className="shrink-0" /> },
+                  { label: '取るべき介入', value: c.intervention, color: 'text-[#ed008c]', icon: <HandHelping size={14} className="shrink-0" /> },
+                ].map((d) => (
+                  <div key={d.label} className="flex gap-3 rounded-lg bg-white/5 px-4 py-3">
+                    <span className={`mt-0.5 ${d.color}`} aria-hidden="true">{d.icon}</span>
+                    <div className="min-w-0">
+                      <p className={`text-xs font-bold ${d.color}`}>{d.label}</p>
+                      <p className="mt-1 text-xs leading-relaxed text-white/80">{d.value}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </motion.article>
           ))}
         </div>

@@ -32,6 +32,7 @@ export function ClosingCTA() {
                 ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
             }
             data-clarity-event="hr-cta-closing"
+            data-track-cta="hr_closing_request_docs"
             className="hr-impact mt-10 inline-flex items-center justify-center rounded-md bg-[#141210] px-10 py-5 text-lg font-black text-[#fff200] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 sm:text-xl"
           >
             資料を請求する

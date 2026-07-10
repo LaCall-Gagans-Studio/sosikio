@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion, useReducedMotion } from 'framer-motion'
 
 function scrollToForm() {
@@ -106,6 +107,19 @@ export function HeroAlert() {
           「コエの健康診断」
         </motion.p>
 
+        <motion.p
+          className="mt-6 max-w-[620px] text-[15px] leading-relaxed text-white/70"
+          {...(reduced
+            ? {}
+            : {
+                initial: { opacity: 0, y: 12 },
+                animate: { opacity: 1, y: 0 },
+                transition: { duration: 0.6, delay: 1.1 },
+              })}
+        >
+          従来のサーベイでは見逃していた離職の予兆を、毎日の「コエ」で可視化。既存施策を置き換えず、プラグインとして導入可能。予兆検知から介入判断まで、人事の意思決定を支援します。
+        </motion.p>
+
         {/* CTA */}
         <motion.div
           className="mt-10 flex flex-col gap-3 pb-16 sm:flex-row sm:gap-4 sm:pb-20"
@@ -121,17 +135,18 @@ export function HeroAlert() {
             type="button"
             onClick={scrollToForm}
             data-clarity-event="hr-cta-hero"
+            data-track-cta="hr_hero_request_docs"
             className="hr-impact inline-flex items-center justify-center rounded-md bg-[#fff200] px-8 py-4 text-lg font-black text-[#141210] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#ffe600] active:translate-y-0"
           >
             資料を請求する
           </button>
-          <button
-            type="button"
-            onClick={scrollToForm}
+          <Link
+            href="/hr/demo"
+            data-track-cta="hr_hero_watch_demo"
             className="hr-impact inline-flex items-center justify-center rounded-md border-2 border-white/80 px-8 py-4 text-lg font-bold text-white transition-colors duration-200 hover:border-[#fff200] hover:text-[#fff200]"
           >
             デモを見る
-          </button>
+          </Link>
         </motion.div>
       </div>
     </section>

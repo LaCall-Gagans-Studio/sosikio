@@ -1,22 +1,28 @@
 import React from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
+import { HrHeader } from './_components/HrHeader'
 import { HeroAlert } from './_components/HeroAlert'
 import { CaseIntro } from './_components/CaseIntro'
 import { TwoVoices } from './_components/TwoVoices'
 import { CaseGraphs } from './_components/CaseGraphs'
 import { PluginMax } from './_components/PluginMax'
 import { KanamaMethod } from './_components/KanamaMethod'
+import { OnboardingSteps } from './_components/OnboardingSteps'
+import { FAQ } from './_components/FAQ'
 import { ClosingCTA } from './_components/ClosingCTA'
 import { LeadForm } from './_components/LeadForm'
 import { HazardDivider } from './_components/HazardDivider'
 import { HashScrollToForm } from './_components/HashScrollToForm'
+import { DemoFab } from './_components/DemoFab'
+import { HrFooter } from './_components/HrFooter'
 
 export default function HrPage() {
   return (
     <>
       <HashScrollToForm />
-      <main>
+      <HrHeader />
+      <DemoFab />
+
+      <main className="pt-14">
         <HeroAlert />
         <HazardDivider />
 
@@ -33,6 +39,12 @@ export default function HrPage() {
         <HazardDivider />
 
         <KanamaMethod />
+        <HazardDivider />
+
+        <OnboardingSteps />
+        <HazardDivider />
+
+        <FAQ />
         <HazardDivider />
 
         <ClosingCTA />
@@ -58,41 +70,7 @@ export default function HrPage() {
         </section>
       </main>
 
-      <footer className="border-t border-white/10 bg-[#141210] py-12">
-        <div className="hr-container flex flex-col items-center gap-6 text-center">
-          <span className="inline-flex rounded-md bg-white px-3 py-2">
-            <Image
-              src="/hr/brand/logo_sosikio.webp"
-              alt="SOSIKIO"
-              width={900}
-              height={287}
-              className="h-6 w-auto"
-            />
-          </span>
-
-          <nav
-            aria-label="サイト内リンク"
-            className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
-          >
-            <Link
-              href="/"
-              className="text-sm font-medium text-white/75 underline-offset-4 transition-colors hover:text-[#fff200] hover:underline"
-            >
-              SOSIKIOとは
-            </Link>
-            <Link
-              href="/philosophy"
-              className="text-sm font-medium text-white/75 underline-offset-4 transition-colors hover:text-[#fff200] hover:underline"
-            >
-              理念・会社情報
-            </Link>
-          </nav>
-
-          <p className="text-xs tracking-widest text-white/60">
-            &copy; {new Date().getFullYear()} HOKURYO DENKO Co.,Ltd. ALL RIGHTS RESERVED.
-          </p>
-        </div>
-      </footer>
+      <HrFooter />
     </>
   )
 }

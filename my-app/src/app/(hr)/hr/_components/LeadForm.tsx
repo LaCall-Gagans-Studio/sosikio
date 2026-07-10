@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { CheckCircle2, Loader2 } from 'lucide-react'
-import { Reveal } from './Reveal'
+import { trackEvent } from '@/lib/analytics'
 
 const INTERESTS = ['コエの健康診断', 'コエカラ研修', 'SOSIKIO（一気伴走パッケージ）'] as const
 
@@ -29,11 +29,13 @@ export function LeadForm() {
     const interests = INTERESTS.filter((i) => fd.get(`interest-${i}`))
 
     if (!company || !name || !email) {
+      trackEvent('form_error', { form_id: 'hr_lead_form', error_type: 'required_missing' })
       setErrorMsg('会社名・お名前・メールアドレスは必須です。')
       setStatus('error')
       return
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      trackEvent('form_error', { form_id: 'hr_lead_form', error_type: 'email_invalid' })
       setErrorMsg('メールアドレスの形式が正しくありません。')
       setStatus('error')
       return
@@ -58,8 +60,10 @@ export function LeadForm() {
         }),
       })
       if (!res.ok) throw new Error('send failed')
+      trackEvent('form_success', { form_id: 'hr_lead_form' })
       setStatus('done')
     } catch {
+      trackEvent('form_error', { form_id: 'hr_lead_form', error_type: 'network_error' })
       setErrorMsg('送信に失敗しました。時間をおいて再度お試しください。')
       setStatus('error')
     }
@@ -89,7 +93,13 @@ export function LeadForm() {
     'w-full rounded-md border border-white/20 bg-[#141210] px-4 py-3 text-[15px] text-white placeholder:text-white/35'
 
   return (
-    <form id="lead-form" onSubmit={handleSubmit} noValidate className="scroll-mt-24">
+    <form
+      id="lead-form"
+      data-track-form="hr_lead_form"
+      onSubmit={handleSubmit}
+      noValidate
+      className="scroll-mt-24"
+    >
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="hr-company" className="mb-1.5 block text-sm font-bold text-white">
@@ -197,6 +207,7 @@ export function LeadForm() {
 
       <button
         type="submit"
+        data-track-cta="hr_lead_form_submit"
         disabled={status === 'sending'}
         data-clarity-event="hr-lead-submit"
         className="hr-impact mt-8 inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#fff200] px-8 py-4 text-lg font-black text-[#141210] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"

@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import '../(frontend)/styles.css'
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { AnalyticsScripts } from '@/components/AnalyticsScripts'
+import { AnalyticsTracker } from '@/components/AnalyticsTracker'
 import Header from './probe/components/Header'
 
 export const metadata: Metadata = {
@@ -89,9 +91,13 @@ export default function ProbeLayout({ children }: { children: React.ReactNode })
         全体の背景色は白、テキストはダークグレーベース
       */}
       <body className="font-zenKakuGothicNew bg-[#ffffff] text-gray-900 flex flex-col min-h-screen selection:bg-[#d81e5c] selection:text-white">
+        <AnalyticsScripts />
+        <Suspense fallback={null}>
+          <AnalyticsTracker />
+        </Suspense>
         {/* <ProbeHeader /> */}
         <Header />
-        <main className="flex-grow">{children}</main>
+        <main className="grow">{children}</main>
         <ProbeFooter />
       </body>
     </html>
