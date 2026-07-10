@@ -41,28 +41,18 @@ export function HeroAlert() {
           width={1144}
           height={1345}
           priority
-          className="h-auto w-full"
+          className="h-auto w-full opacity-40 sm:opacity-100"
         />
       </motion.div>
 
       <div className="hr-container relative z-10">
-        {/* ロゴ＋ラベル */}
+        {/* ラベル */}
         <motion.div
           initial={reduced ? false : { opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex flex-wrap items-center gap-4"
         >
-          <span className="inline-flex rounded-md bg-white px-3 py-2">
-            <Image
-              src="/hr/brand/logo_sosikio.webp"
-              alt="SOSIKIO"
-              width={900}
-              height={287}
-              className="h-6 w-auto sm:h-7"
-            />
-          </span>
-          <span className="hr-latin rounded-sm bg-[#ed008c] px-3 py-1 text-sm font-bold tracking-[0.18em] text-white sm:text-base">
+          <span className="hr-latin inline-flex rounded-sm bg-[#ed008c] px-3 py-1 text-sm font-bold tracking-[0.18em] text-white sm:text-base">
             STOP! 離職
           </span>
         </motion.div>

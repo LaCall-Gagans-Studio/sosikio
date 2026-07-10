@@ -34,7 +34,7 @@ export function DemoFab() {
         href="/hr/demo"
         data-track-cta="hr_demo_fab"
         aria-label="音声感情分析デモへ移動"
-        className="group relative inline-flex h-20 w-20 flex-col items-center justify-center rounded-full bg-[#ed008c] text-white shadow-[0_16px_40px_-10px_rgba(237,0,140,0.7)] ring-2 ring-[#fff200]/65 transition-transform duration-200 hover:scale-105 sm:h-24 sm:w-24"
+        className="group relative inline-flex h-24 w-24 flex-col items-center justify-center rounded-full bg-[#ed008c] text-white shadow-[0_16px_40px_-10px_rgba(237,0,140,0.7)] ring-2 ring-[#fff200]/65 transition-transform duration-200 hover:scale-105 sm:h-28 sm:w-28"
       >
         <span className="pointer-events-none absolute -top-10 left-1/2 hidden -translate-x-1/2 whitespace-nowrap rounded-full border border-white/30 bg-[#141210]/90 px-3 py-1 text-[11px] font-bold tracking-wide text-white/90 backdrop-blur-sm sm:block">
           最短3秒デモ
@@ -42,12 +42,12 @@ export function DemoFab() {
         <motion.span
           aria-hidden="true"
           className="absolute inset-0 rounded-full border border-[#fff200]/70"
-          animate={reduced ? undefined : { scale: [1, 1.14], opacity: [0.7, 0] }}
+          animate={reduced ? undefined : { scale: [1, 1.2], opacity: [0.7, 0] }}
           transition={reduced ? undefined : { duration: 1.8, repeat: Infinity, ease: 'easeOut' }}
         />
-        <AudioLines size={14} className="mb-0.5 text-[#fff200]" />
+        <AudioLines size={16} className="mb-0.5 text-[#fff200]" />
         <PulsingMic reduced={!!reduced} />
-        <span className="mt-1 text-[10px] font-black leading-none sm:text-[11px]">音声分析</span>
+        <span className="mt-1 text-[11px] font-black leading-none sm:text-xs">音声分析</span>
       </Link>
     </motion.div>
   )
@@ -55,7 +55,7 @@ export function DemoFab() {
 
 function PulsingMic({ reduced }: { reduced: boolean }) {
   if (reduced) {
-    return <Mic size={26} className="shrink-0" />
+    return <Mic size={30} className="shrink-0" />
   }
 
   return (
@@ -69,7 +69,7 @@ function PulsingMic({ reduced }: { reduced: boolean }) {
         repeatDelay: 7.4,
       }}
     >
-      <Mic size={26} />
+      <Mic size={30} />
     </motion.span>
   )
 }
