@@ -113,7 +113,7 @@ export function LeadStepForm({ onComplete, recordDuration }: Props) {
       })
       if (!res.ok) throw new Error('send failed')
 
-      trackEvent('lead_complete', { flow: 'demo_gate' })
+      trackEvent('form_success', { form_id: 'hr_demo_gate' })
       onComplete()
     } catch {
       trackEvent('form_error', {
