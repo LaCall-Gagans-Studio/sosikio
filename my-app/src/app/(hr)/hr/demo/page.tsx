@@ -31,13 +31,11 @@ const ANALYSIS_LABELS = [
 ] as const
 
 const METRIC_SPECS = [
-  { key: 'vitality', label: '活力度', base: 72, spread: 9, color: '#fff200' },
-  { key: 'stress', label: 'ストレス傾向', base: 38, spread: 8, color: '#ed008c' },
-  { key: 'stability', label: '発話安定度', base: 81, spread: 7, color: '#ffffff' },
+  { key: 'vitality', label: '活力度', base: 72, spread: 18, color: '#fff200' },
+  { key: 'stress', label: 'ストレス傾向', base: 38, spread: 16, color: '#ed008c' },
 ] as const
 
 const MIN_RECORD_SEC = 3
-const DEVICE_ID_STORAGE_KEY = 'hr-demo-device-id'
 
 type Metric = { label: string; value: number; color: string }
 
@@ -132,7 +130,7 @@ export default function DemoPage() {
   }, [stage, goTo])
 
   useEffect(() => {
-    if (stage === 'result') setMetrics(generateMetricsForDevice())
+    if (stage === 'result') setMetrics(generateMetrics())
   }, [stage])
 
   function formatTime(sec: number) {
@@ -219,7 +217,7 @@ export default function DemoPage() {
                   プライバシー保護
                 </p>
                 <p className="mt-2 text-xs leading-relaxed text-white/60 sm:text-sm">
-                  録音中は波形特徴量のみを一時処理し、音声内容はテキスト化も保存もされません。解析完了後にすべての処理データは自動削除されます。
+                  録音中は波形特徴量のみを一時処理し、音声内容はテキスト化も保存もされません。解析完了後に録音データは自動削除されます。
                 </p>
               </div>
 
@@ -559,45 +557,14 @@ export default function DemoPage() {
 
 /* ────────────── Utility functions ────────────── */
 
-function generateMetricsForDevice(): Metric[] {
-  const deviceId = getOrCreateDeviceId()
-  const today = new Date().toISOString().slice(0, 10)
-  const jitterSeed = hashString(`${deviceId}:${today}`)
-  return METRIC_SPECS.map((spec, index) => {
-    const baseSeed = hashString(`${deviceId}:${spec.key}`)
-    const baseOffset = mapToRange(baseSeed, -spec.spread, spec.spread)
-    const dailyJitter = mapToRange(jitterSeed + index * 97, -2, 2)
-    const value = clamp(Math.round(spec.base + baseOffset + dailyJitter), 5, 98)
+function generateMetrics(): Metric[] {
+  return METRIC_SPECS.map((spec) => {
+    const offset = (Math.random() * 2 - 1) * spec.spread
+    const value = clamp(Math.round(spec.base + offset), 5, 98)
     return { label: spec.label, value, color: spec.color }
   })
 }
 
-function getOrCreateDeviceId(): string {
-  if (typeof window === 'undefined') return 'server-fallback'
-  try {
-    const existing = window.localStorage.getItem(DEVICE_ID_STORAGE_KEY)
-    if (existing) return existing
-    const arr = new Uint32Array(4)
-    window.crypto.getRandomValues(arr)
-    const generated = Array.from(arr, (v) => v.toString(16).padStart(8, '0')).join('-')
-    window.localStorage.setItem(DEVICE_ID_STORAGE_KEY, generated)
-    return generated
-  } catch {
-    return 'storage-unavailable'
-  }
-}
-
-function hashString(input: string): number {
-  let hash = 2166136261
-  for (let i = 0; i < input.length; i++) {
-    hash ^= input.charCodeAt(i)
-    hash = Math.imul(hash, 16777619)
-  }
-  return hash >>> 0
-}
-function mapToRange(seed: number, min: number, max: number): number {
-  return min + ((seed % 10_000) / 10_000) * (max - min)
-}
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value))
 }
@@ -680,20 +647,12 @@ function HBar({
   )
 }
 
-function RadarChart({
-  vitality,
-  stress,
-  stability,
-}: {
-  vitality: number
-  stress: number
-  stability: number
-}) {
-  const dims = ['活力', 'ストレス耐性', '安定度', '社交性', '集中力']
+function RadarChart({ vitality, stress }: { vitality: number; stress: number }) {
+  const dims = ['活力', 'ストレス耐性', '社交性', '集中力']
   const stressResist = clamp(100 - stress, 10, 95)
-  const social = clamp(Math.round(vitality * 0.6 + stability * 0.3 + 8), 20, 85)
-  const focus = clamp(Math.round(stability * 0.7 + (100 - stress) * 0.2 + 5), 25, 90)
-  const values = [vitality / 100, stressResist / 100, stability / 100, social / 100, focus / 100]
+  const social = clamp(Math.round(vitality * 0.55 + (100 - stress) * 0.2 + 10), 20, 85)
+  const focus = clamp(Math.round((100 - stress) * 0.6 + vitality * 0.2 + 5), 25, 90)
+  const values = [vitality / 100, stressResist / 100, social / 100, focus / 100]
   const cx = 70,
     cy = 70,
     r = 55
@@ -793,56 +752,39 @@ function FadedBody({
 function LockedReport({ metrics }: { metrics: Metric[] }) {
   const vitality = metrics.find((m) => m.label === '活力度')?.value ?? 72
   const stress = metrics.find((m) => m.label === 'ストレス傾向')?.value ?? 38
-  const stability = metrics.find((m) => m.label === '発話安定度')?.value ?? 81
 
-  const riskScore = clamp(
-    Math.round(stress * 1.2 + (100 - vitality) * 0.5 + (100 - stability) * 0.3),
-    15,
-    95,
-  )
+  const riskScore = clamp(Math.round(stress * 1.3 + (100 - vitality) * 0.6), 15, 95)
   const riskLevel = riskScore >= 65 ? 'HIGH' : riskScore >= 40 ? 'MEDIUM' : 'LOW'
   const gapDetected = Math.abs(vitality - (100 - stress)) > 15
 
   const trendVitality = buildDecayTrend(vitality / 100, 14, 0.025)
   const trendEmotion = buildDecayTrend(((100 - stress) / 100) * 0.85, 14, 0.03)
-  const trendStability = buildDecayTrend(stability / 100, 15, 0.018)
 
-  const engagement = clamp(
-    Math.round(vitality * 0.5 + (100 - stress) * 0.3 + stability * 0.1),
-    12,
-    88,
-  )
-  const resilience = clamp(
-    Math.round((100 - stress) * 0.5 + stability * 0.3 + vitality * 0.1),
-    15,
-    85,
-  )
-  const social = clamp(Math.round(vitality * 0.4 + stability * 0.35 + 12), 20, 85)
-  const cogLoad = clamp(Math.round(stress * 0.7 + (100 - stability) * 0.3 + 8), 18, 92)
+  const engagement = clamp(Math.round(vitality * 0.55 + (100 - stress) * 0.35), 12, 88)
+  const resilience = clamp(Math.round((100 - stress) * 0.65 + vitality * 0.15), 15, 85)
+  const social = clamp(Math.round(vitality * 0.5 + (100 - stress) * 0.2 + 12), 20, 85)
+  const cogLoad = clamp(Math.round(stress * 0.85 + 10), 18, 92)
 
   const weeks = [
     {
       week: 'Week 1',
       v: clamp(vitality + 12, 20, 95),
       st: clamp(stress - 14, 5, 90),
-      sb: clamp(stability + 10, 20, 95),
       trend: '→',
     },
     {
       week: 'Week 2',
       v: clamp(vitality + 4, 20, 95),
       st: clamp(stress - 5, 5, 90),
-      sb: clamp(stability + 3, 20, 95),
       trend: '↘',
     },
     {
       week: 'Week 3',
       v: clamp(vitality - 6, 20, 95),
       st: clamp(stress + 8, 5, 90),
-      sb: clamp(stability - 8, 20, 95),
       trend: '↓',
     },
-    { week: 'Week 4', v: vitality, st: stress, sb: stability, trend: riskScore >= 65 ? '↓↓' : '↓' },
+    { week: 'Week 4', v: vitality, st: stress, trend: riskScore >= 65 ? '↓↓' : '↓' },
   ]
 
   const selfX = clamp(Math.round((stress / 100) * 200 + 20), 20, 220)
@@ -904,8 +846,8 @@ function LockedReport({ metrics }: { metrics: Metric[] }) {
           <div className="rounded-lg bg-black/3 px-3 py-2">
             <p className="text-[10px] font-bold text-black/50">判定根拠</p>
             <p className="text-[11px] leading-relaxed text-black/40">
-              活力度 {vitality}、ストレス傾向 {stress}、安定度 {stability} の組合せから総合リスクを{' '}
-              {riskScore} と算出。
+              活力度 {vitality}、ストレス傾向 {stress} の組合せから総合リスクを {riskScore}{' '}
+              と算出。
               {gapDetected ? '主観と感情の乖離が顕著。' : ''}
             </p>
           </div>
@@ -945,39 +887,14 @@ function LockedReport({ metrics }: { metrics: Metric[] }) {
         </FadedBody>
       </div>
 
-      {/* Section 4: レーダー + 安定度トレンド */}
-      <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div>
-          <ReportSectionTitle className="mb-2">コンディション多軸分析</ReportSectionTitle>
-          <FadedBody className="rounded-lg bg-black/3 p-4">
-            <div className="mx-auto h-36 w-36">
-              <RadarChart vitality={vitality} stress={stress} stability={stability} />
-            </div>
-          </FadedBody>
-        </div>
-        <div>
-          <ReportSectionTitle className="mb-2">安定度トレンド（30日間）</ReportSectionTitle>
-          <FadedBody className="rounded-lg bg-black/3 p-4">
-            <svg viewBox="0 0 200 50" className="w-full">
-              {[0.25, 0.5, 0.75].map((v) => (
-                <line
-                  key={v}
-                  x1="0"
-                  y1={v * 50}
-                  x2="200"
-                  y2={v * 50}
-                  stroke="rgba(0,0,0,0.05)"
-                  strokeWidth="1"
-                />
-              ))}
-              <SvgArea points={trendStability} color="rgba(196,160,0,0.08)" w={200} h={50} />
-              <SvgLine points={trendStability} color="#c4a000" w={200} h={50} />
-            </svg>
-            <p className="mt-1.5 text-[10px] text-black/35">
-              安定度は30日間で {stability > 70 ? '-18%' : stability > 50 ? '-32%' : '-45%'} の低下傾向
-            </p>
-          </FadedBody>
-        </div>
+      {/* Section 4: レーダー分析 */}
+      <div className="mt-5">
+        <ReportSectionTitle className="mb-2">コンディション多軸分析</ReportSectionTitle>
+        <FadedBody className="rounded-lg bg-black/3 p-4">
+          <div className="mx-auto h-40 w-40">
+            <RadarChart vitality={vitality} stress={stress} />
+          </div>
+        </FadedBody>
       </div>
 
       {/* Section 5: 音声特徴量テーブル */}
@@ -1136,10 +1053,6 @@ function LockedReport({ metrics }: { metrics: Metric[] }) {
                     <span className="text-black/30">ストレス</span>
                     <span className="font-mono text-[#ed008c]">{w.st}</span>
                   </div>
-                  <div className="flex justify-between text-[10px]">
-                    <span className="text-black/30">安定度</span>
-                    <span className="font-mono text-black/50">{w.sb}</span>
-                  </div>
                 </div>
                 <p className="mt-1.5 text-sm text-black/50">{w.trend}</p>
               </div>
@@ -1243,8 +1156,7 @@ function LockedReport({ metrics }: { metrics: Metric[] }) {
         <FadedBody className="mt-2 rounded-lg border border-[#c4a000]/20 bg-[#fff8c4]/60 px-4 py-3">
           <p className="text-[11px] leading-relaxed text-black/40">
             対象者の音声パターンは過去14日間にわたり一貫した低下傾向を示しています。活力度 {vitality}
-            、ストレス傾向 {stress}、発話安定度 {stability} の測定値から、総合リスクスコアは{' '}
-            {riskScore}/100 と算出されました。
+            、ストレス傾向 {stress} の測定値から、総合リスクスコアは {riskScore}/100 と算出されました。
             {gapDetected
               ? '主観スコアと感情指標の乖離が顕著であり、当人が自身の状態を正確に認識できていない可能性があります。'
               : ''}

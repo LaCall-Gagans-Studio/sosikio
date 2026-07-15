@@ -51,7 +51,11 @@ export default function HrPage() {
         <HazardDivider />
 
         {/* 資料請求 */}
-        <section aria-labelledby="lead-title" className="bg-[#141210] py-20 sm:py-28">
+        <section
+          id="contact"
+          aria-labelledby="lead-title"
+          className="scroll-mt-20 bg-[#141210] py-20 sm:py-28"
+        >
           <div className="hr-container max-w-[760px]">
             <h2
               id="lead-title"

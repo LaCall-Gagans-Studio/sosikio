@@ -146,7 +146,11 @@ function CanWillMatrix() {
 /** 監修・信頼性（金間メソッド／コエカラ研修）— 明トーンで息継ぎ */
 export function KanamaMethod() {
   return (
-    <section aria-labelledby="kanama-title" className="bg-[#F4F4F2] py-20 text-[#141210] sm:py-28">
+    <section
+      id="training"
+      aria-labelledby="kanama-title"
+      className="scroll-mt-20 bg-[#F4F4F2] py-20 text-[#141210] sm:py-28"
+    >
       <div className="hr-container">
         <Reveal>
           <p className="text-center text-sm font-bold tracking-[0.2em] text-[#ed008c]">

@@ -4,23 +4,28 @@ import { useEffect } from 'react'
 
 const FORM_ID = 'lead-form'
 
-function shouldScrollToForm(): boolean {
-  // /hr# （空のハッシュ）のときフォームへ
-  return window.location.hash === '#'
+function scrollToTarget(id: string) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
-function scrollToLeadForm() {
-  document.getElementById(FORM_ID)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-}
-
-/** URL 末尾が # のとき、お問い合わせフォームへスクロール */
+/** URL のハッシュに合わせて該当セクションへスクロール（広告サイトリンク用） */
 export function HashScrollToForm() {
   useEffect(() => {
     const run = () => {
-      if (!shouldScrollToForm()) return
-      // レイアウト・フォント読み込み後にスクロール（iOS 対策）
+      const raw = window.location.hash
+      // /hr# （空のハッシュ）のときは従来どおりフォームへ
+      if (raw === '#') {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => scrollToTarget(FORM_ID))
+        })
+        return
+      }
+
+      const id = raw.slice(1)
+      if (!id) return
+
       requestAnimationFrame(() => {
-        requestAnimationFrame(scrollToLeadForm)
+        requestAnimationFrame(() => scrollToTarget(id))
       })
     }
 

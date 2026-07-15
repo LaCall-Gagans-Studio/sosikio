@@ -39,7 +39,11 @@ const STEPS: Step[] = [
 
 export function OnboardingSteps() {
   return (
-    <section aria-labelledby="onboarding-title" className="bg-[#141210] py-20 sm:py-28">
+    <section
+      id="roadmap"
+      aria-labelledby="onboarding-title"
+      className="scroll-mt-20 bg-[#141210] py-20 sm:py-28"
+    >
       <div className="hr-container">
         <Reveal>
           <h2

@@ -10,11 +10,7 @@ type FaqItem = { q: string; a: string }
 const FAQ_DATA: FaqItem[] = [
   {
     q: '診断の精度はどの程度ですか？',
-    a: '音声感情分析は、金沢大学・金間大介教授の知見に基づく独自アルゴリズムを採用しています。主観サーベイとの掛け合わせにより、従来のサーベイ単体よりも高い精度で予兆を捉えます。定量的な精度指標は導入前説明でお伝えいたします。',
-  },
-  {
-    q: '個人情報の取り扱いは？',
-    a: '音声データはサーバーに保存せず、分析後即座に破棄します。診断結果は匿名化された数値のみを管理者に提供します。プライバシーマーク取得済みの運用体制で、個人情報保護法に準拠しています。',
+    a: '音声感情分析は、一般社団法人ピープルアナリティクス＆HRテクノロジー協会 大成弘子上席研究員監修の独自アルゴリズムを採用しています。主観サーベイとの掛け合わせにより、従来のサーベイ単体よりも高い精度で予兆を捉えます。定量的な精度指標は導入前説明でお伝えいたします。',
   },
   {
     q: '録音はどのように行いますか？',
@@ -40,7 +36,11 @@ export function FAQ() {
   const toggle = (i: number) => setOpenIndex((prev) => (prev === i ? null : i))
 
   return (
-    <section id="faq" aria-labelledby="faq-title" className="bg-[#141210] py-20 sm:py-28">
+    <section
+      id="faq"
+      aria-labelledby="faq-title"
+      className="scroll-mt-20 bg-[#141210] py-20 sm:py-28"
+    >
       <div className="hr-container max-w-[800px]">
         <Reveal>
           <h2

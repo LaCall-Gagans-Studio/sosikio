@@ -9,7 +9,11 @@ import { Reveal } from './Reveal'
 /** 解決＝コエの健康診断（主観のコエ × 感情のコエ） */
 export function TwoVoices() {
   return (
-    <section aria-labelledby="two-voices-title" className="bg-[#141210] py-20 sm:py-28">
+    <section
+      id="feature"
+      aria-labelledby="two-voices-title"
+      className="scroll-mt-20 bg-[#141210] py-20 sm:py-28"
+    >
       <div className="hr-container">
         <Reveal>
           <h2

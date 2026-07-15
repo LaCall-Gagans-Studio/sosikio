@@ -19,8 +19,8 @@ function ScrollLink({ label }: { label: string }) {
 }
 
 const SERVICE_LINKS = [
-  { label: 'コエの健康診断', href: '/hr#two-voices-title' },
-  { label: 'コエカラ研修', href: '/hr#kanama-title' },
+  { label: 'コエの健康診断', href: '/hr#feature' },
+  { label: 'コエカラ研修', href: '/hr#training' },
   { label: 'Probe', href: '/probe' },
 ] as const
 
