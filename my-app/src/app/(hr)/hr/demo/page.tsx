@@ -373,14 +373,14 @@ export default function DemoPage() {
                 以下はサマリー結果です。詳細レポートにはさらに深い分析が含まれます。
               </p>
 
-              <div className="mt-6 grid grid-cols-3 gap-3">
+              <div className="mt-6 flex flex-wrap justify-center gap-3">
                 {metrics.map((m, i) => (
                   <motion.div
                     key={m.label}
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.4, delay: 0.1 + i * 0.1 }}
-                    className="rounded-xl bg-[#1c1c1e] p-4 text-center ring-1 ring-white/10"
+                    className="w-[calc(50%-0.375rem)] rounded-xl bg-[#1c1c1e] p-4 text-center ring-1 ring-white/10 sm:w-40"
                   >
                     <p className="text-xs text-white/50">{m.label}</p>
                     <p
