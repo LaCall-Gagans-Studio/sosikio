@@ -9,8 +9,22 @@ declare global {
   }
 }
 
+// Google 広告のコンバージョン イベント スニペット（GA4 イベントに連動して発火）
+const GOOGLE_ADS_CONVERSION_EVENTS: Record<string, string> = {
+  form_success: 'conversion_event_submit_lead_form',
+}
+
 export function trackEvent(eventName: string, params: AnalyticsParams = {}) {
   if (typeof window === 'undefined') return
+  emitGtagEvent(eventName, params)
+
+  const conversionEvent = GOOGLE_ADS_CONVERSION_EVENTS[eventName]
+  if (conversionEvent) {
+    emitGtagEvent(conversionEvent, {})
+  }
+}
+
+function emitGtagEvent(eventName: string, params: AnalyticsParams) {
   if (typeof window.gtag === 'function') {
     window.gtag('event', eventName, params)
     return
