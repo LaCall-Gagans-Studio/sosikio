@@ -48,7 +48,7 @@ export function TwoVoices() {
                 />
                 <div>
                   <p className="text-[15px] leading-relaxed text-white/85">
-                    金間大介教授監修のサーベイ＋退勤時に「心の状態」を選択。本人の主観的なエンゲージメントを可視化。
+                    サーベイへの回答＋退勤時に「心の状態」を選択。本人の主観的なエンゲージメントを可視化。
                   </p>
                   <p className="mt-6 flex items-baseline gap-1 text-white">
                     <span className="text-sm font-bold text-white/70">所要</span>

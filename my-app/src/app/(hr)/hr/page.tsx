@@ -5,7 +5,6 @@ import { CaseIntro } from './_components/CaseIntro'
 import { TwoVoices } from './_components/TwoVoices'
 import { CaseGraphs } from './_components/CaseGraphs'
 import { PluginMax } from './_components/PluginMax'
-import { KanamaMethod } from './_components/KanamaMethod'
 import { OnboardingSteps } from './_components/OnboardingSteps'
 import { FAQ } from './_components/FAQ'
 import { ClosingCTA } from './_components/ClosingCTA'
@@ -38,9 +37,6 @@ export default function HrPage() {
         <PluginMax />
         <HazardDivider />
 
-        <KanamaMethod />
-        <HazardDivider />
-
         <OnboardingSteps />
         <HazardDivider />
 
@@ -65,7 +61,7 @@ export default function HrPage() {
               資料請求・デモのご依頼
             </h2>
             <p className="mt-4 text-center text-sm leading-relaxed text-white/70 sm:text-base">
-              「コエの健康診断」「コエカラ研修」の詳しい資料をお送りします。
+              「コエの健康診断」の詳しい資料をお送りします。
             </p>
             <div className="mt-10">
               <LeadForm />

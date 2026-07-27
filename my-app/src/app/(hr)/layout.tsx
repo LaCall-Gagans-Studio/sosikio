@@ -41,14 +41,14 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://www.sosikio.jp'),
   title: '離職の予兆をコエで可視化｜SOSIKIO（コエの健康診断）',
   description:
-    '辞表は、ある日突然じゃない。主観のコエ×感情のコエで離職の予兆を毎日可視化。金間大介教授監修',
+    '辞表は、ある日突然じゃない。主観のコエ×感情のコエで離職の予兆を毎日可視化。',
   alternates: {
     canonical: 'https://www.sosikio.jp/hr',
   },
   openGraph: {
     title: '離職の予兆をコエで可視化｜SOSIKIO（コエの健康診断）',
     description:
-      '辞表は、ある日突然じゃない。主観のコエ×感情のコエで離職の予兆を毎日可視化。金間大介教授監修',
+      '辞表は、ある日突然じゃない。主観のコエ×感情のコエで離職の予兆を毎日可視化。',
     url: 'https://www.sosikio.jp/hr',
     siteName: 'SOSIKIO',
     locale: 'ja_JP',
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: '離職の予兆をコエで可視化｜SOSIKIO（コエの健康診断）',
     description:
-      '辞表は、ある日突然じゃない。主観のコエ×感情のコエで離職の予兆を毎日可視化。金間大介教授監修',
+      '辞表は、ある日突然じゃない。主観のコエ×感情のコエで離職の予兆を毎日可視化。',
   },
 }
 

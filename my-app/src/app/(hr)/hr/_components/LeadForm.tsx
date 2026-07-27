@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { CheckCircle2, Loader2 } from 'lucide-react'
 import { trackEvent } from '@/lib/analytics'
 
-const INTERESTS = ['コエの健康診断', 'コエカラ研修', 'SOSIKIO（一気伴走パッケージ）'] as const
+const INTERESTS = ['コエの健康診断', 'SOSIKIO（一気伴走パッケージ）'] as const
 
 type Status = 'idle' | 'sending' | 'done' | 'error'
 
