@@ -48,6 +48,13 @@ const geistMono = Geist_Mono({
 const TITLE = 'probe（プローブ）｜会議の録音から、チームの状態が見える'
 const DESCRIPTION =
   'いつもの定例や1on1を録音するだけ。声から一人ひとりの活力とストレスを数値にし、「次の面談で誰に何を聞けばいいか」までお届けします。専用機材は不要、次の定例から始められます。人事評価には使いません。'
+const OG_IMAGE = {
+  url: '/hr/og.png?v=thinking-os-20260909',
+  width: 1200,
+  height: 630,
+  alt: TITLE,
+  type: 'image/png',
+} as const
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.sosikio.jp'),
@@ -65,10 +72,16 @@ export const metadata: Metadata = {
     '1on1',
     'サーベイ',
     'Thinking OS',
+    '人格AI',
     'マネジメント支援',
   ],
   alternates: {
     canonical: 'https://www.sosikio.jp/hr',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
   },
   openGraph: {
     title: TITLE,
@@ -77,11 +90,13 @@ export const metadata: Metadata = {
     siteName: 'SOSIKIO',
     locale: 'ja_JP',
     type: 'website',
+    images: [OG_IMAGE],
   },
   twitter: {
     card: 'summary_large_image',
     title: TITLE,
     description: DESCRIPTION,
+    images: [OG_IMAGE.url],
   },
 }
 

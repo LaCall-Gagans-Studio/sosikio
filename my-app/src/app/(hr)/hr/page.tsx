@@ -29,6 +29,7 @@ const softwareAppSchema = {
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Web',
   url: 'https://www.sosikio.jp/hr',
+  image: 'https://www.sosikio.jp/hr/og.png',
   description:
     'probe（プローブ）は、いつもの定例や1on1の録音から、メンバー一人ひとりの活力とストレスを数値にする組織開発サービスです。専用機材は不要で、次の定例から始められます。解析結果は「次の面談で誰に何を聞けばいいか」という具体的な問いの形で届きます。見せる範囲は5段階から選べ、人事評価には使いません。',
   provider: {
