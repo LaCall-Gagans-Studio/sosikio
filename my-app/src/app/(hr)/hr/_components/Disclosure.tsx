@@ -23,25 +23,6 @@ const JUDGE_COLOR: Record<string, string> = {
   危険: 'var(--color-hr-q-risk)',
 }
 
-/** 買い手がいちばん気にするのは「誰に何が見えるか」。設計仕様ではなく運用の話で書く */
-const MATRIX = [
-  {
-    axis: '見せる相手',
-    v: ['メンバー全員', 'メンバー全員', 'チーム内', '本人のみ', 'リーダーのみ'],
-  },
-  {
-    axis: '見える内容',
-    v: ['今日の一言だけ', '良かった点だけ', '名前なしの平均', '自分の数値だけ', '全員の全数値'],
-  },
-  { axis: '個人名', v: ['出ない', '出ない', '出ない', '自分だけ', '出る'] },
-  {
-    axis: '向いている場面',
-    v: ['朝礼で共有', '雰囲気づくり', '振り返り会', '自己管理', '人事・部門長の判断'],
-  },
-]
-
-const LEVELS = ['Lv.0 天気', 'Lv.1 良い点のみ', 'Lv.2 匿名集計', 'Lv.3 本人のみ', 'Lv.4 全開示']
-
 export function Disclosure() {
   return (
     <section
@@ -204,44 +185,6 @@ export function Disclosure() {
         <Reveal>
           <p className="hr-heading mt-12 max-w-[30em] text-hr-ink lg:mt-16">
             上記2点は同一の解析結果です。開示対象に応じて、粒度のみを変えています。
-          </p>
-        </Reveal>
-
-        {/* 5段階の一覧 */}
-        <Reveal>
-          <div className="mt-10 overflow-x-auto border-t border-hr-rule-strong pt-8">
-            <table className="w-full min-w-[720px] text-left">
-              <thead>
-                <tr className="border-b border-hr-rule-strong">
-                  <th className="hr-label pb-3 font-normal" />
-                  {LEVELS.map((l) => (
-                    <th key={l} className="hr-label pb-3 pl-4 font-normal">
-                      {l}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {MATRIX.map(({ axis, v }) => (
-                  <tr key={axis} className="border-b border-hr-rule">
-                    <th className="py-3.5 pr-4 text-left text-[13px] font-medium text-hr-ink">
-                      {axis}
-                    </th>
-                    {v.map((cell, i) => (
-                      <td key={i} className="py-3.5 pl-4 text-[13px] text-hr-muted">
-                        {cell}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Reveal>
-
-        <Reveal>
-          <p className="hr-measure mt-8 text-[13px] leading-7 text-hr-muted">
-            見せない情報は、そもそもレポートに書き出されません。画面の出し分けで隠しているのではないため、設定を間違えて個人の数値が全員に届くことはありません。
           </p>
         </Reveal>
       </div>

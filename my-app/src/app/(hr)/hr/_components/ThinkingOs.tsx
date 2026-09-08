@@ -3,7 +3,6 @@ import { ArrowRight } from 'lucide-react'
 import { SectionHead } from './SectionHead'
 import { Reveal } from './Reveal'
 import { OsSwitchboard } from './OsSwitchboard'
-import { OsRoster } from './OsRoster'
 
 export function ThinkingOs() {
   return (
@@ -30,8 +29,6 @@ export function ThinkingOs() {
         />
 
         <OsSwitchboard />
-
-        <OsRoster />
 
         {/* 「AIが適当に言っているのでは」という初見の疑いに、ここで答えておく */}
         <Reveal>

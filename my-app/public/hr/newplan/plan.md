@@ -578,7 +578,6 @@ src/app/(hr)/
       TrendChart.tsx            §05（SVG・セッション推移／線は切らない）
       ThinkingOs.tsx            §06 差別化。末尾に persona-dev への導線
       OsSwitchboard.tsx         §06（'use client'・双方向の主役）
-      OsRoster.tsx              §06（SSR。標準3体の静的比較表。クロール用）
       os-data.ts                §06（人格データ。probe-app からの転記）
       PersonaDev.tsx            §07 新規：人格開発（pptx 準拠）
       MidCTA.tsx                中盤の再接触点（番号なし）
