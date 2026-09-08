@@ -59,33 +59,19 @@ export async function POST(request: Request) {
       subject = `【HR LP 資料請求】${company || ''} ${name}様より`
       const interestList = Array.isArray(interests) && interests.length > 0 ? interests.join(', ') : '（未選択）'
       text = `
-        HR EXPO LP（/hr）から資料請求のお申し込みがありました。
+        probe Thinking OS LP（/hr）から資料請求のお申し込みがありました。
 
         ■会社名: ${company}
         ■お名前: ${name}
         ■メール: ${email}
         ■電話番号: ${phone || '（未入力）'}
 
-        ■ご興味のあるサービス: ${interestList}
+        ■ご興味のある内容: ${interestList}
 
         ■備考:
         ${note || '（なし）'}
 
         ■流入元: ${source || 'hr-lp'}
-      `
-    } else if (type === 'hr-demo') {
-      subject = `【HR デモ体験リード】${company || ''} ${name}様`
-      const { record_duration_sec, page_path } = body
-      text = `
-    HR LP デモ体験（/hr/demo）からリード情報が送信されました。
-
-    ■メール: ${email}
-    ■会社名: ${company}
-    ■お名前: ${name}
-
-    ■録音時間: ${record_duration_sec ? `${record_duration_sec}秒` : '（不明）'}
-    ■ページ: ${page_path || '/hr/demo'}
-    ■流入元: ${source || 'hr-demo-gate'}
       `
     } else if (type === 'probe-cloud') {
       subject = `【Probeクラウドお問い合わせ】${company || ''} ${name}様より`

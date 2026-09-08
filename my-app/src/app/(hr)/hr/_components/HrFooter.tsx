@@ -4,122 +4,135 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-function ScrollLink({ label }: { label: string }) {
-  return (
-    <button
-      type="button"
-      onClick={() =>
-        document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }
-      className="text-sm text-white/60 transition-colors hover:text-[#fff200]"
-    >
-      {label}
-    </button>
-  )
-}
-
 const SERVICE_LINKS = [
-  { label: 'コエの健康診断', href: '/hr#feature' },
-  { label: 'Probe', href: '/probe' },
+  { label: 'サービス概要', href: '#about' },
+  { label: '導入効果', href: '#benefits' },
+  { label: 'Thinking OS', href: '#thinking-os' },
+  { label: '人格開発', href: '#persona-dev' },
+  { label: '活用シーン', href: '#usecases' },
+  { label: 'FAQ', href: '#faq' },
+  { label: 'Probe クラウド', href: '/probe' },
 ] as const
 
 const COMPANY_LINKS = [
   { label: 'SOSIKIOとは', href: '/' },
   { label: '理念・会社情報', href: '/philosophy' },
+  { label: '記事', href: '/articles' },
 ] as const
 
 export function HrFooter() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="border-t border-white/10 bg-[#141210]">
-      <div className="hr-container py-14 sm:py-20">
+    <footer className="border-t border-hr-rule-strong bg-hr-paper">
+      <div className="hr-container py-16 sm:py-20">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-          {/* Column 1: Logo + tagline */}
-          <div className="flex flex-col gap-4">
-            <Link href="/" className="inline-flex w-fit rounded-md bg-white px-3 py-2">
-              <Image
-                src="/hr/brand/logo_sosikio.webp"
-                alt="SOSIKIO"
-                width={900}
-                height={287}
-                className="h-6 w-auto"
-              />
-            </Link>
-            <p className="text-sm leading-relaxed text-white/60">
-              コエで組織の健康を可視化する
+          <div>
+            <Image
+              src="/hr/probe/logo-probe.webp"
+              alt="probe"
+              width={480}
+              height={218}
+              className="h-7 w-auto object-contain"
+            />
+            <p className="mt-5 text-[13px] leading-7 text-hr-muted">
+              会議の音声から組織の状態を測定する、
+              <br />
+              組織開発プラットフォーム。
+            </p>
+            <p className="hr-label mt-5" lang="en">
+              A map of team emotions and engagement
             </p>
           </div>
 
-          {/* Column 2: サービス */}
-          <div>
-            <p className="hr-impact mb-4 text-sm font-bold tracking-wider text-white/90">
-              サービス
+          <nav aria-labelledby="footer-service">
+            <p id="footer-service" className="hr-label">
+              サ ー ビ ス
             </p>
-            <ul className="flex flex-col gap-2.5">
-              {SERVICE_LINKS.map(({ label, href }) => (
-                <li key={href}>
-                  <Link
-                    href={href}
-                    className="text-sm text-white/60 transition-colors hover:text-[#fff200]"
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
+            <ul className="mt-5 space-y-3">
+              {SERVICE_LINKS.map(({ label, href }) =>
+                href.startsWith('#') ? (
+                  <li key={href}>
+                    <a
+                      href={href}
+                      className="text-[13px] text-hr-muted underline-offset-4 transition-colors hover:text-hr-ink hover:underline"
+                    >
+                      {label}
+                    </a>
+                  </li>
+                ) : (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      className="text-[13px] text-hr-muted underline-offset-4 transition-colors hover:text-hr-ink hover:underline"
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                ),
+              )}
             </ul>
-          </div>
+          </nav>
 
-          {/* Column 3: 会社情報 */}
-          <div>
-            <p className="hr-impact mb-4 text-sm font-bold tracking-wider text-white/90">
-              会社情報
+          <nav aria-labelledby="footer-company">
+            <p id="footer-company" className="hr-label">
+              会 社 情 報
             </p>
-            <ul className="flex flex-col gap-2.5">
+            <ul className="mt-5 space-y-3">
               {COMPANY_LINKS.map(({ label, href }) => (
                 <li key={href}>
                   <Link
                     href={href}
-                    className="text-sm text-white/60 transition-colors hover:text-[#fff200]"
+                    className="text-[13px] text-hr-muted underline-offset-4 transition-colors hover:text-hr-ink hover:underline"
                   >
                     {label}
                   </Link>
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
-          {/* Column 4: お問い合わせ */}
           <div>
-            <p className="hr-impact mb-4 text-sm font-bold tracking-wider text-white/90">
-              お問い合わせ
-            </p>
-            <ul className="flex flex-col gap-2.5">
+            <p className="hr-label">お 問 い 合 わ せ</p>
+            <ul className="mt-5 space-y-3">
               <li>
-                <ScrollLink label="資料請求" />
+                <button
+                  type="button"
+                  onClick={() =>
+                    document
+                      .getElementById('lead-form')
+                      ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  }
+                  className="text-[13px] text-hr-muted underline-offset-4 transition-colors hover:text-hr-ink hover:underline"
+                >
+                  資料請求・デモのご依頼
+                </button>
               </li>
               <li>
                 <a
                   href="mailto:info@sosikio.jp"
-                  className="text-sm text-white/60 transition-colors hover:text-[#fff200]"
+                  className="text-[13px] text-hr-muted underline-offset-4 transition-colors hover:text-hr-ink hover:underline"
                 >
-                  メール
+                  info@sosikio.jp
                 </a>
               </li>
             </ul>
           </div>
         </div>
+
+        <p className="hr-measure mt-14 border-t border-hr-rule pt-8 text-[12px] leading-6 text-hr-faint">
+          本ページに掲載しているダッシュボードの数値、話者名、セッションデータはすべて表示イメージです。実際の効果や個社の性能を保証するものではありません。
+        </p>
       </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-white/5">
-        <div className="hr-container flex flex-col items-center justify-between gap-3 py-6 text-center sm:flex-row">
-          <p className="text-xs tracking-widest text-white/50">
-            &copy; {year} HOKURYO DENKO Co.,Ltd. ALL RIGHTS RESERVED.
+      <div className="border-t border-hr-rule">
+        <div className="hr-container flex flex-col items-center justify-between gap-3 py-6 sm:flex-row">
+          <p className="hr-label" lang="en">
+            &copy; {year} HOKURYO DENKO Co.,Ltd.
           </p>
           <Link
             href="/rule"
-            className="text-xs text-white/50 underline-offset-4 transition-colors hover:text-[#fff200] hover:underline"
+            className="text-[12px] text-hr-faint underline-offset-4 transition-colors hover:text-hr-ink hover:underline"
           >
             利用規約
           </Link>

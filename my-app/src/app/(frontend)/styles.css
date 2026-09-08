@@ -23,6 +23,38 @@
   --color-ws-black: #333200; /* JSから移植 */
   --color-ws-gray: #e1e6d8; /* JSから移植 */
 
+  /* /hr（probe Thinking OS LP）専用パレット。
+     probe-app/src/styles/theme.css と 1:1 で対応する。値を変えるときは両方直す。
+     他ルートと衝突させないため hr- を接頭辞にしている。 */
+  --color-hr-paper: #f7f6f3; /* ページ地 */
+  --color-hr-raised: #fffdfa; /* パネル・表・入力欄 */
+  --color-hr-sunken: #efede8; /* 沈めた帯 */
+  --color-hr-ink: #171614; /* 本文・見出し */
+  --color-hr-muted: #6b6862; /* 補助文 */
+  --color-hr-faint: #9c978e; /* ラベル・軸ラベル（11px 以下専用） */
+  --color-hr-rule: #dfdbd3; /* ヘアライン */
+  --color-hr-rule-strong: #b9b4ab; /* 強い区切り・軸線 */
+  --color-hr-accent: #c91e5e; /* 赤い点1つ分。1画面3箇所まで */
+
+  /* 4象限（ラベル色。塗りには使わない） */
+  --color-hr-q-vital: #5a6b3b; /* イキイキ */
+  --color-hr-q-burn: #af573c; /* モエスギ */
+  --color-hr-q-tepid: #33506e; /* ぬるま湯 */
+  --color-hr-q-risk: #171614; /* 危険 */
+
+  /* 話者（顔料） */
+  --color-hr-sp-1: #33506e;
+  --color-hr-sp-2: #2c7a72;
+  --color-hr-sp-3: #a8802b;
+  --color-hr-sp-4: #af573c;
+  --color-hr-sp-5: #6b4a70;
+
+  /* 感情（興奮はハッチのため色を持たない） */
+  --color-hr-emo-calm: #cfc9bb;
+  --color-hr-emo-joy: #c9a227;
+  --color-hr-emo-anger: #a33f2c;
+  --color-hr-emo-sorrow: #3e5c76;
+
   /* Keyframes: JSから移植 */
   @keyframes ticker {
     0% {

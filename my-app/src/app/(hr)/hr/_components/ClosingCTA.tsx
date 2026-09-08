@@ -1,42 +1,37 @@
-'use client'
-
 import React from 'react'
 import { Reveal } from './Reveal'
+import { LeadForm } from './LeadForm'
 
-/** 締め CTA — 黄ベタパネル */
 export function ClosingCTA() {
   return (
-    <section aria-labelledby="closing-title" className="bg-[#fff200] py-20 sm:py-28">
-      <div className="hr-container text-center">
+    <section
+      id="contact"
+      aria-labelledby="contact-title"
+      className="scroll-mt-20 bg-hr-sunken py-20 sm:py-28 lg:py-32"
+    >
+      <div className="hr-container max-w-[820px]">
         <Reveal>
-          <p className="hr-brush text-2xl text-[#141210]/70 sm:text-3xl" aria-hidden="true">
-            「俺、辞めます！」
-          </p>
-          <h2
-            id="closing-title"
-            className="hr-impact mt-5 font-black leading-tight text-[#141210]"
-            style={{ fontSize: 'clamp(2rem, 7vw, 4.5rem)' }}
-          >
-            あなたなら、
-            <br className="sm:hidden" />
-            どう引き止める？
-          </h2>
+          <div className="text-center">
+            <p className="hr-eyebrow justify-center">
+              <span className="hr-num">13</span>
+              <span lang="en">Contact</span>
+            </p>
+            <h2 id="contact-title" className="hr-title mx-auto mt-5 max-w-[24em] text-hr-ink">
+              資料請求・デモのお申し込み
+            </h2>
+            <p className="mx-auto mt-5 max-w-[30em] text-[15px] leading-8 text-hr-muted">
+              サービス概要資料（PDF）をお送りします。デモをご希望の場合は、備考欄にその旨をご記入ください。
+            </p>
+            <p className="mx-auto mt-4 text-[12px] text-hr-faint">
+              担当より2営業日以内にご連絡します。ご記入いただいた情報は本件のご連絡以外に使用しません。
+            </p>
+          </div>
         </Reveal>
 
-        <Reveal delay={0.15}>
-          <button
-            type="button"
-            onClick={() =>
-              document
-                .getElementById('lead-form')
-                ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-            }
-            data-clarity-event="hr-cta-closing"
-            data-track-cta="hr_closing_request_docs"
-            className="hr-impact mt-10 inline-flex items-center justify-center rounded-md bg-[#141210] px-10 py-5 text-lg font-black text-[#fff200] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 sm:text-xl"
-          >
-            資料を請求する
-          </button>
+        <Reveal delay={0.06}>
+          <div className="mt-14">
+            <LeadForm />
+          </div>
         </Reveal>
       </div>
     </section>

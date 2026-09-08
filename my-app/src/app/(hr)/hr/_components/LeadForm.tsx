@@ -1,22 +1,29 @@
 'use client'
 
 import React, { useState } from 'react'
-import { CheckCircle2, Loader2 } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { trackEvent } from '@/lib/analytics'
 
-const INTERESTS = ['コエの健康診断', 'SOSIKIO（一気伴走パッケージ）'] as const
+const INTERESTS = [
+  'probe ダッシュボード',
+  'Thinking OS（標準人格）',
+  '自社人格の開発',
+  '費用・プランを知りたい',
+  'デモを見たい',
+] as const
 
 type Status = 'idle' | 'sending' | 'done' | 'error'
 
-/** 資料請求フォーム */
+const FIELD =
+  'w-full border border-hr-rule-strong bg-hr-raised px-4 py-3 text-[15px] text-hr-ink placeholder:text-hr-faint'
+
 export function LeadForm() {
   const [status, setStatus] = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState('')
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    const form = e.currentTarget
-    const fd = new FormData(form)
+    const fd = new FormData(e.currentTarget)
 
     // honeypot（bot 対策）
     if (fd.get('website')) return
@@ -50,7 +57,7 @@ export function LeadForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           type: 'hr',
-          source: 'hr-lp',
+          source: 'hr-lp-thinking-os',
           company,
           name,
           email,
@@ -71,16 +78,12 @@ export function LeadForm() {
 
   if (status === 'done') {
     return (
-      <div
-        id="lead-form"
-        className="rounded-[14px] bg-[#1c1c1e] px-8 py-16 text-center ring-1 ring-[#fff200]/30"
-        role="status"
-      >
-        <CheckCircle2 size={44} className="mx-auto text-[#fff200]" aria-hidden="true" />
-        <p className="hr-impact mt-5 text-xl font-black text-white sm:text-2xl">
-          送信が完了しました
+      <div id="lead-form" role="status" className="border border-hr-rule-strong bg-hr-raised px-8 py-16 text-center">
+        <p className="hr-label" lang="en">
+          RECEIVED
         </p>
-        <p className="mt-3 text-sm leading-relaxed text-white/75">
+        <p className="hr-heading mt-5 text-hr-ink">送信が完了しました。</p>
+        <p className="mt-4 text-[14px] leading-8 text-hr-muted">
           お問い合わせありがとうございます。
           <br />
           担当者より 2 営業日以内にご連絡いたします。
@@ -88,9 +91,6 @@ export function LeadForm() {
       </div>
     )
   }
-
-  const inputCls =
-    'w-full rounded-md border border-white/20 bg-[#141210] px-4 py-3 text-[15px] text-white placeholder:text-white/35'
 
   return (
     <form
@@ -100,10 +100,10 @@ export function LeadForm() {
       noValidate
       className="scroll-mt-24"
     >
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+      <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="hr-company" className="mb-1.5 block text-sm font-bold text-white">
-            会社名 <span className="text-[#ed008c]">*</span>
+          <label htmlFor="hr-company" className="mb-2 block text-[13px] font-medium text-hr-ink">
+            会社名 <span className="text-hr-accent">*</span>
           </label>
           <input
             id="hr-company"
@@ -112,12 +112,12 @@ export function LeadForm() {
             required
             autoComplete="organization"
             placeholder="株式会社○○"
-            className={inputCls}
+            className={FIELD}
           />
         </div>
         <div>
-          <label htmlFor="hr-name" className="mb-1.5 block text-sm font-bold text-white">
-            お名前 <span className="text-[#ed008c]">*</span>
+          <label htmlFor="hr-name" className="mb-2 block text-[13px] font-medium text-hr-ink">
+            お名前 <span className="text-hr-accent">*</span>
           </label>
           <input
             id="hr-name"
@@ -126,12 +126,12 @@ export function LeadForm() {
             required
             autoComplete="name"
             placeholder="山田 太郎"
-            className={inputCls}
+            className={FIELD}
           />
         </div>
         <div>
-          <label htmlFor="hr-email" className="mb-1.5 block text-sm font-bold text-white">
-            メールアドレス <span className="text-[#ed008c]">*</span>
+          <label htmlFor="hr-email" className="mb-2 block text-[13px] font-medium text-hr-ink">
+            メールアドレス <span className="text-hr-accent">*</span>
           </label>
           <input
             id="hr-email"
@@ -140,11 +140,11 @@ export function LeadForm() {
             required
             autoComplete="email"
             placeholder="taro@example.co.jp"
-            className={inputCls}
+            className={FIELD}
           />
         </div>
         <div>
-          <label htmlFor="hr-phone" className="mb-1.5 block text-sm font-bold text-white">
+          <label htmlFor="hr-phone" className="mb-2 block text-[13px] font-medium text-hr-ink">
             電話番号
           </label>
           <input
@@ -153,23 +153,23 @@ export function LeadForm() {
             type="tel"
             autoComplete="tel"
             placeholder="090-1234-5678"
-            className={inputCls}
+            className={FIELD}
           />
         </div>
       </div>
 
-      <fieldset className="mt-6">
-        <legend className="mb-2 text-sm font-bold text-white">ご興味のあるサービス</legend>
-        <div className="flex flex-col gap-2.5 sm:flex-row sm:gap-6">
+      <fieldset className="mt-8 border-t border-hr-rule pt-6">
+        <legend className="hr-label">ご 興 味 の あ る 内 容</legend>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
           {INTERESTS.map((i) => (
             <label
               key={i}
-              className="inline-flex cursor-pointer items-center gap-2.5 text-[15px] text-white/90"
+              className="inline-flex cursor-pointer items-center gap-3 text-[14px] text-hr-ink"
             >
               <input
                 type="checkbox"
                 name={`interest-${i}`}
-                className="h-4.5 w-4.5 accent-[#fff200]"
+                className="size-4 accent-[var(--color-hr-accent)]"
               />
               {i}
             </label>
@@ -177,16 +177,16 @@ export function LeadForm() {
         </div>
       </fieldset>
 
-      <div className="mt-6">
-        <label htmlFor="hr-note" className="mb-1.5 block text-sm font-bold text-white">
+      <div className="mt-8">
+        <label htmlFor="hr-note" className="mb-2 block text-[13px] font-medium text-hr-ink">
           備考
         </label>
         <textarea
           id="hr-note"
           name="note"
           rows={4}
-          placeholder="デモ希望・導入時期・組織規模など、ご自由にご記入ください"
-          className={inputCls}
+          placeholder="定例の頻度・参加人数・見たい観点など、ご自由にご記入ください"
+          className={FIELD}
         />
       </div>
 
@@ -199,7 +199,7 @@ export function LeadForm() {
       {status === 'error' && (
         <p
           role="alert"
-          className="mt-5 rounded-md bg-[#ed008c]/15 px-4 py-3 text-sm font-bold text-[#ff7ec4]"
+          className="mt-6 border-l-2 border-hr-accent bg-hr-raised px-4 py-3 text-[13px] text-hr-ink"
         >
           {errorMsg}
         </p>
@@ -208,13 +208,17 @@ export function LeadForm() {
       <button
         type="submit"
         data-track-cta="hr_lead_form_submit"
-        disabled={status === 'sending'}
         data-clarity-event="hr-lead-submit"
-        className="hr-impact mt-8 inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#fff200] px-8 py-4 text-lg font-black text-[#141210] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+        disabled={status === 'sending'}
+        className="hr-btn hr-btn-primary mt-9 w-full disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-12"
       >
-        {status === 'sending' && <Loader2 size={20} className="animate-spin" aria-hidden="true" />}
+        {status === 'sending' && <Loader2 size={16} className="animate-spin" aria-hidden />}
         {status === 'sending' ? '送信中…' : '資料を請求する'}
       </button>
+
+      <p className="mt-6 text-[12px] leading-6 text-hr-faint">
+        いただいた情報は、資料送付とご連絡のみに使用します。
+      </p>
     </form>
   )
 }

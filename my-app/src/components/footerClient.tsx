@@ -100,7 +100,7 @@ export function FooterClient({ products }: Props) {
                   onClick={() => handleClick('/hr')}
                   className="text-gray-400 hover:text-white transition"
                 >
-                  コエの健康診断
+                  Thinking OS
                 </button>
               </li>
             </ul>

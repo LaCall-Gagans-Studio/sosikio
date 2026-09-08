@@ -3,29 +3,38 @@
 import React from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 
-type RevealProps = {
+/**
+ * 紙は動かない（デザイン.md §8）。
+ * 許すのはフェードと 8px の微小な上方向だけ。パララックスも弾みも使わない。
+ */
+export function Reveal({
+  children,
+  delay = 0,
+  className,
+  as = 'div',
+}: {
   children: React.ReactNode
   delay?: number
   className?: string
-}
-
-/** スクロールで下から浮かび上がる共通ラッパー（reduced-motion 時は即時表示） */
-export function Reveal({ children, delay = 0, className }: RevealProps) {
+  as?: 'div' | 'li' | 'section'
+}) {
   const reduced = useReducedMotion()
+  const MotionTag = motion[as]
 
   if (reduced) {
-    return <div className={className}>{children}</div>
+    const Tag = as
+    return <Tag className={className}>{children}</Tag>
   }
 
   return (
-    <motion.div
+    <MotionTag
       className={className}
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 8 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15, margin: '0px 0px -40px 0px' }}
-      transition={{ duration: 0.6, delay, ease: [0.22, 0.61, 0.36, 1] }}
+      viewport={{ once: true, margin: '-8%' }}
+      transition={{ duration: 0.4, delay, ease: [0.2, 0, 0, 1] }}
     >
       {children}
-    </motion.div>
+    </MotionTag>
   )
 }

@@ -1,13 +1,18 @@
 'use client'
 
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
 
 const NAV_ITEMS = [
-  { label: 'コエの健康診断', href: '/hr' },
-  { label: '理念・会社情報', href: '/philosophy' },
+  { label: 'サービス概要', href: '#about' },
+  { label: '導入効果', href: '#benefits' },
+  { label: 'レポート画面', href: '#dashboard' },
+  { label: 'Thinking OS', href: '#thinking-os' },
+  { label: '人格開発', href: '#persona-dev' },
+  { label: '導入の流れ', href: '#onboarding' },
+  { label: 'FAQ', href: '#faq' },
 ] as const
 
 function scrollToLeadForm() {
@@ -17,106 +22,139 @@ function scrollToLeadForm() {
 export function HrHeader() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const [active, setActive] = useState<string>('')
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60)
+    const onScroll = () => {
+      const y = window.scrollY
+      setScrolled(y > 40)
+      const max = document.documentElement.scrollHeight - window.innerHeight
+      setProgress(max > 0 ? Math.min(1, y / max) : 0)
+    }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // ヘッダー高さ分を除いた帯の中で、いちばん上にあるセクションを現在地とする
+  useEffect(() => {
+    const sections = NAV_ITEMS.map(({ href }) => document.getElementById(href.slice(1))).filter(
+      (el): el is HTMLElement => el !== null,
+    )
+    if (sections.length === 0) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+        if (visible[0]) setActive(`#${visible[0].target.id}`)
+      },
+      { rootMargin: '-64px 0px -55% 0px' },
+    )
+    sections.forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
   }, [])
 
   const closeMenu = useCallback(() => setMenuOpen(false), [])
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled ? 'bg-[#141210]/90 backdrop-blur-md' : 'bg-transparent'
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-200 ${
+        scrolled
+          ? 'border-hr-rule bg-hr-paper/95 backdrop-blur-sm'
+          : 'border-transparent bg-transparent'
       }`}
     >
-      <div className="hr-container flex items-center justify-between py-3">
-        {/* Logo */}
-        <Link href="/" className="inline-flex shrink-0 rounded-md bg-white px-3 py-1.5">
+      <div className="hr-container flex h-16 items-center justify-between gap-6">
+        <Link href="/hr" className="flex shrink-0 items-center gap-3" aria-label="probe トップへ">
           <Image
-            src="/hr/brand/logo_sosikio.webp"
-            alt="SOSIKIO"
-            width={900}
-            height={287}
-            className="h-5 w-auto sm:h-6"
+            src="/hr/probe/logo-probe.webp"
+            alt="probe"
+            width={480}
+            height={218}
             priority
+            className="h-6 w-auto object-contain"
           />
+          <span className="hr-label hidden sm:inline" lang="en">
+            by SOSIKIO
+          </span>
         </Link>
 
-        {/* Desktop nav */}
-        <nav aria-label="メインナビゲーション" className="hidden items-center gap-6 md:flex">
+        <nav aria-label="セクション" className="hidden items-center gap-7 lg:flex">
           {NAV_ITEMS.map(({ label, href }) => (
-            <Link
+            <a
               key={href}
               href={href}
-              className={`text-sm font-medium transition-colors ${
-                href === '/hr' ? 'text-[#fff200]' : 'text-white/75 hover:text-[#fff200]'
+              aria-current={active === href ? 'true' : undefined}
+              className={`border-b pb-0.5 text-[13px] font-medium transition-colors hover:text-hr-ink ${
+                active === href
+                  ? 'border-hr-accent text-hr-ink'
+                  : 'border-transparent text-hr-muted hover:border-hr-ink'
               }`}
             >
               {label}
-            </Link>
+            </a>
           ))}
-          <button
-            type="button"
-            onClick={scrollToLeadForm}
-            className="hr-impact rounded-md bg-[#fff200] px-5 py-2 text-sm font-bold text-[#141210] transition-transform hover:-translate-y-0.5 active:translate-y-0"
-          >
-            資料請求
+          <button type="button" onClick={scrollToLeadForm} className="hr-btn hr-btn-primary !py-2.5">
+            資料を請求する
           </button>
         </nav>
 
-        {/* Mobile hamburger */}
         <button
           type="button"
           aria-label={menuOpen ? 'メニューを閉じる' : 'メニューを開く'}
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((v) => !v)}
-          className="inline-flex items-center justify-center rounded-md p-2 text-white md:hidden"
+          className="p-2 text-hr-ink lg:hidden"
         >
-          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          {menuOpen ? <X size={22} strokeWidth={1.25} /> : <Menu size={22} strokeWidth={1.25} />}
         </button>
       </div>
 
-      {/* Mobile overlay */}
       {menuOpen && (
         <nav
           aria-label="モバイルナビゲーション"
-          className="border-t border-white/10 bg-[#141210]/95 backdrop-blur-md md:hidden"
+          className="border-t border-hr-rule bg-hr-paper lg:hidden"
         >
-          <ul className="hr-container flex flex-col gap-1 py-4">
+          <ul className="hr-container flex flex-col py-2">
             {NAV_ITEMS.map(({ label, href }) => (
-              <li key={href}>
-                <Link
+              <li key={href} className="border-b border-hr-rule last:border-b-0">
+                <a
                   href={href}
                   onClick={closeMenu}
-                  className={`block rounded-lg px-4 py-3 text-base font-medium transition-colors ${
-                    href === '/hr'
-                      ? 'bg-white/5 text-[#fff200]'
-                      : 'text-white/80 hover:bg-white/5 hover:text-[#fff200]'
-                  }`}
+                  className="block py-3.5 text-[15px] text-hr-ink"
                 >
                   {label}
-                </Link>
+                </a>
               </li>
             ))}
-            <li>
+            <li className="pt-4 pb-2">
               <button
                 type="button"
                 onClick={() => {
                   closeMenu()
                   scrollToLeadForm()
                 }}
-                className="hr-impact mt-2 w-full rounded-md bg-[#fff200] px-5 py-3 text-base font-bold text-[#141210]"
+                className="hr-btn hr-btn-primary w-full"
               >
-                資料請求
+                資料を請求する
               </button>
             </li>
           </ul>
         </nav>
       )}
+
+      <div aria-hidden className="absolute inset-x-0 bottom-0 h-px">
+        <div
+          className="h-full origin-left transition-transform duration-150 ease-out"
+          style={{
+            background: 'var(--color-hr-accent)',
+            transform: `scaleX(${progress})`,
+          }}
+        />
+      </div>
     </header>
   )
 }

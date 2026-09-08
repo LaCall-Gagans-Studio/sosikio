@@ -1,54 +1,78 @@
-import React, { Suspense } from 'react'
+﻿import React, { Suspense } from 'react'
 import '../(frontend)/styles.css'
 import './hr.css'
 import type { Metadata, Viewport } from 'next'
-import { Zen_Kaku_Gothic_New, Noto_Sans_JP, Anton, Yuji_Syuku } from 'next/font/google'
+import { Instrument_Serif, Shippori_Mincho_B1, Inter, Noto_Sans_JP, Geist_Mono } from 'next/font/google'
 import { AnalyticsScripts } from '@/components/AnalyticsScripts'
 import { AnalyticsTracker } from '@/components/AnalyticsTracker'
+
+/* 3書体システム（デザイン.md §3.1）
+   Display = 明朝（語るとき）/ Text = ゴシック（示すとき）/ Mono = 数値
+   和文は容量が大きいため preload しない */
+
+const instrumentSerif = Instrument_Serif({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-hr-serif',
+})
+
+const shipporiMincho = Shippori_Mincho_B1({
+  weight: ['600', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-hr-mincho',
+  preload: false,
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-hr-sans',
+})
 
 const notoSansJp = Noto_Sans_JP({
   weight: ['400', '500', '700'],
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-hr-body',
+  variable: '--font-hr-jp',
   preload: false,
 })
 
-const zenKakuGothicNew = Zen_Kaku_Gothic_New({
-  weight: ['700', '900'],
+const geistMono = Geist_Mono({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-hr-impact',
-  preload: false,
+  variable: '--font-hr-mono',
 })
 
-const anton = Anton({
-  weight: '400',
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-hr-latin',
-})
-
-const yujiSyuku = Yuji_Syuku({
-  weight: '400',
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-hr-brush',
-  preload: false,
-})
+const TITLE = 'probe（プローブ）｜会議の録音から、チームの状態が見える'
+const DESCRIPTION =
+  'いつもの定例や1on1を録音するだけ。声から一人ひとりの活力とストレスを数値にし、「次の面談で誰に何を聞けばいいか」までお届けします。専用機材は不要、次の定例から始められます。人事評価には使いません。'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.sosikio.jp'),
-  title: '離職の予兆をコエで可視化｜SOSIKIO（コエの健康診断）',
-  description:
-    '辞表は、ある日突然じゃない。主観のコエ×感情のコエで離職の予兆を毎日可視化。',
+  title: TITLE,
+  description: DESCRIPTION,
+  keywords: [
+    'probe',
+    'プローブ',
+    'SOSIKIO',
+    '組織開発',
+    '音声解析',
+    '会議分析',
+    'エンゲージメント',
+    '離職防止',
+    '1on1',
+    'サーベイ',
+    'Thinking OS',
+    'マネジメント支援',
+  ],
   alternates: {
     canonical: 'https://www.sosikio.jp/hr',
   },
   openGraph: {
-    title: '離職の予兆をコエで可視化｜SOSIKIO（コエの健康診断）',
-    description:
-      '辞表は、ある日突然じゃない。主観のコエ×感情のコエで離職の予兆を毎日可視化。',
+    title: TITLE,
+    description: DESCRIPTION,
     url: 'https://www.sosikio.jp/hr',
     siteName: 'SOSIKIO',
     locale: 'ja_JP',
@@ -56,23 +80,22 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: '離職の予兆をコエで可視化｜SOSIKIO（コエの健康診断）',
-    description:
-      '辞表は、ある日突然じゃない。主観のコエ×感情のコエで離職の予兆を毎日可視化。',
+    title: TITLE,
+    description: DESCRIPTION,
   },
 }
 
 export const viewport: Viewport = {
-  themeColor: '#141210',
+  themeColor: '#f7f6f3',
 }
 
 export default function HrLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="ja"
-      className={`${notoSansJp.variable} ${zenKakuGothicNew.variable} ${anton.variable} ${yujiSyuku.variable}`}
+      className={`${instrumentSerif.variable} ${shipporiMincho.variable} ${inter.variable} ${notoSansJp.variable} ${geistMono.variable}`}
     >
-      <body className="hr-page hr-body bg-[#141210] text-white antialiased">
+      <body className="hr-page antialiased">
         <AnalyticsScripts />
         <Suspense fallback={null}>
           <AnalyticsTracker />
