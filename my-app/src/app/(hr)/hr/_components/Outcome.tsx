@@ -81,7 +81,7 @@ export function Outcome() {
         <Reveal>
           <div className="mt-12 flex flex-col gap-4 border-t border-hr-rule-strong pt-10 sm:flex-row sm:items-center sm:justify-between lg:mt-16">
             <p className="hr-heading text-hr-ink">
-              いずれも、既存の定例に相乗りするだけで到達できる状態です。
+              いずれも、既存の定例会議を活かすだけで到達できる状態です。
             </p>
             <a href="#lead-form" className="hr-btn hr-btn-primary shrink-0">
               資料を請求する（無料）

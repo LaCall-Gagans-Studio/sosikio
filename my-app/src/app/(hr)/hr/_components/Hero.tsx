@@ -7,14 +7,14 @@ import { Reveal } from './Reveal'
 const META = [
   { label: '必 要 な も の', value: '録音', unit: 'データのみ' },
   { label: '専 用 機 材', value: '不要', unit: '' },
-  { label: '運 用 開 始', value: '次の定例', unit: 'から' },
+  { label: '運 用 開 始', value: '即日', unit: '可能' },
 ]
 
 /* 散文で説明せず、要点を3行で示す。LP の第一画面は読ませる場所ではない */
 const POINTS = [
   '会議の録音から、発言者ごとの活力とストレスを定量化',
   '次の1on1で確認すべき論点を、具体的な問いとして提示',
-  '既存の定例に相乗りするだけで、現場に新たな負担なし',
+  '既存の定例会議を活かし、現場に新たな負担なし',
 ]
 
 export function Hero() {
@@ -58,7 +58,7 @@ export function Hero() {
             </h1>
 
             <p className="hr-measure mt-6 text-[15px] leading-8 text-hr-muted">
-              probe（プローブ）は、日常の定例・1on1の音声から組織状態を測定する組織開発プラットフォームです。
+              probe（プローブ）は、日常の定例会議・1on1の音声から組織状態を測定する組織開発プラットフォームです。
             </p>
 
             <ul className="mt-6 space-y-2.5">

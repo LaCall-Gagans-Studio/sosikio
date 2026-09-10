@@ -10,6 +10,7 @@ const INTERESTS = [
   '自社人格の開発',
   '費用・プランを知りたい',
   'デモを見たい',
+  'その他',
 ] as const
 
 type Status = 'idle' | 'sending' | 'done' | 'error'

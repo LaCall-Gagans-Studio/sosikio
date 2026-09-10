@@ -29,9 +29,9 @@ const softwareAppSchema = {
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Web',
   url: 'https://www.sosikio.jp/hr',
-  image: 'https://www.sosikio.jp/hr/og.png',
+  image: 'https://www.sosikio.jp/hr/og.png?v=thinking-os-20260910',
   description:
-    'probe（プローブ）は、いつもの定例や1on1の録音から、メンバー一人ひとりの活力とストレスを数値にする組織開発サービスです。専用機材は不要で、次の定例から始められます。解析結果は「次の面談で誰に何を聞けばいいか」という具体的な問いの形で届きます。見せる範囲は5段階から選べ、人事評価には使いません。',
+    'probe（プローブ）は、いつもの定例会議や1on1の録音から、メンバー一人ひとりの活力とストレスを数値にする組織開発サービスです。専用機材は不要で、即日から始められます。解析結果は「次の面談で誰に何を聞けばいいか」という具体的な問いの形で届きます。見せる範囲は5段階から選べ、人事評価には使いません。',
   provider: {
     '@type': 'Organization',
     name: 'SOSIKIO',
@@ -60,7 +60,7 @@ const howToSchema = {
       '@type': 'HowToStep',
       position: 1,
       name: '録音をアップロードする',
-      text: 'いつもの定例や1on1をスマホやPCで録音して、画面にドラッグします。専用のマイクもアプリのインストールも必要ありません。1時間の会議は約500〜700回の発言に分解されます。',
+      text: 'いつもの定例会議や1on1をスマホやPCで録音して、画面にドラッグします。専用のマイクもアプリのインストールも必要ありません。1時間の会議は約500〜700回の発言に分解されます。',
     },
     {
       '@type': 'HowToStep',

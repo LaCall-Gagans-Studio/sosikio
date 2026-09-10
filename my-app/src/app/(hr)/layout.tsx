@@ -45,11 +45,11 @@ const geistMono = Geist_Mono({
   variable: '--font-hr-mono',
 })
 
-const TITLE = 'probe（プローブ）｜会議の録音から、チームの状態が見える'
+const TITLE = 'probe（プローブ）｜会議を録音するだけで、組織のコンディションを可視化する'
 const DESCRIPTION =
-  'いつもの定例や1on1を録音するだけ。声から一人ひとりの活力とストレスを数値にし、「次の面談で誰に何を聞けばいいか」までお届けします。専用機材は不要、次の定例から始められます。人事評価には使いません。'
+  'いつもの定例会議や1on1を録音するだけ。声から一人ひとりの活力とストレスを数値にし、「次の面談で誰に何を聞けばいいか」までお届けします。専用機材は不要、即日から始められます。人事評価には使いません。'
 const OG_IMAGE = {
-  url: '/hr/og.png?v=thinking-os-20260909',
+  url: '/hr/og.png?v=thinking-os-20260910',
   width: 1200,
   height: 630,
   alt: TITLE,
@@ -70,6 +70,7 @@ export const metadata: Metadata = {
     'エンゲージメント',
     '離職防止',
     '1on1',
+    '定例会議',
     'サーベイ',
     'Thinking OS',
     '人格AI',

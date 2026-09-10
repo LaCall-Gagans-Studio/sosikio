@@ -46,9 +46,9 @@ const text = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${W - P
   <text x="56" y="292" class="h">会議を録音するだけで、</text>
   <text x="56" y="340" class="h">組織のコンディションを</text>
   <text x="56" y="388" class="h">可視化する。</text>
-  <text x="56" y="450" class="l">定例・1on1の音声から、活力とストレスを数値化。</text>
+  <text x="56" y="450" class="l">定例会議・1on1の音声から、活力とストレスを数値化。</text>
   <text x="56" y="476" class="l">次の面談で誰に何を聞けばいいかまで届きます。</text>
-  <text x="56" y="572" class="k">録音データのみ  ·  専用機材不要  ·  次の定例から</text>
+  <text x="56" y="572" class="k">録音データのみ  ·  専用機材不要  ·  即日可能</text>
 </svg>`)
 
 const image = sharp({
