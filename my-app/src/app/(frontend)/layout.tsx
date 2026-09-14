@@ -78,7 +78,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         <Suspense fallback={null}>
           <AnalyticsTracker />
         </Suspense>
-        {/* <GlobalPopup /> */}
+        <GlobalPopup />
         <Header />
         <main>{children}</main>
         <Footer />

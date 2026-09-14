@@ -15,7 +15,7 @@ const SPECS = [
 export function SpecBand() {
   return (
     <section aria-label="測定の規格" className="border-b border-hr-rule bg-hr-sunken">
-      <div className="hr-container py-10 lg:py-12">
+      <div className="hr-container py-8 lg:py-10">
         <Reveal>
           <dl className="grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-4">
             {SPECS.map(({ value, suffix, label, unit }) => (

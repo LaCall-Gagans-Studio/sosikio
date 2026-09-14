@@ -97,8 +97,8 @@ export function Hero() {
                 資料を請求する（無料）
                 <ArrowRight size={16} strokeWidth={2} aria-hidden />
               </a>
-              <a href="#about" className="hr-btn hr-btn-ghost">
-                サービス概要を見る
+              <a href="#dashboard" className="hr-btn hr-btn-ghost">
+                レポート画面を見る
               </a>
             </div>
             <p className="mt-4 text-[12px] text-hr-faint">

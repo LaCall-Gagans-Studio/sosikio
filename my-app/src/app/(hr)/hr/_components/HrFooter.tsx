@@ -5,17 +5,16 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 const SERVICE_LINKS = [
-  { label: 'サービス概要', href: '#about' },
-  { label: '導入効果', href: '#benefits' },
+  { label: 'レポート画面', href: '#dashboard' },
   { label: 'Thinking OS', href: '#thinking-os' },
-  { label: '人格開発', href: '#persona-dev' },
-  { label: '活用シーン', href: '#usecases' },
+  { label: 'インタビュー', href: '#interview' },
+  { label: '導入効果', href: '#outcome' },
   { label: 'FAQ', href: '#faq' },
   { label: 'Probe クラウド', href: '/probe' },
 ] as const
 
 const COMPANY_LINKS = [
-  { label: 'SOSIKIOとは', href: '/' },
+  { label: 'SOSIKIO', href: '/' },
   { label: '理念・会社情報', href: '/philosophy' },
   { label: '記事', href: '/articles' },
 ] as const

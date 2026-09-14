@@ -5,17 +5,11 @@ import { HrFooter } from './_components/HrFooter'
 import { HashScrollToForm } from './_components/HashScrollToForm'
 import { Hero } from './_components/Hero'
 import { SpecBand } from './_components/SpecBand'
-import { Problem } from './_components/Problem'
-import { About } from './_components/About'
-import { Benefits } from './_components/Benefits'
-import { Outcome } from './_components/Outcome'
 import { DashboardShowcase } from './_components/DashboardShowcase'
 import { ThinkingOs } from './_components/ThinkingOs'
-import { PersonaDev } from './_components/PersonaDev'
+import { Interview } from './_components/Interview'
 import { MidCTA } from './_components/MidCTA'
-import { UseCases } from './_components/UseCases'
-import { Disclosure } from './_components/Disclosure'
-import { Guardrails } from './_components/Guardrails'
+import { Outcome } from './_components/Outcome'
 import { Onboarding } from './_components/Onboarding'
 import { FAQ, FAQ_ITEMS } from './_components/FAQ'
 import { ClosingCTA } from './_components/ClosingCTA'
@@ -43,10 +37,7 @@ const softwareAppSchema = {
     '発言者ごと・時間帯ごとの状態を可視化',
     '次の1on1で聞くべき問いを提示',
     '標準3種の分析視点（Thinking OS）を切り替え可能',
-    '自社の優れたリーダーの視点を専用人格として追加構築',
-    '見せる範囲を5段階で出し分け',
     'セッションを重ねた推移の追跡',
-    'リーダー承認を経てからレポートに掲載',
   ],
 }
 
@@ -60,7 +51,7 @@ const howToSchema = {
       '@type': 'HowToStep',
       position: 1,
       name: '録音をアップロードする',
-      text: 'いつもの定例会議や1on1をスマホやPCで録音して、画面にドラッグします。専用のマイクもアプリのインストールも必要ありません。1時間の会議は約500〜700回の発言に分解されます。',
+      text: 'いつもの定例会議や1on1をスマホやPCで録音して、画面にドラッグします。専用のマイクもアプリのインストールも必要ありません。',
     },
     {
       '@type': 'HowToStep',
@@ -72,7 +63,7 @@ const howToSchema = {
       '@type': 'HowToStep',
       position: 3,
       name: '次に聞くべきことを受け取る',
-      text: '数値の意味を読み解いて、誰にいつ何を聞けばよいかを具体的な問いの形でお渡しします。1回の会議につき最大3つ、判断の根拠となった発言と数値が添えられます。',
+      text: '数値の意味を読み解いて、誰にいつ何を聞けばよいかを具体的な問いの形でお渡しします。',
     },
   ],
 }
@@ -94,21 +85,15 @@ export default function HrPage() {
       <HashScrollToForm />
       <HrHeader />
 
-      {/* LPの導線: 共感 → 概要 → 便益 → 実物 → 差別化 → 自分事化 → 不安の解消 → 導入 → CTA */}
+      {/* LPの導線: 何がわかるか → Thinking OS → 動画 → 請求 → 組織はどう変わるか → 導入 → CTA */}
       <main className="pt-16">
         <Hero />
         <SpecBand />
-        <Problem />
-        <About />
-        <Benefits />
-        <Outcome />
         <DashboardShowcase />
         <ThinkingOs />
-        <PersonaDev />
+        <Interview />
         <MidCTA />
-        <UseCases />
-        <Disclosure />
-        <Guardrails />
+        <Outcome />
         <Onboarding />
         <FAQ />
         <ClosingCTA />

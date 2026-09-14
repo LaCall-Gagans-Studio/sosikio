@@ -4,7 +4,6 @@ import React, { useCallback, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import { motion, useReducedMotion } from 'framer-motion'
 import {
-  ADDITIONAL_PERSONAS,
   FIXED_SESSION,
   SELECTABLE_PERSONAS,
   gapVerdict,
@@ -303,35 +302,10 @@ export function OsSwitchboard() {
         </div>
       </motion.div>
 
-      {/* 標準3体以外は、詳細を出さずラインナップとして示す */}
-      <div className="mt-6 border border-hr-rule bg-hr-sunken p-6 sm:p-8">
-        <div className="flex flex-wrap items-baseline justify-between gap-3">
-          <h4 className="hr-heading text-hr-ink">選択できる人格は、ほかにもあります</h4>
-          <span className="hr-badge">全 て 提 供 中</span>
-        </div>
-        <p className="hr-measure mt-3 text-[14px] leading-7 text-hr-muted">
-          上記3体は全プランに標準搭載されます。加えて、目的や職掌に応じた人格へ切り替えられます。
-        </p>
-
-        <ul className="mt-6 grid gap-px bg-hr-rule sm:grid-cols-2 lg:grid-cols-3">
-          {ADDITIONAL_PERSONAS.map((p) => (
-            <li
-              key={p.name}
-              className="group bg-hr-raised p-5 transition-colors hover:bg-hr-paper"
-            >
-              <p className="flex items-baseline gap-2.5">
-                <span
-                  aria-hidden
-                  className="block size-1.5 shrink-0"
-                  style={{ background: 'var(--color-hr-accent)' }}
-                />
-                <span className="text-[14px] font-bold text-hr-ink">{p.name}</span>
-              </p>
-              <p className="mt-2 pl-4 text-[12px] leading-6 text-hr-muted">「{p.focus}」</p>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {/* 標準3体以外は、詳細を出さず一行で示す */}
+      <p className="mt-6 text-[13px] leading-7 text-hr-muted">
+        上記3体は標準搭載です。目的に応じた人格の追加構築もご相談ください。
+      </p>
     </div>
   )
 }

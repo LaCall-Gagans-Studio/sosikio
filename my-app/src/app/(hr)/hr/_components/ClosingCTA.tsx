@@ -7,13 +7,13 @@ export function ClosingCTA() {
     <section
       id="contact"
       aria-labelledby="contact-title"
-      className="scroll-mt-20 bg-hr-sunken py-20 sm:py-28 lg:py-32"
+      className="scroll-mt-20 bg-hr-sunken py-16 sm:py-20 lg:py-24"
     >
       <div className="hr-container max-w-[820px]">
         <Reveal>
           <div className="text-center">
             <p className="hr-eyebrow justify-center">
-              <span className="hr-num">13</span>
+              <span className="hr-num">07</span>
               <span lang="en">Contact</span>
             </p>
             <h2 id="contact-title" className="hr-title mx-auto mt-5 max-w-[24em] text-hr-ink">

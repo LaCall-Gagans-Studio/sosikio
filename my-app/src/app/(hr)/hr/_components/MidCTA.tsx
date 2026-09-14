@@ -9,7 +9,7 @@ import { Reveal } from './Reveal'
 export function MidCTA() {
   return (
     <section aria-labelledby="midcta-title" className="border-b border-hr-rule bg-hr-raised">
-      <div className="hr-container py-14 lg:py-16">
+      <div className="hr-container py-10 lg:py-12">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-16">
           <Reveal>
             <p className="hr-label">サ ー ビ ス 概 要 資 料 ・ 無 料</p>

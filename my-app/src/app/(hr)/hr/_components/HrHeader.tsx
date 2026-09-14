@@ -6,12 +6,10 @@ import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
 
 const NAV_ITEMS = [
-  { label: 'サービス概要', href: '#about' },
-  { label: '導入効果', href: '#benefits' },
-  { label: 'レポート画面', href: '#dashboard' },
+  { label: 'レポート', href: '#dashboard' },
   { label: 'Thinking OS', href: '#thinking-os' },
-  { label: '人格開発', href: '#persona-dev' },
-  { label: '導入の流れ', href: '#onboarding' },
+  { label: '動画', href: '#interview' },
+  { label: '導入効果', href: '#outcome' },
   { label: 'FAQ', href: '#faq' },
 ] as const
 
@@ -68,19 +66,24 @@ export function HrHeader() {
       }`}
     >
       <div className="hr-container flex h-16 items-center justify-between gap-6">
-        <Link href="/hr" className="flex shrink-0 items-center gap-3" aria-label="probe トップへ">
-          <Image
-            src="/hr/probe/logo-probe.webp"
-            alt="probe"
-            width={480}
-            height={218}
-            priority
-            className="h-6 w-auto object-contain"
-          />
-          <span className="hr-label hidden sm:inline" lang="en">
-            by SOSIKIO
-          </span>
-        </Link>
+        <div className="flex min-w-0 items-center gap-3">
+          <Link href="/hr" className="flex shrink-0 items-center" aria-label="probe トップへ">
+            <Image
+              src="/hr/probe/logo-probe.webp"
+              alt="probe"
+              width={480}
+              height={218}
+              priority
+              className="h-6 w-auto object-contain"
+            />
+          </Link>
+          <Link
+            href="/"
+            className="text-[11px] tracking-wide text-hr-faint transition-colors hover:text-hr-muted"
+          >
+            SOSIKIO
+          </Link>
+        </div>
 
         <nav aria-label="セクション" className="hidden items-center gap-7 lg:flex">
           {NAV_ITEMS.map(({ label, href }) => (
@@ -130,7 +133,16 @@ export function HrHeader() {
                 </a>
               </li>
             ))}
-            <li className="pt-4 pb-2">
+            <li className="pt-3 pb-2">
+              <Link
+                href="/"
+                onClick={closeMenu}
+                className="block py-2 text-[12px] text-hr-faint"
+              >
+                SOSIKIO サイトへ
+              </Link>
+            </li>
+            <li className="pt-2 pb-2">
               <button
                 type="button"
                 onClick={() => {
