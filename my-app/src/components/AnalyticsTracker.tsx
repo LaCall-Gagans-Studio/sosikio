@@ -7,6 +7,10 @@ import { trackEvent } from '@/lib/analytics'
 const GA_MEASUREMENT_ID = 'G-L0S28DRFQM'
 const SCROLL_MILESTONES = [25, 50, 75, 100] as const
 
+// 初期化で send_page_view: false にしているので、最初の表示の page_view はここで送る。
+// クライアント遷移の page_view は GA4 の拡張計測（ブラウザ履歴）が送るため、二重に送らない。
+let initialPageViewSent = false
+
 /** ルート変化とユーザー行動のイベントを GA に送る */
 export function AnalyticsTracker() {
   const pathname = usePathname()
@@ -22,6 +26,13 @@ export function AnalyticsTracker() {
     const emitPageView = () => {
       if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
         window.gtag('config', GA_MEASUREMENT_ID, { page_path: pagePath })
+        if (!initialPageViewSent) {
+          initialPageViewSent = true
+          window.gtag('event', 'page_view', {
+            page_location: window.location.href,
+            page_title: document.title,
+          })
+        }
         return
       }
       if (retries >= 20) return
