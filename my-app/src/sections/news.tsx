@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { ArrowRight, ChevronRight } from 'lucide-react'
 import { formatIsoDateToJa } from '@/lib/formatDate'
+import { articleCategoryBadgeStyle, articleCategoryLabel } from '@/lib/articleCategories'
 import type { ArticleForClient, TestimonialForClient } from '@/lib/articles'
 
 type NewsItem = ArticleForClient | TestimonialForClient
@@ -61,13 +62,13 @@ export function NewsSection({ articles, testimonials }: Props) {
                       {formatIsoDateToJa(item.date)}
                     </time>
                     <span
-                      className={`inline-block px-2.5 py-1 text-xs font-bold tracking-wider uppercase rounded-md border ${
+                      className={`inline-block whitespace-nowrap px-2.5 py-1 text-xs font-bold tracking-wider rounded-md border ${
                         isColumn
-                          ? 'border-cyan-200 text-cyan-800 bg-cyan-100'
+                          ? articleCategoryBadgeStyle(item.category, 'soft')
                           : 'border-rose-200 text-rose-800 bg-rose-100'
                       }`}
                     >
-                      {isColumn ? 'COLUMN' : 'VOICE'}
+                      {isColumn ? articleCategoryLabel(item.category) : 'お客様の声'}
                     </span>
                   </div>
 

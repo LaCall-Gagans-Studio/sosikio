@@ -14,3 +14,34 @@ export type ArticleCategory = (typeof ARTICLE_CATEGORIES)[number]['value']
 export function articleCategoryLabel(category?: ArticleCategory): string {
   return ARTICLE_CATEGORIES.find((c) => c.value === category)?.label ?? 'コラム'
 }
+
+// バッジの色。solid は記事一覧・記事詳細、soft はトップの「最新情報」で使う。
+const CATEGORY_BADGE_STYLES: Record<ArticleCategory, { solid: string; soft: string }> = {
+  column: {
+    solid: 'bg-cyan-500/90 text-slate-950',
+    soft: 'border-cyan-200 text-cyan-800 bg-cyan-100',
+  },
+  exhibition: {
+    solid: 'bg-amber-400 text-slate-950',
+    soft: 'border-amber-200 text-amber-800 bg-amber-100',
+  },
+  product_info: {
+    solid: 'bg-violet-600 text-white',
+    soft: 'border-violet-200 text-violet-800 bg-violet-100',
+  },
+  notice: {
+    solid: 'bg-emerald-600 text-white',
+    soft: 'border-emerald-200 text-emerald-800 bg-emerald-100',
+  },
+  media: {
+    solid: 'bg-slate-700 text-white',
+    soft: 'border-slate-300 text-slate-800 bg-slate-200',
+  },
+}
+
+export function articleCategoryBadgeStyle(
+  category: ArticleCategory | undefined,
+  variant: 'solid' | 'soft',
+): string {
+  return CATEGORY_BADGE_STYLES[category ?? 'column'][variant]
+}

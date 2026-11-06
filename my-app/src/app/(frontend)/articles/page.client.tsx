@@ -7,7 +7,7 @@ import Link from 'next/link'
 import type { ArticleForClient, TestimonialForClient } from '@/lib/articles'
 import { Search, Tag, XCircle, ChevronLeft, ChevronRight } from 'lucide-react'
 import { formatIsoDateToJa } from '@/lib/formatDate'
-import { articleCategoryLabel } from '@/lib/articleCategories'
+import { articleCategoryBadgeStyle, articleCategoryLabel } from '@/lib/articleCategories'
 
 type Props = {
   initialArticles: ArticleForClient[]
@@ -193,7 +193,7 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
                       <div className="flex flex-1 flex-col p-5">
                         <div className="flex items-center justify-between gap-2 mb-3">
                           <span className="inline-flex items-center rounded-full bg-rose-500/90 px-3 py-1 text-[11px] font-semibold tracking-wide text-white shadow-sm">
-                            VOICE
+                            お客様の声
                           </span>
                           <span className="text-[11px] font-mono text-slate-700">
                             {formatIsoDateToJa(t.date)}
@@ -328,11 +328,7 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
                     <div className="flex flex-1 flex-col p-5">
                       <div className="flex items-center justify-between gap-2 mb-3">
                         <span
-                          className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold tracking-wide shadow-sm ${
-                            a.category === 'column'
-                              ? 'bg-cyan-500/90 text-slate-950'
-                              : 'bg-red-500/90 text-white'
-                          }`}
+                          className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold tracking-wide shadow-sm ${articleCategoryBadgeStyle(a.category, 'solid')}`}
                         >
                           {articleCategoryLabel(a.category)}
                         </span>
