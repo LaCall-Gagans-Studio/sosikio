@@ -193,7 +193,7 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
                       <div className="flex flex-1 flex-col p-5">
                         <div className="flex items-center justify-between gap-2 mb-3">
                           <span className="inline-flex items-center rounded-full bg-rose-500/90 px-3 py-1 text-[11px] font-semibold tracking-wide text-white shadow-sm">
-                            VOICE
+                            お客様の声
                           </span>
                           <span className="text-[11px] font-mono text-slate-700">
                             {formatIsoDateToJa(t.date)}
