@@ -7,6 +7,7 @@ import Link from 'next/link'
 import type { ArticleForClient, TestimonialForClient } from '@/lib/articles'
 import { Search, Tag, XCircle, ChevronLeft, ChevronRight } from 'lucide-react'
 import { formatIsoDateToJa } from '@/lib/formatDate'
+import { articleCategoryLabel } from '@/lib/articleCategories'
 
 type Props = {
   initialArticles: ArticleForClient[]
@@ -333,11 +334,7 @@ export function ArticlesClient({ initialArticles, initialTags, initialTestimonia
                               : 'bg-red-500/90 text-white'
                           }`}
                         >
-                          {a.category === 'exhibition'
-                            ? '展示会'
-                            : a.category === 'product_info'
-                              ? '製品情報'
-                              : 'コラム'}
+                          {articleCategoryLabel(a.category)}
                         </span>
                         <span className="text-[11px] font-mono text-slate-400">
                           {formatIsoDateToJa(a.date)}
