@@ -9,7 +9,7 @@ import {
   type TestimonialForClient,
 } from '@/lib/articles'
 import { formatIsoDateToJa } from '@/lib/formatDate'
-import { articleCategoryLabel } from '@/lib/articleCategories'
+import { articleCategoryBadgeStyle, articleCategoryLabel } from '@/lib/articleCategories'
 
 export const dynamic = 'force-dynamic'
 
@@ -117,9 +117,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                 'inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold tracking-wide',
                 isVoice
                   ? 'bg-rose-500/90 text-white shadow-sm shadow-rose-500/40'
-                  : article.category === 'column'
-                    ? 'bg-cyan-500/90 text-slate-950 shadow-sm shadow-cyan-500/40'
-                    : 'bg-red-500/90 text-white shadow-sm shadow-red-500/40',
+                  : `${articleCategoryBadgeStyle(article.category, 'solid')} shadow-sm`,
               ].join(' ')}
             >
               {isVoice ? 'お客様の声' : articleCategoryLabel(article.category)}
