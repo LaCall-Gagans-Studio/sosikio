@@ -4,6 +4,7 @@ import configPromise from '@payload-config'
 
 import type { Article as ArticleDoc, Testimonial as TestimonialDoc } from '../payload-types'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
+import type { ArticleCategory } from './articleCategories'
 
 export type ArticleType = 'column' | 'voice'
 
@@ -22,7 +23,7 @@ interface BaseContent {
 export interface ArticleForClient extends BaseContent {
   type: 'column'
   isTopDisplay?: boolean
-  category?: 'column' | 'exhibition' | 'product_info'
+  category?: ArticleCategory
 }
 
 export interface TestimonialForClient extends BaseContent {
@@ -67,7 +68,7 @@ export async function fetchArticlesForClient() {
       title: doc.title,
       type: 'column',
       isTopDisplay: doc.isTopDisplay ?? false,
-      category: (doc.category as 'column' | 'exhibition' | 'product_info') ?? 'column',
+      category: doc.category ?? 'column',
       date: doc.date || '',
       image: imageUrl,
       tags,

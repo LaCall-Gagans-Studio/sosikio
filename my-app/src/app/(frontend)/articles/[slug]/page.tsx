@@ -9,6 +9,7 @@ import {
   type TestimonialForClient,
 } from '@/lib/articles'
 import { formatIsoDateToJa } from '@/lib/formatDate'
+import { articleCategoryLabel } from '@/lib/articleCategories'
 
 export const dynamic = 'force-dynamic'
 
@@ -106,13 +107,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             </Link>
             <span className="mx-1.5">/</span>
             <span className="text-slate-700">
-              {isVoice
-                ? 'お客様の声'
-                : article.category === 'exhibition'
-                  ? '展示会'
-                  : article.category === 'product_info'
-                    ? '製品情報'
-                    : 'コラム'}
+              {isVoice ? 'お客様の声' : articleCategoryLabel(article.category)}
             </span>
           </nav>
 
@@ -127,13 +122,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                     : 'bg-red-500/90 text-white shadow-sm shadow-red-500/40',
               ].join(' ')}
             >
-              {isVoice
-                ? 'お客様の声'
-                : article.category === 'exhibition'
-                  ? '展示会'
-                  : article.category === 'product_info'
-                    ? '製品情報'
-                    : 'コラム'}
+              {isVoice ? 'お客様の声' : articleCategoryLabel(article.category)}
             </span>
             <span className="text-[11px] font-mono text-slate-500">
               {formatIsoDateToJa(article.date)}

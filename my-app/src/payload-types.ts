@@ -302,7 +302,7 @@ export interface Article {
   title: string;
   slug: string;
   isTopDisplay?: boolean | null;
-  category: 'column' | 'exhibition' | 'product_info';
+  category: 'column' | 'exhibition' | 'product_info' | 'notice' | 'media';
   date: string;
   image?: (number | null) | Media;
   tags?:

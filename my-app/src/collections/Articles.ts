@@ -1,5 +1,6 @@
 // src/collections/Articles.ts
 import type { CollectionConfig } from 'payload'
+import { ARTICLE_CATEGORIES } from '../lib/articleCategories'
 
 export const Articles: CollectionConfig = {
   slug: 'articles',
@@ -36,11 +37,7 @@ export const Articles: CollectionConfig = {
       name: 'category',
       label: 'カテゴリ',
       type: 'select',
-      options: [
-        { label: 'コラム', value: 'column' },
-        { label: '展示会', value: 'exhibition' },
-        { label: '製品情報', value: 'product_info' },
-      ],
+      options: [...ARTICLE_CATEGORIES],
       defaultValue: 'column',
       required: true,
     },
