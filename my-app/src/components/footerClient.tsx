@@ -112,14 +112,6 @@ export function FooterClient({ products }: Props) {
             <ul className="space-y-2 text-sm">
               <li>
                 <button
-                  onClick={() => handleClick('/philosophy#leader')}
-                  className="hover:text-white transition"
-                >
-                  率いる人 挨拶
-                </button>
-              </li>
-              <li>
-                <button
                   onClick={() => handleClick('/philosophy#boonist')}
                   className="hover:text-white transition"
                 >
