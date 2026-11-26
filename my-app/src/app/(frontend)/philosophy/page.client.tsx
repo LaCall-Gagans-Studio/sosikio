@@ -15,12 +15,6 @@ type PhilosophyPageClientProps = {
     tagline: string
     lead: string
   } | null
-  representatives: {
-    name: string
-    title: string
-    avatar?: string | null
-    greeting: string
-  }[]
   staffs: Staff[]
   timeline: TimelineItem[]
   company: RelatedCompany | null
@@ -29,7 +23,6 @@ type PhilosophyPageClientProps = {
 
 export default function PhilosophyPageClient({
   vision,
-  representatives,
   staffs,
   timeline,
   company,
@@ -57,11 +50,8 @@ export default function PhilosophyPageClient({
       <PolicySection />
 
       {/* 2) リード */}
-      {representatives.length > 0 && (
-        <section
-          className="bg-gray-50 text-center container mx-auto px-6 py-16 sm:py-20 pt-10"
-          id="leader"
-        >
+      {vision && (
+        <section className="bg-gray-50 text-center container mx-auto px-6 py-16 sm:py-20 pt-10">
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight font-zenKakuGothicAntique">
             {getHighlightedTitle(vision?.tagline || '')}
           </h1>
@@ -81,63 +71,6 @@ export default function PhilosophyPageClient({
           }}
         />
         <div className="relative z-10">
-          {/* 2) 率いる人 & 挨拶 */}
-          {representatives.length > 0 && (
-            <section className="" id="leader">
-              <div className="container mx-auto px-6 py-16 sm:py-24">
-                {/* セクション見出し */}
-                <div className="mb-16">
-                  <h2 className="text-2xl sm:text-3xl lg:text-7xl font-bold mb-3 tracking-tight">
-                    Leader
-                  </h2>
-                  <p className="text-gray-500 font-medium ml-1">率いる人 挨拶</p>
-                </div>
-
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 lg:gap-12">
-                  {representatives.map((rep, index) => (
-                    <div
-                      key={index}
-                      // 変更点1: ボーダーを細くし、影を柔らかくして「置いてある」感を出す（ボタンっぽさを消す）
-                      className="flex flex-col md:flex-row bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-10 gap-8 items-start"
-                    >
-                      {/* 画像エリア */}
-                      <div className="shrink-0 w-full md:w-64 flex flex-col items-center md:items-start">
-                        <div className="relative aspect-[3/2] lg:aspect-[4/5] w-full md:w-64 overflow-hidden rounded-xl shadow-md bg-gray-50">
-                          <img
-                            src={rep.avatar || '/common/default-avatar.png'}
-                            alt={rep.name}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        {/* 装飾: ちょっとした信頼感の演出（サイン風など） */}
-                        <div className="mt-4 w-full h-1 bg-gradient-to-r from-blue-500/20 to-transparent rounded-full"></div>
-                      </div>
-
-                      {/* テキストエリア */}
-                      <div className="flex-1 min-w-0 text-left w-full">
-                        {/* ヘッダー部分: 役職と名前を明確にグループ化 */}
-                        <div className="border-b border-gray-100 pb-4 mb-5">
-                          <p className="text-sm font-bold text-black tracking-wide mb-1 uppercase">
-                            {rep.title} {/* 役職は小さく太くアクセントカラーで */}
-                          </p>
-                          <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight">
-                            {rep.name}
-                          </h3>
-                        </div>
-
-                        {/* 本文: 読みやすさ重視（行間を広めに） */}
-                        <div className="text-gray-600 text-sm sm:text-base leading-relaxed whitespace-pre-wrap font-medium">
-                          {/* 最初の1行だけ少し強調する等のデザインも可 */}
-                          {rep.greeting}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </section>
-          )}
-
           {/* 3) BOONIST 紹介 */}
           {staffs.length > 0 && (
             <section id="boonist">
@@ -205,7 +138,6 @@ export default function PhilosophyPageClient({
 function PageGuide() {
   const items = [
     { label: 'Philosophy', href: '#policy-section', jp: '理念・想い' },
-    { label: 'Message', href: '#leader', jp: '率いる人 挨拶' },
     { label: 'Member', href: '#boonist', jp: 'スタッフ' },
     { label: 'History', href: '#history', jp: '沿革' },
     { label: 'Company', href: '#related-offices', jp: '会社情報' },
